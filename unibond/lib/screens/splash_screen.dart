@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/main.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,8 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              const MyHomePage(title: 'Flutter Demo Home Page'),
+          builder: (context) => const HomeScreen(),
         ));
   }
 
