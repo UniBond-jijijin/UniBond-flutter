@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:unibond/screens/splash_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const MaterialApp(
+    home: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
