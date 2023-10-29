@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LetterBoxScreen(
-        fakeEnvelopes: [
-          LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-          LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-          //추가 편지봉투를 여기에 추가
-        ],
-      ),
-    );
-  }
+@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    home: LetterBoxScreen(
+      fakeEnvelopes: [
+        LetterEnvelope(date: '2023-10-15', sender: '지지진'),
+        LetterEnvelope(date: '2023-10-14', sender: '진지지'),
+        //추가 편지봉투를 여기에 추가
+      ],
+    ),
+  );
 }
 
 class LetterEnvelope {

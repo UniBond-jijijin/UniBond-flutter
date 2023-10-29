@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
 import 'package:unibond/screens/user/profile_screen.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
-    );
-  }
+@override
+Widget build(BuildContext context) {
+  return const MaterialApp(
+    home: HomeScreen(),
+  );
 }
 
 class MyBottomNavigationBar extends StatelessWidget {
