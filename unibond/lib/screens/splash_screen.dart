@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:unibond/models/letter.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/screens/home_screen.dart';
+import 'package:unibond/screens/letter/letter_read_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,10 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigatetohome() async {
     await Future.delayed(const Duration(milliseconds: 2000), () {});
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ));
+        context, MaterialPageRoute(builder: (context) => const HomeScreen()));
   }
 
   @override
