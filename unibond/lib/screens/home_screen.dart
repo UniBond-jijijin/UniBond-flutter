@@ -4,42 +4,13 @@ import 'package:unibond/screens/letter/letter_read_screen.dart';
 import 'package:unibond/screens/letter/letter_write_screen.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
 import 'package:unibond/screens/user/profile_screen.dart';
+import 'package:unibond/widgets/navigator.dart';
 
 @override
 Widget build(BuildContext context) {
   return const MaterialApp(
     home: HomeScreen(),
   );
-}
-
-class MyBottomNavigationBar extends StatelessWidget {
-  final int currentIndex;
-  final Function(int) onTap;
-
-  const MyBottomNavigationBar(
-      {super.key, required this.currentIndex, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: currentIndex,
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: '홈',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.mail),
-          label: '편지함',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: '프로필',
-        ),
-      ],
-      onTap: onTap,
-    );
-  }
 }
 
 class HomeScreen extends StatelessWidget {
