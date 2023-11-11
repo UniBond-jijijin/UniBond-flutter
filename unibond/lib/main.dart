@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),
-      home: const JoinScreen(),
+      home: JoinScreen(),
       // SplashScreen(), // 임시 스플래시화면
     );
   }

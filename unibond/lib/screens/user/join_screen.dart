@@ -5,7 +5,9 @@ import 'package:unibond/widgets/custom_text_form_field.dart';
 import 'package:unibond/widgets/custon_elevated_button.dart';
 
 class JoinScreen extends StatelessWidget {
-  const JoinScreen({super.key});
+  final _formKey = GlobalKey<FormState>();
+
+  JoinScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +39,30 @@ class JoinScreen extends StatelessWidget {
 
   Widget _joinFrom() {
     return Form(
+      key: _formKey,
       child: Column(
         children: [
-          const CustomTextFormField(hint: "이메일"),
-          const CustomTextFormField(hint: "아이디"),
-          const CustomTextFormField(hint: "비밀번호"),
+          CustomTextFormField(
+            hint: "이메일",
+            funvalidator: (value) {
+              print(value);
+            },
+          ),
+          CustomTextFormField(
+            hint: "아이디",
+            funvalidator: (value) {},
+          ),
+          CustomTextFormField(
+            hint: "비밀번호",
+            funvalidator: (value) {},
+          ),
           const SizedBox(height: 20),
           CustomElevatedButton(
             text: "회원 가입",
-            screenRoute: () => Get.to(const LoginScreen()),
+            screenRoute: () {
+              _formKey.currentState!.validate();
+              Get.to(() => LoginScreen());
+            },
           ),
         ],
       ),
