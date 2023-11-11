@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
+  final screenRoute;
 
-  const CustomElevatedButton({super.key, required this.text});
+  const CustomElevatedButton(
+      {super.key, required this.text, required this.screenRoute});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,7 @@ class CustomElevatedButton extends StatelessWidget {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      onPressed: () {},
+      onPressed: screenRoute,
       child: Text("$text"),
     );
   }

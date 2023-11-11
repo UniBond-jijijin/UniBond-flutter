@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:unibond/widgets/custom_text_form_field.dart';
 import 'package:unibond/widgets/custon_elevated_button.dart';
 
@@ -34,13 +35,16 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _loginFrom() {
-    return const Form(
+    return Form(
       child: Column(
         children: [
-          CustomTextFormField(hint: "아이디"),
-          CustomTextFormField(hint: "비밀번호"),
-          SizedBox(height: 20),
-          CustomElevatedButton(text: "로그인"),
+          const CustomTextFormField(hint: "아이디"),
+          const CustomTextFormField(hint: "비밀번호"),
+          const SizedBox(height: 20),
+          CustomElevatedButton(
+            text: "로그인",
+            screenRoute: () => Get.to(const LoginScreen()),
+          ),
         ],
       ),
     );
