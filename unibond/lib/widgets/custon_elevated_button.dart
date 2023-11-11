@@ -13,7 +13,7 @@ class CustomElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: const Size(double.infinity, 50),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(20),
         ),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,

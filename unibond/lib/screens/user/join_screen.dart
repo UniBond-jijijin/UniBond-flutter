@@ -12,14 +12,17 @@ class JoinScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            Container(
-              alignment: Alignment.center,
-              height: 200,
-              child: const Text(
-                "회원 가입",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                height: 150,
+                child: const Text(
+                  "회원 가입",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -34,9 +37,10 @@ class JoinScreen extends StatelessWidget {
     return const Form(
       child: Column(
         children: [
-          CustomTextFormField(hint: "이메일을 입력하세요"),
-          CustomTextFormField(hint: "아이디를 입력하세요"),
-          CustomTextFormField(hint: "비밀번호를 입력하세요"),
+          CustomTextFormField(hint: "이메일"),
+          CustomTextFormField(hint: "아이디"),
+          CustomTextFormField(hint: "비밀번호"),
+          SizedBox(height: 20),
           CustomElevatedButton(text: "회원 가입"),
         ],
       ),

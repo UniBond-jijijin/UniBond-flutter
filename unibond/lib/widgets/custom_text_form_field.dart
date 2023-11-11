@@ -10,9 +10,11 @@ class CustomTextFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: TextFormField(
+        obscureText: hint == "비밀번호" ? true : false,
+        style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           // ignore: unnecessary_string_interpolations
-          hintText: "$hint",
+          hintText: hint == "이메일" ? "$hint을 입력하세요" : "$hint를 입력하세요",
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
           ),
