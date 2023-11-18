@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/screens/user/join_screen.dart';
 import 'package:unibond/screens/home_screen.dart';
 
 void main() {
