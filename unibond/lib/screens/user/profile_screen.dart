@@ -3,101 +3,154 @@ import 'package:unibond/screens/home_screen.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
 import 'package:unibond/widgets/navigator.dart';
 
-@override
-Widget build(BuildContext context) {
-  return const MaterialApp(
-    home: ProfileScreen(),
-  );
-}
-
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-            );
-          },
-        ),
+        title: Text('프로필 화면'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            ListTile(
-              title: const Text('사용설명서'),
-              onTap: () {
-                //내용
-                Navigator.pop(context); // 사이드 메뉴 닫기
-              },
+      body: ListView(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    ClipOval(
+                      child: Image.asset(
+                        'assets/images/user_image.jpg',
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(3),
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(Icons.settings),
+                    ),
+                  ],
+                ),
+                Text(
+                  '지지진',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.all(12),
+                      width: 140,
+                      height: 70,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            '질환정보',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            '망막색소변성증',
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.all(12),
+                      width: 140,
+                      height: 70,
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            '진단 시기',
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            '2001.01.25',
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                ListTile(
+                  title: const Text('사용설명서'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: const Text('즐겨찾는 편지'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: const Text('고객센터'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: const Text('이용약관 및 정책'),
+                  onTap: () {},
+                ),
+                ListTile(
+                  title: const Text('버전 정보'),
+                  onTap: () {},
+                ),
+              ],
             ),
-            ListTile(
-              title: const Text('즐겨찾는 편지'),
-              onTap: () {
-                //내용
-                Navigator.pop(context); // 사이드 메뉴 닫기
-              },
-            ),
-            ListTile(
-              title: const Text('고객센터'),
-              onTap: () {
-                //내용
-                Navigator.pop(context); // 사이드 메뉴 닫기
-              },
-            ),
-            ListTile(
-              title: const Text('이용약관 및 정책'),
-              onTap: () {
-                //내용
-                Navigator.pop(context); // 사이드 메뉴 닫기
-              },
-            ),
-            ListTile(
-              title: const Text('버전 정보'),
-              onTap: () {
-                //내용
-                Navigator.pop(context); // 사이드 메뉴 닫기
-              },
-            ),
-          ],
-        ),
-      ),
-      body: const Center(
-        child: Text('메인 화면 내용'),
+          ),
+        ],
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-        // 현재 선택된 바텀 바 아이콘 인덱스
         currentIndex: 0,
         onTap: (index) {
-          // 바텀 바 아이콘을 누를 때 화면 전환
           if (index == 0) {
-            // 홈 화면으로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),
             );
           } else if (index == 1) {
-            //편지함 화면으로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => LetterBoxScreen(
-                        fakeEnvelopes: [
-                          LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-                          LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-                        ],
-                      )),
+                builder: (context) => LetterBoxScreen(
+                  fakeEnvelopes: [
+                    LetterEnvelope(date: '2023-10-15', sender: '지지진'),
+                    LetterEnvelope(date: '2023-10-14', sender: '진지지'),
+                  ],
+                ),
+              ),
             );
           } else if (index == 2) {
-            // 프로필 화면으로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const ProfileScreen()),

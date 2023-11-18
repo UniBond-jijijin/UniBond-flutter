@@ -18,7 +18,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
       ),
       body: ListView(
         children: [
-          // 게시물 부분
+          // 게시물
           Container(
             padding: EdgeInsets.all(16.0),
             child: Column(
@@ -46,7 +46,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
               ],
             ),
           ),
-          // 댓글 부분
+          // 댓글
           Container(
             padding: EdgeInsets.all(16.0),
             child: Column(
