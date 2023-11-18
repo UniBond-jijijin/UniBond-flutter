@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/screens/user/login_screen.dart';
+import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/widgets/custom_text_form_field.dart';
 import 'package:unibond/widgets/custon_elevated_button.dart';
 
@@ -44,28 +45,29 @@ class JoinScreen extends StatelessWidget {
         children: [
           CustomTextFormField(
             hint: "이메일",
-            funvalidator: (value) {
-              print(value);
-            },
+            funvalidator: validateEmail,
           ),
           CustomTextFormField(
             hint: "아이디",
-            funvalidator: (value) {},
+            funvalidator: validateId,
           ),
           CustomTextFormField(
             hint: "비밀번호",
-            funvalidator: (value) {},
+            funvalidator: validatePassword,
           ),
           const SizedBox(height: 20),
           CustomElevatedButton(
             text: "회원 가입",
             screenRoute: () {
-              _formKey.currentState!.validate();
-              Get.to(() => LoginScreen());
+              if (isValid()) {
+                Get.to(() => LoginScreen());
+              }
             },
           ),
         ],
       ),
     );
   }
+
+  bool isValid() => _formKey.currentState!.validate();
 }
