@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
+import 'package:unibond/screens/user/login_screen.dart';
 import 'package:unibond/screens/user/profile_screen.dart';
 import 'package:unibond/widgets/navigator.dart';
 
@@ -105,6 +107,31 @@ class HomeScreen extends StatelessWidget {
             flex: 6,
             child: Container(
               color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 30),
+                  const Text("질문 게시판"),
+                  const SizedBox(height: 12),
+                  Container(
+                    height: 150,
+                    width: 350,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 2,
+                        color: Colors.black,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(() => const LoginScreen());
+                      },
+                      child: const Text("게시글 더보기"),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ],
