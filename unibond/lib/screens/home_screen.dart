@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/models/letter.dart';
-import 'package:unibond/screens/letter/letter_read_screen.dart';
-import 'package:unibond/screens/letter/letter_write_screen.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
 import 'package:unibond/screens/user/profile_screen.dart';
 import 'package:unibond/widgets/navigator.dart';
@@ -19,77 +16,98 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text("커뮤니티"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFCFDEFF), Color(0xFFE5C1FF)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 120,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 5,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  const SizedBox(width: 20),
-                  Container(
-                    height: 120,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 5,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
+                  const SizedBox(height: 100),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: 120,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            border: Border.all(
+                              width: 5,
+                              color: Colors.white,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Text(
+                              "질문",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        Container(
+                          height: 120,
+                          width: 170,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            // border: Border.all(
+                            //   width: 0,
+                            // ),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Text(
+                              "경험기록",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LetterWriteScreen(),
-                  ),
-                );
-              },
-              child: const Text("편지 작성하기"),
+          ),
+          Expanded(
+            flex: 6,
+            child: Container(
+              color: Colors.white,
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // 예시 편지데이터
-                Letter sampleLetter = Letter(
-                  title: "안녕하세요! 저는 오늘 정말 행복해요",
-                  content: "이건 편지내용인데... 어떤가요..",
-                  isBookmarked: true,
-                );
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        LetterReadScreen(letter: sampleLetter),
-                  ),
-                );
-              },
-              child: const Text("편지 읽기"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: MyBottomNavigationBar(
         // 현재 선택된 바텀 바 아이콘 인덱스
@@ -126,3 +144,38 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+/*
+const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LetterWriteScreen(),
+                    ),
+                  );
+                },
+                child: const Text("편지 작성하기"),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // 예시 편지데이터
+                  Letter sampleLetter = Letter(
+                    title: "안녕하세요! 저는 오늘 정말 행복해요",
+                    content: "이건 편지내용인데... 어떤가요..",
+                    isBookmarked: true,
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          LetterReadScreen(letter: sampleLetter),
+                    ),
+                  );
+                },
+                child: const Text("편지 읽기"),
+              ),
+            */
