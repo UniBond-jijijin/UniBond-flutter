@@ -59,7 +59,7 @@ class JoinScreen extends StatelessWidget {
           CustomElevatedButton(
             text: "회원 가입",
             screenRoute: () {
-              if (isValid()) {
+              if (isValid(_formKey)) {
                 Get.to(() => LoginScreen());
               }
             },
@@ -68,6 +68,4 @@ class JoinScreen extends StatelessWidget {
       ),
     );
   }
-
-  bool isValid() => _formKey.currentState!.validate();
 }

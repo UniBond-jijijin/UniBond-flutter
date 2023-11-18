@@ -1,5 +1,7 @@
 import 'package:validators/validators.dart';
 
+bool isValid(formKey) => formKey.currentState!.validate();
+
 Function validateEmail = (String? value) {
   if (value == null || value.isEmpty) {
     return "값을 입력해주세요.";
