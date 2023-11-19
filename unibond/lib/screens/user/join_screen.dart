@@ -64,6 +64,12 @@ class JoinScreen extends StatelessWidget {
               }
             },
           ),
+          TextButton(
+            onPressed: () {
+              Get.to(() => LoginScreen());
+            },
+            child: const Text("이미 회원가입 하셨나요?"),
+          ),
         ],
       ),
     );

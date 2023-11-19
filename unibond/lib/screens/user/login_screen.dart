@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/screens/home_screen.dart';
+import 'package:unibond/screens/user/join_screen.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/widgets/custom_text_form_field.dart';
 import 'package:unibond/widgets/custon_elevated_button.dart';
@@ -60,6 +61,32 @@ class LoginScreen extends StatelessWidget {
               }
             },
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 90.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text("비밀번호 찾기"),
+                ),
+                const VerticalDivider(
+                  thickness: 2,
+                  indent: 20,
+                  endIndent: 0,
+                  color: Colors.grey,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.to(() => JoinScreen());
+                  },
+                  child: const Text("회원가입"),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
