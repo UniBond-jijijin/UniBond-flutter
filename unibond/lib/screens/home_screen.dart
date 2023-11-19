@@ -37,71 +37,73 @@ class HomeScreen extends StatelessWidget {
                   end: Alignment.bottomCenter,
                 ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 100),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 120,
-                          width: 170,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                            border: Border.all(
-                              width: 5,
-                              color: Colors.white,
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Text(
-                              "질문",
-                              style: TextStyle(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 100),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 120,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              border: Border.all(
+                                width: 5,
                                 color: Colors.white,
-                                fontSize: 18,
+                              ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Text(
+                                "질문",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(width: 20),
-                        Container(
-                          height: 120,
-                          width: 170,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
+                          const SizedBox(width: 20),
+                          Container(
+                            height: 120,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              // border: Border.all(
+                              //   width: 0,
+                              // ),
+                              borderRadius: BorderRadius.circular(30),
                             ),
-                            // border: Border.all(
-                            //   width: 0,
-                            // ),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: const Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child: Text(
-                              "경험기록",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
+                            child: const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Text(
+                                "경험기록",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -164,7 +166,7 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Get.to(() => const WriteScreen());
+          Get.to(() => WriteScreen());
         },
         elevation: 4,
         label: const Text('글쓰기'),
