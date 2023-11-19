@@ -18,7 +18,7 @@ class DetailScreen extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Get.back();
+            Get.offAll(() => const HomeScreen());
           },
         ),
         actions: [
@@ -54,7 +54,7 @@ class DetailScreen extends StatelessWidget {
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
-                                Get.to(const UpdateScreen());
+                                Get.to(() => UpdateScreen());
                               }),
                           TextButton(
                               child: const Text(
