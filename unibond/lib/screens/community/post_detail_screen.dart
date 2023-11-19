@@ -25,7 +25,6 @@ class DetailScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () {
-              //
               showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
