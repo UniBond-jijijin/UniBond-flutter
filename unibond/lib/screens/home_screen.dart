@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/screens/community/post_detail_screen.dart';
+import 'package:unibond/screens/community/post_write_screen.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
 import 'package:unibond/screens/user/profile_screen.dart';
 import 'package:unibond/widgets/navigator.dart';
@@ -159,6 +161,17 @@ class HomeScreen extends StatelessWidget {
             );
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(() => const WriteScreen());
+        },
+        elevation: 4,
+        label: const Text('글쓰기'),
+        icon: const Icon(Icons.mode_edit_outlined),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.contentColorPink,
       ),
     );
   }
