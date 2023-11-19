@@ -185,7 +185,7 @@ class PostsListView extends StatelessWidget {
             ),
             child: TextButton(
               onPressed: () {
-                Get.to(() => const DetailScreen());
+                Get.to(() => DetailScreen(id: index));
               },
               child: const CustomListitem(),
             ),
