@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/screens/community/post_detail_screen.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
-import 'package:unibond/screens/user/login_screen.dart';
 import 'package:unibond/screens/user/profile_screen.dart';
 import 'package:unibond/widgets/navigator.dart';
 
@@ -107,29 +107,21 @@ class HomeScreen extends StatelessWidget {
             flex: 6,
             child: Container(
               color: Colors.white,
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 30),
-                  const Text("질문 게시판"),
-                  const SizedBox(height: 12),
-                  Container(
-                    height: 150,
-                    width: 350,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2,
-                        color: Colors.black,
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: EdgeInsets.only(left: 12.0),
+                    child: Text(
+                      "질문 게시판",
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      borderRadius: BorderRadius.circular(20),
                     ),
-                    child: TextButton(
-                      onPressed: () {
-                        Get.to(() => const LoginScreen());
-                      },
-                      child: const Text("게시글 더보기"),
-                    ),
-                  )
+                  ),
+                  SizedBox(height: 12),
+                  Expanded(child: PostsListView()),
                 ],
               ),
             ),
@@ -168,6 +160,74 @@ class HomeScreen extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class PostsListView extends StatelessWidget {
+  const PostsListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextButton(
+              onPressed: () {
+                Get.to(() => const DetailScreen());
+              },
+              child: const CustomListitem(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CustomListitem extends StatelessWidget {
+  const CustomListitem({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        ListTile(
+          leading: CircleAvatar(child: Text('오지')),
+          title: Row(
+            children: [
+              Text('지지진'),
+              SizedBox(width: 3),
+              Text('1일 전'),
+            ],
+          ),
+          subtitle: Text("망막생소변성증"),
+          isThreeLine: true,
+        ),
+        SizedBox(height: 0),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0),
+          child: Text(
+            "이것은 게시물의 내용입니다... 과연 어떤 게시물들이 올라올까요..기대가됩니다...",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
