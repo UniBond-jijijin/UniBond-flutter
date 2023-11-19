@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DetailScreen extends StatelessWidget {
-  const DetailScreen({super.key});
+  final int id;
+
+  const DetailScreen({super.key, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,7 @@ class DetailScreen extends StatelessWidget {
               color: Colors.amber,
               // TODO: 게시물 영역 UI 구성
               // 사용자 기본정보 영역, 게시글 내용 영역 등을 구성
+              child: Text("Detail Page $id"),
             ),
           ),
           // 댓글 확인 영역
