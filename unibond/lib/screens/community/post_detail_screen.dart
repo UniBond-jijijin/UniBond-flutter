@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/resources/size.dart';
 
 class DetailScreen extends StatelessWidget {
   final int id;
@@ -22,7 +23,43 @@ class DetailScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.more_vert),
             onPressed: () {
-              _showReportConfirmationDialog(context);
+              //
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return Container(
+                    height: 200,
+                    color: const Color.fromARGB(255, 221, 244, 255),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          // TODO: 내 게시물/ 남의 게시물에 따라 다른 버튼 보이기
+                          TextButton(
+                              child: const Text(
+                                '게시물 삭제',
+                                style: TextStyle(fontSize: FontSize.menuName),
+                              ),
+                              onPressed: () {
+                                Get.back();
+                                _showReportConfirmationDialog(context);
+                              }),
+                          TextButton(
+                              child: const Text(
+                                '게시물 신고',
+                                style: TextStyle(fontSize: FontSize.menuName),
+                              ),
+                              onPressed: () {
+                                Get.back();
+                                _showReportConfirmationDialog(context);
+                              }),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
             },
           ),
         ],
