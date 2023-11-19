@@ -29,27 +29,31 @@ class DetailScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          // 게시물 영역
           Expanded(
-            flex: 2,
-            child: Container(
-              width: double.infinity,
-              color: Colors.amber,
-              // TODO: 게시물 영역 UI 구성
-              // 사용자 기본정보 영역, 게시글 내용 영역 등을 구성
-              child: Text("Detail Page $id"),
-            ),
-          ),
-          // 댓글 확인 영역
-          Expanded(
-            flex: 3,
-            child: Container(
-              width: double.infinity,
-              color: Colors.blue,
-              // TODO: 작성된 댓글 영역 구현
-              // ListView.builder 사용
-              // 각 댓글은 사용자 기본정보, 댓글 내용, 대댓글 및 삭제 버튼으로 구성
-              // 스크롤 가능한 영역임: SingleChildScrollView or ListView 활용
+            flex: 6,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // 게시물 영역
+                  Container(
+                    width: double.infinity,
+                    color: Colors.amber,
+                    // TODO: 게시물 영역 UI 구성
+                    // 사용자 기본정보 영역, 게시글 내용 영역 등을 구성
+                    child: Text("$id번 게시물 상세 내용이다!" * 50),
+                  ),
+                  // 댓글 확인 영역
+                  Container(
+                    width: double.infinity,
+                    color: Colors.blue,
+                    // TODO: 작성된 댓글 영역 구현
+                    // ListView.builder 사용
+                    // 각 댓글은 사용자 기본정보, 댓글 내용, 대댓글 및 삭제 버튼으로 구성
+                    // 스크롤 가능한 영역임: SingleChildScrollView or ListView 활용
+                    child: Text("$id번 댓글들이다!" * 40),
+                  ),
+                ],
+              ),
             ),
           ),
           // 댓글 작성 영역
