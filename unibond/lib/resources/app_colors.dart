@@ -19,7 +19,7 @@ class AppColors {
   static const Color contentColorOrange = Color(0xFFFF8080);
   static const Color contentColorGreen = Color(0xFF3BD79D);
   static const Color contentColorPurple = Color.fromARGB(255, 122, 69, 214);
-  static const Color contentColorPink = Color(0xFFFF3AF2);
+  static const Color contentColorPink = Color(0xFFFF6292);
   static const Color contentColorRed = Color(0xFFE80054);
   static const Color contentColorLightBlue = Color(0xFF7091CF);
 }

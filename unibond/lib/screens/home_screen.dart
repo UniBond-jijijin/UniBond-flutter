@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/models/letter.dart';
-import 'package:unibond/screens/letter/letter_read_screen.dart';
-import 'package:unibond/screens/letter/letter_write_screen.dart';
+import 'package:get/get.dart';
+import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/screens/community/post_detail_screen.dart';
+import 'package:unibond/screens/community/post_write_screen.dart';
 import 'package:unibond/screens/letter/letter_box_screen.dart';
 import 'package:unibond/screens/user/profile_screen.dart';
 import 'package:unibond/widgets/navigator.dart';
@@ -19,77 +20,117 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        forceMaterialTransparency: true,
         title: const Text("커뮤니티"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+        children: [
+          Expanded(
+            flex: 4,
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFFCFDEFF), Color(0xFFE5C1FF)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 100),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 120,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              border: Border.all(
+                                width: 5,
+                                color: Colors.white,
+                              ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Text(
+                                "질문",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20),
+                          Container(
+                            height: 120,
+                            width: 170,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              // border: Border.all(
+                              //   width: 0,
+                              // ),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.all(12.0),
+                              child: Text(
+                                "경험기록",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 6,
+            child: Container(
+              color: Colors.white,
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    height: 120,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 5,
+                  SizedBox(height: 30),
+                  Padding(
+                    padding: EdgeInsets.only(left: 12.0),
+                    child: Text(
+                      "질문 게시판",
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  Container(
-                    height: 120,
-                    width: 170,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 5,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
+                  SizedBox(height: 12),
+                  Expanded(child: PostsListView()),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LetterWriteScreen(),
-                  ),
-                );
-              },
-              child: const Text("편지 작성하기"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // 예시 편지데이터
-                Letter sampleLetter = Letter(
-                  title: "안녕하세요! 저는 오늘 정말 행복해요",
-                  content: "이건 편지내용인데... 어떤가요..",
-                  isBookmarked: true,
-                );
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        LetterReadScreen(letter: sampleLetter),
-                  ),
-                );
-              },
-              child: const Text("편지 읽기"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       bottomNavigationBar: MyBottomNavigationBar(
         // 현재 선택된 바텀 바 아이콘 인덱스
@@ -123,6 +164,120 @@ class HomeScreen extends StatelessWidget {
           }
         },
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Get.to(() => WriteScreen());
+        },
+        elevation: 4,
+        label: const Text('글쓰기'),
+        icon: const Icon(Icons.mode_edit_outlined),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.contentColorPink,
+      ),
     );
   }
 }
+
+class PostsListView extends StatelessWidget {
+  const PostsListView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: Colors.black,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextButton(
+              onPressed: () {
+                Get.to(() => DetailScreen(id: index));
+              },
+              child: const CustomListitem(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class CustomListitem extends StatelessWidget {
+  const CustomListitem({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        ListTile(
+          leading: CircleAvatar(child: Text('오지')),
+          title: Row(
+            children: [
+              Text('지지진'),
+              SizedBox(width: 3),
+              Text('1일 전'),
+            ],
+          ),
+          subtitle: Text("망막생소변성증"),
+          isThreeLine: true,
+        ),
+        SizedBox(height: 0),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12.0),
+          child: Text(
+            "이것은 게시물의 내용입니다... 과연 어떤 게시물들이 올라올까요..기대가됩니다...",
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/*
+const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LetterWriteScreen(),
+                    ),
+                  );
+                },
+                child: const Text("편지 작성하기"),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // 예시 편지데이터
+                  Letter sampleLetter = Letter(
+                    title: "안녕하세요! 저는 오늘 정말 행복해요",
+                    content: "이건 편지내용인데... 어떤가요..",
+                    isBookmarked: true,
+                  );
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          LetterReadScreen(letter: sampleLetter),
+                    ),
+                  );
+                },
+                child: const Text("편지 읽기"),
+              ),
+            */
