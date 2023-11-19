@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/resources/size.dart';
+import 'package:unibond/screens/community/post_update_screen.dart';
+import 'package:unibond/screens/home_screen.dart';
 
 class DetailScreen extends StatelessWidget {
   final int id;
@@ -27,11 +29,11 @@ class DetailScreen extends StatelessWidget {
               showModalBottomSheet<void>(
                 context: context,
                 builder: (BuildContext context) {
-                  return Container(
+                  return SizedBox(
                     height: 200,
-                    color: const Color.fromARGB(255, 221, 244, 255),
                     child: Center(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -43,7 +45,16 @@ class DetailScreen extends StatelessWidget {
                               ),
                               onPressed: () {
                                 Get.back();
-                                _showReportConfirmationDialog(context);
+                                _showDeleteConfirmationDialog(context);
+                              }),
+                          TextButton(
+                              child: const Text(
+                                '게시물 수정',
+                                style: TextStyle(fontSize: FontSize.menuName),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                Get.to(const UpdateScreen());
                               }),
                           TextButton(
                               child: const Text(
@@ -105,6 +116,33 @@ class DetailScreen extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('게시물 삭제 확인'),
+          content: const Text('이 게시물을 삭제하시겠습니까?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.off(() => const HomeScreen());
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('취소'),
+            ),
+          ],
+        );
+      },
     );
   }
 
