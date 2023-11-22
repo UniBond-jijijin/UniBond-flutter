@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/domain/user/user_repository.dart';
 import 'package:unibond/view/screens/user/join_screen.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/widgets/custom_text_form_field.dart';
@@ -57,8 +56,9 @@ class LoginScreen extends StatelessWidget {
             text: "로그인",
             screenRoute: () {
               if (isValid(_formKey)) {
-                UserRepository u = UserRepository();
-                u.login("jinyshin", "1234");
+                // 임시
+                // UserRepository u = UserRepository();
+                // u.login("jinyshin", "1234");
                 // Get.to(() => const HomeScreen());
               }
             },
