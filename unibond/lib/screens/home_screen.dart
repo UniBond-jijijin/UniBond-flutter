@@ -17,6 +17,8 @@ Widget build(BuildContext context) {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  get index => null;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,10 +113,9 @@ class HomeScreen extends StatelessWidget {
             flex: 6,
             child: Container(
               color: Colors.white,
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 30),
                   Padding(
                     padding: EdgeInsets.only(left: 12.0),
                     child: Text(
@@ -124,8 +125,25 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(height: 12),
-                  Expanded(child: PostsListView()),
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.black,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: TextButton(
+                        onPressed: () {
+                          Get.to(() => DetailScreen(id: index));
+                        },
+                        child: CustomListitem(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -180,7 +198,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class PostsListView extends StatelessWidget {
-  const PostsListView({super.key});
+  const PostsListView({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -202,7 +220,7 @@ class PostsListView extends StatelessWidget {
               onPressed: () {
                 Get.to(() => DetailScreen(id: index));
               },
-              child: const CustomListitem(),
+              child: CustomListitem(),
             ),
           ),
         );
@@ -212,13 +230,11 @@ class PostsListView extends StatelessWidget {
 }
 
 class CustomListitem extends StatelessWidget {
-  const CustomListitem({
-    super.key,
-  });
+  const CustomListitem({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         ListTile(
           leading: CircleAvatar(child: Text('오지')),
@@ -246,38 +262,3 @@ class CustomListitem extends StatelessWidget {
     );
   }
 }
-
-/*
-const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LetterWriteScreen(),
-                    ),
-                  );
-                },
-                child: const Text("편지 작성하기"),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  // 예시 편지데이터
-                  Letter sampleLetter = Letter(
-                    title: "안녕하세요! 저는 오늘 정말 행복해요",
-                    content: "이건 편지내용인데... 어떤가요..",
-                    isBookmarked: true,
-                  );
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          LetterReadScreen(letter: sampleLetter),
-                    ),
-                  );
-                },
-                child: const Text("편지 읽기"),
-              ),
-            */

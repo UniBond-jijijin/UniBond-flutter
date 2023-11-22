@@ -7,7 +7,6 @@ class CustomTextFormField extends StatelessWidget {
 
   const CustomTextFormField(
       {super.key, required this.hint, required this.funvalidator, this.value});
-
   @override
   Widget build(BuildContext context) {
     return Padding(
