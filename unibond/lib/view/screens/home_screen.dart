@@ -25,7 +25,8 @@ class HomeScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const Text("커뮤니티"),
+        title: const Text("UniBond"),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
