@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/screens/community/post_detail_screen.dart';
-import 'package:unibond/screens/community/post_write_screen.dart';
-import 'package:unibond/screens/letter/letter_box_screen.dart';
-import 'package:unibond/screens/user/profile_screen.dart';
-import 'package:unibond/widgets/navigator.dart';
+import 'package:unibond/view/screens/community/post_detail_screen.dart';
+import 'package:unibond/view/screens/community/post_write_screen.dart';
+import 'package:unibond/view/screens/letter/letter_box_screen.dart';
+import 'package:unibond/view/screens/user/profile_screen.dart';
+import 'package:unibond/view/widgets/navigator.dart';
 
 @override
 Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ Widget build(BuildContext context) {
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  get index => null;
+  get index => 1;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,8 @@ class HomeScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         forceMaterialTransparency: true,
-        title: const Text("커뮤니티"),
+        title: const Text("UniBond"),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
@@ -116,7 +117,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.only(left: 12.0),
                     child: Text(
                       "질문 게시판",
@@ -126,8 +127,8 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 6.0, horizontal: 12),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -140,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                         onPressed: () {
                           Get.to(() => DetailScreen(id: index));
                         },
-                        child: CustomListitem(),
+                        child: const CustomListitem(),
                       ),
                     ),
                   ),
@@ -198,7 +199,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class PostsListView extends StatelessWidget {
-  const PostsListView({Key? key});
+  const PostsListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +221,7 @@ class PostsListView extends StatelessWidget {
               onPressed: () {
                 Get.to(() => DetailScreen(id: index));
               },
-              child: CustomListitem(),
+              child: const CustomListitem(),
             ),
           ),
         );
@@ -230,11 +231,11 @@ class PostsListView extends StatelessWidget {
 }
 
 class CustomListitem extends StatelessWidget {
-  const CustomListitem({Key? key});
+  const CustomListitem({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         ListTile(
           leading: CircleAvatar(child: Text('오지')),

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/screens/home_screen.dart';
-import 'package:unibond/screens/letter/letter_box_screen.dart';
-import 'package:unibond/widgets/navigator.dart';
+import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/letter/letter_box_screen.dart';
+import 'package:unibond/view/widgets/navigator.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key});
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('프로필 화면'),
+        title: const Text('프로필 화면'),
       ),
       body: ListView(
         children: [
@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                     Container(
                       margin: const EdgeInsets.all(3),
                       padding: const EdgeInsets.all(3),
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.grey,
                         shape: BoxShape.circle,
                       ),
@@ -39,7 +39,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(
+                const Text(
                   '지지진',
                   style: TextStyle(
                     fontSize: 16,
@@ -58,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Column(
+                      child: const Column(
                         children: [
                           Text(
                             '질환정보',
@@ -85,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                         color: Colors.grey[300],
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: Column(
+                      child: const Column(
                         children: [
                           Text(
                             '진단 시기',
