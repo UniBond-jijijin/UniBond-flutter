@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/screens/user/login_screen.dart';
+import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/user/join_screen.dart';
 import 'package:unibond/util/validator_util.dart';
-import 'package:unibond/widgets/custom_text_form_field.dart';
-import 'package:unibond/widgets/custon_elevated_button.dart';
+import 'package:unibond/view/widgets/custom_text_form_field.dart';
+import 'package:unibond/view/widgets/custon_elevated_button.dart';
 
-class JoinScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  JoinScreen({super.key});
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class JoinScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 height: 150,
                 child: const Text(
-                  "회원 가입",
+                  "로그인 화면",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -31,22 +32,18 @@ class JoinScreen extends StatelessWidget {
                 ),
               ),
             ),
-            _joinFrom(),
+            _loginFrom(),
           ],
         ),
       ),
     );
   }
 
-  Widget _joinFrom() {
+  Widget _loginFrom() {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          CustomTextFormField(
-            hint: "이메일",
-            funvalidator: validateEmail,
-          ),
           CustomTextFormField(
             hint: "아이디",
             funvalidator: validateId,
@@ -57,19 +54,39 @@ class JoinScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           CustomElevatedButton(
-            text: "회원 가입",
+            text: "로그인",
             screenRoute: () {
               if (isValid(_formKey)) {
-                Get.to(() => LoginScreen());
+                Get.to(() => const HomeScreen());
               }
             },
           ),
-          TextButton(
-            onPressed: () {
-              Get.to(() => LoginScreen());
-            },
-            child: const Text("이미 회원가입 하셨나요?"),
-          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 90.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: const Text("비밀번호 찾기"),
+                ),
+                const VerticalDivider(
+                  thickness: 2,
+                  indent: 20,
+                  endIndent: 0,
+                  color: Colors.grey,
+                ),
+                TextButton(
+                  onPressed: () {
+                    Get.to(() => JoinScreen());
+                  },
+                  child: const Text("회원가입"),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );

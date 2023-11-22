@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/resources/size.dart';
-import 'package:unibond/screens/community/post_update_screen.dart';
-import 'package:unibond/screens/home_screen.dart';
+import 'package:unibond/view/screens/community/post_update_screen.dart';
+import 'package:unibond/view/screens/home_screen.dart';
 
 class DetailScreen extends StatelessWidget {
   final int id;

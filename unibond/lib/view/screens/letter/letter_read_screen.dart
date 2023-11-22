@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/models/letter.dart';
+import 'package:unibond/domain/letter/letter.dart';
 
 class LetterReadScreen extends StatefulWidget {
   final Letter letter;
