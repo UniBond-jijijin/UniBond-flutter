@@ -6,7 +6,7 @@ import 'package:unibond/view/screens/home_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final int id;
-  DetailScreen({Key? key, required this.id}) : super(key: key);
+  const DetailScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   _DetailScreenState createState() => _DetailScreenState();
@@ -105,18 +105,18 @@ class _DetailScreenState extends State<DetailScreen> {
                     // ListView.builder 사용
                     // 각 댓글은 사용자 기본정보, 댓글 내용, 대댓글 및 삭제 버튼으로 구성
                     // 스크롤 가능한 영역임: SingleChildScrollView or ListView 활용
-                    padding: EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "$id번 댓글들이다!" * 40,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 8.0),
+                        const SizedBox(height: 8.0),
                         for (var comment in comments)
                           CommentWidget(
                             author: comment.author,
@@ -142,19 +142,19 @@ class _DetailScreenState extends State<DetailScreen> {
                   Expanded(
                     child: TextField(
                       controller: commentController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: '댓글을 작성하세요',
                       ),
                     ),
                   ),
-                  SizedBox(width: 8.0),
+                  const SizedBox(width: 8.0),
                   InkWell(
                     onTap: () {
                       if (commentController.text.isNotEmpty) {
                         addComment();
                       }
                     },
-                    child: Icon(
+                    child: const Icon(
                       Icons.send,
                       color: Colors.blue,
                     ),
@@ -243,18 +243,18 @@ class CommentWidget extends StatelessWidget {
   final String author;
   final String comment;
 
-  CommentWidget({required this.author, required this.comment});
+  const CommentWidget({super.key, required this.author, required this.comment});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 8.0),
+      margin: const EdgeInsets.only(bottom: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             '$author 님의 댓글',
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),
