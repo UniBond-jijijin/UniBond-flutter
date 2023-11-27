@@ -7,4 +7,5 @@ const host = "http://192.168.56.1:8080";
 class UserProvider extends GetConnect {
   // api문서 미반영된 임시 경로
   Future<Response> login(Map data) => post("$host/login", data);
+  // Future<Response> join(Map data) => post("$host/api/v1/members", data);
 }
