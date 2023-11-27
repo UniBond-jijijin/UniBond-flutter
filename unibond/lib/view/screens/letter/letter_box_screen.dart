@@ -34,6 +34,7 @@ class LetterBoxScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('편지함'),
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
         itemCount: fakeEnvelopes.length,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/user/join_screen.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/widgets/custom_text_form_field.dart';
@@ -59,7 +60,7 @@ class LoginScreen extends StatelessWidget {
                 // 임시
                 // UserRepository u = UserRepository();
                 // u.login("jinyshin", "1234");
-                // Get.to(() => const HomeScreen());
+                Get.to(() => const HomeScreen());
               }
             },
           ),
