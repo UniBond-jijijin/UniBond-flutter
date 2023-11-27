@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LetterWriteScreen extends StatefulWidget {
   const LetterWriteScreen({super.key});
@@ -22,11 +23,12 @@ class _LetterWriteScreenState extends State<LetterWriteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("편지 작성"),
+        centerTitle: true,
+        title: const Text('작성중인 편지'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
         actions: [
@@ -34,6 +36,8 @@ class _LetterWriteScreenState extends State<LetterWriteScreen> {
             icon: const Icon(Icons.send),
             onPressed: () {
               // 편지 전송하는 코드 추가
+              // showToast();
+              Get.back(); // 이전 화면 이동
             },
           )
         ],
@@ -67,3 +71,14 @@ class _LetterWriteScreenState extends State<LetterWriteScreen> {
     );
   }
 }
+
+// void showToast() {
+//   Fluttertoast.showToast(
+//       msg: "전송이 완료되었습니다",
+//       toastLength: Toast.LENGTH_SHORT,
+//       gravity: ToastGravity.BOTTOM,
+//       timeInSecForIosWeb: 1,
+//       backgroundColor: Colors.grey,
+//       textColor: Colors.white,
+//       fontSize: 16.0);
+// }

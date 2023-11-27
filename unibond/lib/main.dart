@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/community/post_detail_screen.dart';
-import 'package:unibond/view/screens/user/login_screen.dart';
+import 'package:unibond/view/screens/letter/letter_box_screen.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -15,14 +14,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        useMaterial3: true,
-      ),
-      home: DetailScreen(
-        id: 0,
-      ), // 임시 스플래시화면
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+          useMaterial3: true,
+        ),
+        home: LetterBoxScreen(fakeEnvelopes: [
+          LetterEnvelope(date: '2023-10-15', sender: '지지진'),
+          LetterEnvelope(date: '2023-10-14', sender: '진지지'),
+          //추가 편지봉투를 여기에 추가
+        ])
+        // home: DetailScreen(
+        //   id: 0,
+        // ), // 임시 스플래시화면
+        );
   }
 }
