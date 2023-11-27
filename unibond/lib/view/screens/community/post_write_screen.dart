@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/util/validator_util.dart';
+import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/widgets/custom_text_form_field.dart';
 import 'package:unibond/view/widgets/custom_textarea.dart';
 import 'package:unibond/view/widgets/custon_elevated_button.dart';
