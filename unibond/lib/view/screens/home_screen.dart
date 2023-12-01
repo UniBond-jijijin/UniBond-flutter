@@ -114,10 +114,10 @@ class HomeScreen extends StatelessWidget {
             flex: 6,
             child: Container(
               color: Colors.white,
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 12.0),
                     child: Text(
                       "질문 게시판",
@@ -126,25 +126,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 6.0, horizontal: 12),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Get.to(() => DetailScreen(id: index));
-                        },
-                        child: const CustomListitem(),
-                      ),
-                    ),
-                  ),
+                  Expanded(child: PostsListView()),
                 ],
               ),
             ),
@@ -204,7 +186,7 @@ class PostsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true,
+      padding: EdgeInsets.zero,
       itemCount: 5,
       itemBuilder: (context, index) {
         return Padding(
