@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/screens/user/join_screen.dart';
+import 'package:unibond/view/screens/user/join_screen.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -20,7 +20,9 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: JoinScreen(),
-      // SplashScreen(), // 임시 스플래시화면
+      // home: DetailScreen(
+      //   id: 0,
+      // ), // 임시 스플래시화면
     );
   }
 }

@@ -37,3 +37,23 @@ Function validatePassword = (String? value) {
     return null;
   }
 };
+
+Function validateTitle = (String? value) {
+  if (value == null || value.isEmpty) {
+    return "값을 입력해주세요.";
+  } else if (value.length > 30) {
+    return "제목은 30자 이하로 입력해주세요.";
+  } else {
+    return null;
+  }
+};
+
+Function validateContent = (String? value) {
+  if (value == null || value.isEmpty) {
+    return "값을 입력해주세요.";
+  } else if (value.length > 500) {
+    return "내용은 500자 이하로 입력해주세요.";
+  } else {
+    return null;
+  }
+};
