@@ -1,4 +1,4 @@
-import 'package:unibond/domain/user/user.dart';
+import 'package:unibond/domain/user/user_model.dart';
 
 class Post {
   final int? id;
