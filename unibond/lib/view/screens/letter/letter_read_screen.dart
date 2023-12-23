@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/models/letter.dart';
+import 'package:unibond/domain/letter/letter.dart';
 
 class LetterReadScreen extends StatefulWidget {
   final Letter letter;
@@ -25,13 +25,11 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
         actions: [
           IconButton(
             icon: Icon(
-              widget.letter.isBookmarked
-                  ? Icons.bookmark
-                  : Icons.bookmark_border,
+              widget.letter.isliked! ? Icons.bookmark : Icons.bookmark_border,
             ),
             onPressed: () {
               setState(() {
-                widget.letter.isBookmarked = !widget.letter.isBookmarked;
+                widget.letter.isliked = !widget.letter.isliked!;
               });
               // 북마크 상태->db저장 필요
             },
