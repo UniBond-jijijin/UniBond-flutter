@@ -11,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('프로필 화면'),
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
         children: [

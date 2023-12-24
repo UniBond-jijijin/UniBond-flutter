@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/domain/user/user_repository.dart';
+import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/controller/user_controller.dart';
 import 'package:unibond/view/screens/user/join_screen.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/widgets/custom_text_form_field.dart';
@@ -8,6 +9,10 @@ import 'package:unibond/view/widgets/custon_elevated_button.dart';
 
 class LoginScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+
+  final UserController u = Get.put(UserController());
+  final _nicknameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   LoginScreen({super.key});
 
@@ -47,19 +52,28 @@ class LoginScreen extends StatelessWidget {
           CustomTextFormField(
             hint: "아이디",
             funvalidator: validateId,
+            controller: _nicknameController,
           ),
           CustomTextFormField(
+            controller: _passwordController,
             hint: "비밀번호",
             funvalidator: validatePassword,
           ),
           const SizedBox(height: 20),
           CustomElevatedButton(
             text: "로그인",
-            screenRoute: () {
+            screenRoute: () async {
               if (isValid(_formKey)) {
-                UserRepository u = UserRepository();
-                u.login("jinyshin", "1234");
-                // Get.to(() => const HomeScreen());
+                // 임시
+                var token = await u.login(_nicknameController.text.trim(),
+                    _passwordController.text.trim());
+                if (token != "-1") {
+                  print("토큰 정상적으로 받음");
+                  Get.to(() => const HomeScreen());
+                } else {
+                  print("토큰 못받음");
+                  Get.snackbar("로그인 시도", "로그인 실패");
+                }
               }
             },
           ),
