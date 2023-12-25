@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/controller/post_controller.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/post_write_screen.dart';
@@ -16,8 +17,6 @@ Widget build(BuildContext context) {
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  get index => 1;
 
   @override
   Widget build(BuildContext context) {
@@ -185,29 +184,62 @@ class PostsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: Colors.black,
+    PostController p = Get.put(PostController());
+
+    return Obx(
+      () => ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: p.posts.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Colors.black,
+                ),
+                borderRadius: BorderRadius.circular(20),
               ),
-              borderRadius: BorderRadius.circular(20),
+              child: TextButton(
+                onPressed: () {
+                  Get.to(() => DetailScreen(id: index));
+                },
+                // TODO: CustomListitem 위젯으로 변경
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const CircleAvatar(child: Text('오지')),
+                      title: Row(
+                        children: [
+                          Text(p.posts[index].ownerNick!),
+                          const SizedBox(width: 3),
+                          // TODO: 날짜계산 필요
+                          const Text('1일 전'),
+                        ],
+                      ),
+                      subtitle: Text(p.posts[index].disease!),
+                      isThreeLine: true,
+                    ),
+                    const SizedBox(height: 0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      // child: ,
+                      // 테스트
+                      child: Text(
+                        p.posts[index].contentPreview!,
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            child: TextButton(
-              onPressed: () {
-                Get.to(() => DetailScreen(id: index));
-              },
-              child: const CustomListitem(),
-            ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -217,6 +249,9 @@ class CustomListitem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Get.put() 싱글턴 확인
+    // PostController p = Get.put(PostController());
+
     return const Column(
       children: [
         ListTile(
@@ -234,6 +269,8 @@ class CustomListitem extends StatelessWidget {
         SizedBox(height: 0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
+          // child: ,
+          // 테스트
           child: Text(
             "이것은 게시물의 내용입니다... 과연 어떤 게시물들이 올라올까요..기대가됩니다...",
             style: TextStyle(
