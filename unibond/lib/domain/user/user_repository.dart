@@ -6,20 +6,20 @@ import 'package:unibond/domain/user/user_provider.dart';
 class UserRepository {
   final UserProvider _userProvider = UserProvider();
 
-  Future<String> join(JoinReqDto joinReqDto) async {
+  Future<int> join(JoinReqDto joinReqDto) async {
     try {
       Response response = await _userProvider.join(joinReqDto.toJson());
-      print(response.statusCode);
+      int userIdNum = response.body["result"];
 
-      String userIdNum = response.body["results"];
-      if (response.statusCode != 201) {
-        throw Exception("Failed to send data");
+      if (response.body["isSuccess"] == false) {
+        throw Exception("Failed to send user data");
       } else {
         print("user data sent successfully");
         return userIdNum;
       }
-    } catch (e) {
-      return ("Failed to send user data: $e");
+    } catch (err) {
+      print("Failed to send user data: $err");
+      rethrow;
     }
   }
 

@@ -6,8 +6,7 @@ import 'package:unibond/util/jwt.dart';
 class UserController extends GetxController {
   final UserRepository _userRepository = UserRepository();
 
-  // 일단 이 함수는 post 요청만 한다고 가정
-  Future<String> join(
+  Future<int> join(
     String userId,
     String password,
     String diseaseId,
@@ -24,7 +23,6 @@ class UserController extends GetxController {
     print(joinReqDto.password);
     print(joinReqDto.nickname);
     var userIdNum = await _userRepository.join(joinReqDto);
-    print(userIdNum.toString());
     return userIdNum;
   }
 
