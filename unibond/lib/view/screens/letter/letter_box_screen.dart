@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/screens/home_screen.dart';
-import 'package:unibond/screens/user/profile_screen.dart';
-import 'package:unibond/widgets/navigator.dart';
+import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/user/profile_screen.dart';
+import 'package:unibond/view/widgets/navigator.dart';
 
 @override
 Widget build(BuildContext context) {
@@ -34,6 +34,7 @@ class LetterBoxScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('편지함'),
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
         itemCount: fakeEnvelopes.length,

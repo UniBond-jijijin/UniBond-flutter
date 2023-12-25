@@ -3,15 +3,23 @@ import 'package:flutter/material.dart';
 class CustomTextFormField extends StatelessWidget {
   final String hint;
   final funvalidator;
+  final String? value;
+  final controller;
 
-  const CustomTextFormField(
-      {super.key, required this.hint, required this.funvalidator});
-
+  const CustomTextFormField({
+    super.key,
+    required this.hint,
+    this.funvalidator,
+    this.value,
+    this.controller,
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: TextFormField(
+        controller: controller,
+        initialValue: value,
         validator: funvalidator,
         obscureText: hint == "비밀번호" ? true : false,
         style: const TextStyle(fontSize: 14),

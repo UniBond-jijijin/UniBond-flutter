@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/screens/home_screen.dart';
+import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/user/join_screen.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
       ),
-      home: const HomeScreen(), // 임시 스플래시화면
+      home: const HomeScreen(),
+      // 임시 스플래시화면
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/screens/home_screen.dart';
+import 'package:unibond/view/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
