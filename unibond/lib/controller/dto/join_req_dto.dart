@@ -24,18 +24,15 @@ class JoinReqDto {
     this.interestList,
   );
 
-  // TODO: timing, list 자료형 처리 필요
+  // TODO: timing, list 자료형 처리 필요, 임시 값 수정 필요
   Map<String, dynamic> toJson() => {
-        "userId": userId,
-        "password": password,
-        "diseaseId": diseaseId,
-        "diseaseTiming": diseaseTiming,
-        "gender": gender,
+        // "userId": userId,
+        // "password": password,
+        "diseaseId": 1, // 임시 아이디
+        "diseaseTiming": "2023-11-10", // 예시 문자열
+        "gender": "FEMALE",
         "nickname": nickname,
         "bio": bio,
-        "interestList": interestList,
-        // "email": email,
-        // "username": username,
-        // "password": password,
+        "interestList": ["환우회", "친목", "운동"], // 예시 리스트
       };
 }
