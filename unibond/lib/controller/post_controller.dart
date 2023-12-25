@@ -16,4 +16,9 @@ class PostController extends GetxController {
     List<PrevPost> posts = await _postRepository.getPostsList();
     this.posts.value = posts;
   }
+
+  Future<bool> uploadPost(String content) async {
+    bool isSuccess = await _postRepository.uploadPost(content);
+    return isSuccess;
+  }
 }

@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:unibond/controller/dto/code_msg_res_dto.dart';
+import 'package:unibond/controller/dto/post_upload_req_dto.dart';
 import 'package:unibond/domain/post/post_provider.dart';
 import 'package:unibond/domain/post/pre_post_model.dart';
 
@@ -26,6 +27,23 @@ class PostRepository {
       }
     } catch (err) {
       print("Failed to get posts list: $err");
+      rethrow;
+    }
+  }
+
+  Future<bool> uploadPost(String content) async {
+    try {
+      final PostUploadReqDto postUploadReqDto = PostUploadReqDto(content);
+      Response response =
+          await _postProvider.uploadPost(postUploadReqDto.toJson());
+      // 테스트
+      print(response.body);
+      print(response.body["isSuccess"]);
+
+      bool isSuccess = response.body["isSuccess"];
+      return isSuccess;
+    } catch (err) {
+      print("Failed to upload post: $err");
       rethrow;
     }
   }
