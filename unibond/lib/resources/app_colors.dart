@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const PRIMARY_COLOR = Color(0xFF9359CD);
+
 class AppColors {
   static const Color primary = contentColorLightBlue;
   static const Color menuBackground = Color(0xFF090912);
