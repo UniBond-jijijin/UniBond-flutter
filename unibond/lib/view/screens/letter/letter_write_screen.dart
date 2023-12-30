@@ -1,39 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/controller/dto/letter_req_dto.dart';
+import 'package:unibond/controller/letter_controller.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/home_screen.dart';
-import 'package:unibond/view/widgets/custom_letter_area.dart';
-import 'package:unibond/view/widgets/custom_letter_elevated_button.dart';
-import 'package:unibond/view/widgets/custom_letter_form_field.dart';
+import 'package:unibond/view/widgets/custon_elevated_button.dart';
 
-class LetterWriteScreen extends StatefulWidget {
-  LetterWriteScreen({super.key});
-
-  @override
-  _LetterWriteScreenState createState() => _LetterWriteScreenState();
-}
-
-class _LetterWriteScreenState extends State<LetterWriteScreen> {
+class LetterWriteScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _contentController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _contentController = TextEditingController();
 
-  @override
-  void dispose() {
-    _titleController.dispose();
-    _contentController.dispose();
-    super.dispose();
-  }
+  LetterWriteScreen({Key? key}) : super(key: key);
 
-  @override
   Widget build(BuildContext context) {
+    final l = Get.find<LetterController>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("편지 작성"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
       ),
@@ -41,28 +30,41 @@ class _LetterWriteScreenState extends State<LetterWriteScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Column(
             children: [
-              CustomLetterFormField(
-                hint: '제목을 입력하세요',
+              TextField(
                 controller: _titleController,
                 decoration: const InputDecoration(
                   labelText: "제목",
                   border: OutlineInputBorder(),
                 ),
-                funvalidator: validateTitle,
               ),
               const SizedBox(height: 16),
-              CustomLetterArea(
-                hint: '내용을 입력하세요',
-                controller: _contentController,
-                funvalidator: validateContent,
+              Expanded(
+                child: TextField(
+                  controller: _contentController,
+                  maxLines: null,
+                  expands: true,
+                  decoration: const InputDecoration(
+                    hintText: "내용을 입력하세요...",
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               ),
-              CustomLetterElevatedButton(
-                text: '전송하기',
-                funPageRoute: () {
-                  if (_formKey.currentState!.validate()) {
-                    Get.off(HomeScreen());
+              CustomElevatedButton(
+                text: "편지 전송",
+                screenRoute: () async {
+                  if (isValid(_formKey)) {
+                    var isSuccess = await l.sendLetter(
+                        2,
+                        _titleController.text.trim(),
+                        _contentController.text.trim());
+                    if (isSuccess == true) {
+                      print('편지 전송 성공');
+                      Get.off(() => HomeScreen());
+                    } else {
+                      print('편지 전송 실패');
+                    }
                   }
                 },
               ),

@@ -20,7 +20,6 @@ class CustomLetterFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: TextFormField(
-        initialValue: value ?? "",
         validator: funvalidator,
         controller: controller,
         decoration: InputDecoration(

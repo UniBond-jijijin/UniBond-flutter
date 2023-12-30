@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomLetterElevatedButton extends StatelessWidget {
   final String text;
-  final Null Function() funPageRoute;
+  final Future<void> Function() funPageRoute;
 
   const CustomLetterElevatedButton({
     Key? key,
@@ -21,7 +21,9 @@ class CustomLetterElevatedButton extends StatelessWidget {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      onPressed: funPageRoute,
+      onPressed: () async {
+        await funPageRoute();
+      },
       child: Text("$text"),
     );
   }
