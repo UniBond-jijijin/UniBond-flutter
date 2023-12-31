@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/util/url.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
 import 'package:unibond/view/screens/user/search_screen.dart';
 import 'package:unibond/view/widgets/next_button.dart';
@@ -53,7 +55,59 @@ class _ModifyScreenState extends State<ModifyScreen> {
   }
 
   // 닉네임 중복 확인
-  void sendNicknameVerification() async {}
+  void sendNicknameVerification() async {
+    try {
+      String nickname = nicknameController.text.trim();
+      // Dio 통해서 통신하는 부분
+      var dio = Dio();
+      var response = await dio.get(
+        '$ip/api/v1/members/duplicate',
+        queryParameters: {"nickname": nickname},
+      );
+
+      if (response.statusCode == 200) {
+        int responseCode = response.data["code"];
+
+        // 중복 검사 결과에 따라 대화 상자를 띄움
+        if (responseCode == 1700) {
+          // 이미 존재하는 닉네임인 경우
+          showDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+              title: const Text('알림'),
+              content: const Text('이미 사용중인 아이디입니다.'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('확인'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+          );
+        } else if (responseCode == 1701) {
+          // 사용 가능한 닉네임인 경우
+          showDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+              title: const Text('알림'),
+              content: const Text('사용 가능한 아이디입니다!'),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('확인'),
+                  onPressed: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
+          );
+        }
+      } else {
+        print(
+            'Failed to send nickname verification or unexpected response format.');
+      }
+    } catch (e) {
+      print('Exception caught: $e');
+    }
+  }
 
   // 질환 진단 시기 선택
   void _showDatePicker(BuildContext context) {
@@ -83,7 +137,45 @@ class _ModifyScreenState extends State<ModifyScreen> {
   }
 
   // 프로필 수정 완료 요청
-  void updateMemberInfo() async {}
+  void updateMemberInfo() async {
+    try {
+      String nickname = nicknameController.text.trim();
+      String gender = isMaleSelected
+          ? 'MALE'
+          : isFemaleSelected
+              ? 'FEMALE'
+              : 'NULL'; // isPrivateSelected인 경우
+      String diseaseId = "3"; // 질환 ID
+      String diagnosisTiming = selectedDate.toString(); // 진단 시기
+      String bio = bioController.text.trim(); // 한 줄 소개
+      List<String> interestList = selectedInterests; // 관심사 목록
+
+      var dio = Dio();
+      var data = {
+        "nickname": nickname,
+        "gender": gender,
+        "diseaseId": diseaseId,
+        "diagnosisTiming": diagnosisTiming,
+        "bio": bio,
+        "interestList": interestList
+      };
+
+      var response = await dio.patch(
+        '$ip/api/v1/members/{3}', // memberId를 실제 멤버의 ID로 바꿔야 함
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        // 요청에 성공한 경우
+        print("Profile updated successfully.");
+      } else {
+        // 오류 발생 시
+        print("Error updating profile: ${response.data}");
+      }
+    } catch (e) {
+      print("Exception caught: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
