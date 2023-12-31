@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/view/screens/user/interest_screen.dart';
 import 'package:unibond/view/screens/user/search_screen.dart';
+import 'package:unibond/view/widgets/next_button.dart';
 import 'package:unibond/view/widgets/selected_button.dart';
 import 'package:unibond/view/widgets/my_custom_text_form_field.dart';
 
@@ -21,6 +23,11 @@ class _ModifyScreenState extends State<ModifyScreen> {
   bool isPrivateSelected = false;
 
   late TextEditingController searchController;
+  TextEditingController nicknameController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
+  List<String> selectedInterests = []; // 선택된 관심사 목록
 
   @override
   void initState() {
@@ -43,6 +50,15 @@ class _ModifyScreenState extends State<ModifyScreen> {
       }
     });
   }
+
+  // 닉네임 중복 확인
+  void sendNicknameVerification() async {}
+
+  // 질환 진단 시기 선택
+  void _showDatePicker(BuildContext context) {}
+
+  // 프로필 수정 완료 요청
+  void updateMemberInfo() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -96,183 +112,381 @@ class _ModifyScreenState extends State<ModifyScreen> {
                   ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Card(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Container(
                     color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Container(
-                        color: Colors.white,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              '닉네임',
-                              style: AskTextStyle,
-                            ),
-                            MyCustomTextFormField(
-                              onChanged: (value) {},
-                              maxLength: 5,
-                              hintText: '자신의 닉네임을 입력해주세요!',
-                            ),
-                            const Text(
-                              '한줄 소개',
-                              style: AskTextStyle,
-                            ),
-                            MyCustomTextFormField(
-                              onChanged: (value) {},
-                              maxLength: 34,
-                              hintText: '자기 자신을 간단하게 소개해주세요!',
-                            ),
-                            const Text(
-                              '성별',
-                              style: AskTextStyle,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: SignupEitherButton(
-                                    text: '남',
-                                    isSelected: isMaleSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isMaleSelected = true;
-                                        isFemaleSelected = false;
-                                        isPrivateSelected = false;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12),
-                                  child: SignupEitherButton(
-                                    text: '여',
-                                    isSelected: isFemaleSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isFemaleSelected = true;
-                                        isMaleSelected = false;
-                                        isPrivateSelected = false;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: SignupEitherButton(
-                                    text: '비공개',
-                                    isSelected: isPrivateSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isPrivateSelected = true;
-                                        isMaleSelected = false;
-                                        isFemaleSelected = false;
-                                      });
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              const Text(
-                '질환 정보',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                          color: Colors.white,
-                          child: Column(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '닉네임',
+                            style: AskTextStyle,
+                          ),
+                          Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
-                                '질환',
-                                style: AskTextStyle,
+                              Expanded(
+                                flex: 6, // 비율을 사용하여 width를 조절
+                                child: MyCustomTextFormField(
+                                  controller: nicknameController,
+                                  hintText: '자신의 닉네임을 입력해주세요!',
+                                  onChanged: (String value) {
+                                    // checkEmailEnabled();
+                                  },
+                                  // errorText: emailErrorText,
+                                ),
                               ),
-                              buildSearchRow(),
-                              const Text(
-                                '진단 시기',
-                                style: AskTextStyle,
-                              ),
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: SignupEitherButton(
-                                      text: '2000',
-                                      isSelected: isMaleSelected,
-                                      onPressed: () {
-                                        setState(() {
-                                          isMaleSelected = true;
-                                          isFemaleSelected = false;
-                                          isPrivateSelected = false;
-                                        });
-                                      },
+                              const SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격
+                              Expanded(
+                                flex: 3,
+                                child: ElevatedButton(
+                                  onPressed: sendNicknameVerification,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: primaryColor,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 12),
+                                  ),
+                                  child: const Text(
+                                    '중복 확인',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15.0,
+                                      color: Colors.white,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: SignupEitherButton(
-                                      text: '01',
-                                      isSelected: isFemaleSelected,
-                                      onPressed: () {
-                                        setState(() {
-                                          isFemaleSelected = true;
-                                          isMaleSelected = false;
-                                          isPrivateSelected = false;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: SignupEitherButton(
-                                      text: '25',
-                                      isSelected: isPrivateSelected,
-                                      onPressed: () {
-                                        setState(() {
-                                          isPrivateSelected = true;
-                                          isMaleSelected = false;
-                                          isFemaleSelected = false;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
+                          const Text(
+                            '한줄 소개',
+                            style: AskTextStyle,
+                          ),
+                          MyCustomTextFormField(
+                            controller: bioController,
+                            onChanged: (value) {},
+                            maxLength: 34,
+                            maxLines: 4,
+                            hintText: '자기 자신을 간단하게 소개해주세요!',
+                          ),
+                          const Text(
+                            '성별',
+                            style: AskTextStyle,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SignupEitherButton(
+                                  text: '남',
+                                  isSelected: isMaleSelected,
+                                  onPressed: () {
+                                    setState(() {
+                                      isMaleSelected = true;
+                                      isFemaleSelected = false;
+                                      isPrivateSelected = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12),
+                                child: SignupEitherButton(
+                                  text: '여',
+                                  isSelected: isFemaleSelected,
+                                  onPressed: () {
+                                    setState(() {
+                                      isFemaleSelected = true;
+                                      isMaleSelected = false;
+                                      isPrivateSelected = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: SignupEitherButton(
+                                  text: '비공개',
+                                  isSelected: isPrivateSelected,
+                                  onPressed: () {
+                                    setState(() {
+                                      isPrivateSelected = true;
+                                      isMaleSelected = false;
+                                      isFemaleSelected = false;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+                child: Text(
+                  '질환 정보',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '질환',
+                            style: AskTextStyle,
+                          ),
+                          buildSearchRow(),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              '진단 시기',
+                              style: AskTextStyle,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () => _showDatePicker(context),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    '${selectedDate.year}',
+                                    style: AskTextStyle,
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  '년',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              InkWell(
+                                onTap: () => _showDatePicker(context),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    '${selectedDate.month}',
+                                    style: AskTextStyle,
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  '월',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              InkWell(
+                                onTap: () => _showDatePicker(context),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Text(
+                                    '${selectedDate.day}',
+                                    style: AskTextStyle,
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(
+                                  '일',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '관심사',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Get.to(
+                          const InterestScreen(),
+                        );
+                      },
+                      child: const Text(
+                        '변경',
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  color: Colors.white,
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            '질환',
+                            style: AskTextStyle,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Container(
+                              width: 400,
+                              height: 50,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Center(
+                                // 텍스트를 컨테이너 중앙에 위치시킴
+                                child: Text(
+                                  '신약 / 치료제 / 영양 / 임상시험',
+                                  style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                  textAlign:
+                                      TextAlign.center, // 텍스트 정렬을 중앙으로 설정
+                                ),
+                              ),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              '일상',
+                              style: AskTextStyle,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Container(
+                              width: 400,
+                              height: 50,
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 1,
+                                ),
+                              ),
+                              child: Center(
+                                // 텍스트를 컨테이너 중앙에 위치시킴
+                                child: Text(
+                                  '문화생활 / 반려동물 / 아웃도어 / 영화,...',
+                                  style: TextStyle(
+                                    color: Colors.grey[800],
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                  textAlign:
+                                      TextAlign.center, // 텍스트 정렬을 중앙으로 설정
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: NextButton(
+                  onPressed: updateMemberInfo,
+                  buttonName: '완료',
+                  isButtonEnabled: true,
+                ),
               ),
             ],
           ),
@@ -292,20 +506,27 @@ class _ModifyScreenState extends State<ModifyScreen> {
     return Row(
       children: [
         Expanded(
-            flex: 8,
-            child: TextFormField(
-              onChanged: (value) => {},
-              controller: searchController,
-              decoration: InputDecoration(
-                fillColor: Colors.grey[200],
-                filled: true,
-                border: baseBorder,
-                focusedBorder: baseBorder.copyWith(
-                  borderSide: baseBorder.borderSide.copyWith(
-                    color: primaryColor,
-                  ),
+          flex: 8,
+          child: TextFormField(
+            minLines: 1,
+            maxLines: 1,
+            onChanged: (value) => {},
+            controller: searchController,
+            decoration: InputDecoration(
+              fillColor: Colors.grey[50],
+              filled: true,
+              contentPadding: const EdgeInsets.symmetric(
+                  vertical: 8, horizontal: 12), // 패딩 조정
+              border: baseBorder,
+              focusedBorder: baseBorder.copyWith(
+                borderSide: baseBorder.borderSide.copyWith(
+                  color: primaryColor,
                 ),
-                suffixIcon: IconButton(
+              ),
+              suffixIcon: Padding(
+                // suffixIcon에 패딩 추가
+                padding: const EdgeInsets.only(right: 8),
+                child: IconButton(
                   icon: const Icon(Icons.search, color: primaryColor),
                   onPressed: () {
                     print("검색 버튼 클릭!");
@@ -318,7 +539,9 @@ class _ModifyScreenState extends State<ModifyScreen> {
                   },
                 ),
               ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }
