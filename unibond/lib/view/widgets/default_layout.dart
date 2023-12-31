@@ -40,6 +40,7 @@ class DefaultLayout extends StatelessWidget {
       return AppBar(
         backgroundColor: backgroundColor ?? Colors.white,
         elevation: 0,
+        centerTitle: true,
         title: Text(
           title!,
           style: const TextStyle(

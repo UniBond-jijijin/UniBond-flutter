@@ -39,8 +39,8 @@ class _SelectableContainerState extends State<SelectableContainer> {
             color: isSelected ? primaryColor : Colors.white,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: isSelected ? primaryColor : Colors.grey, // 여기를 수정
-              width: 1, // 테두리 두께 설정
+              color: isSelected ? primaryColor : Colors.grey,
+              width: 1,
             ),
           ),
           child: Text(
