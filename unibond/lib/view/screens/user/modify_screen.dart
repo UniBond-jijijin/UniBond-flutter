@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/view/screens/user/search_screen.dart';
 import 'package:unibond/view/widgets/selected_button.dart';
@@ -25,9 +28,26 @@ class _ModifyScreenState extends State<ModifyScreen> {
     searchController = TextEditingController();
   }
 
+  // 프로필 사진 등록
+  File? _image;
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           '프로필 수정',
@@ -40,22 +60,49 @@ class _ModifyScreenState extends State<ModifyScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 20,
+              ),
               Center(
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/user_image.jpg',
-                    width: 70,
-                    height: 70,
-                  ),
+                child: Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    ClipOval(
+                      child: _image == null
+                          ? Image.asset(
+                              'assets/images/user_image.jpg',
+                              width: 100,
+                              height: 100,
+                            )
+                          : Image.file(
+                              _image!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                    GestureDetector(
+                      onTap: getImage,
+                      child: Container(
+                        margin: const EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(3),
+                        decoration: const BoxDecoration(
+                          color: Colors.grey,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.settings),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Card(
-                    // color: Colors.white,
+                    color: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
