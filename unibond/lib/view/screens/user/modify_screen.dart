@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -55,7 +56,31 @@ class _ModifyScreenState extends State<ModifyScreen> {
   void sendNicknameVerification() async {}
 
   // 질환 진단 시기 선택
-  void _showDatePicker(BuildContext context) {}
+  void _showDatePicker(BuildContext context) {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (_) => Container(
+        height: 240,
+        color: const Color.fromARGB(255, 255, 255, 255),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 240,
+              child: CupertinoDatePicker(
+                initialDateTime: selectedDate,
+                mode: CupertinoDatePickerMode.date,
+                onDateTimeChanged: (val) {
+                  setState(() {
+                    selectedDate = val;
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
   // 프로필 수정 완료 요청
   void updateMemberInfo() async {}
@@ -139,9 +164,8 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                   controller: nicknameController,
                                   hintText: '자신의 닉네임을 입력해주세요!',
                                   onChanged: (String value) {
-                                    // checkEmailEnabled();
+                                    // print(value);
                                   },
-                                  // errorText: emailErrorText,
                                 ),
                               ),
                               const SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격
