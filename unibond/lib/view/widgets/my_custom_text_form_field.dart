@@ -9,8 +9,8 @@ class MyCustomTextFormField extends StatefulWidget {
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller;
   final String? name;
-  final int? textFieldMinLine;
   final bool? enable;
+  final int? minLines;
   final int? maxLines;
   final bool? expands;
   final TextAlign textAlign;
@@ -26,7 +26,7 @@ class MyCustomTextFormField extends StatefulWidget {
     this.textAlignVertical = TextAlignVertical.top,
     this.enable,
     required this.onChanged,
-    this.textFieldMinLine = 1,
+    this.minLines = 1,
     this.autofocus = false,
     this.obscureText = false,
     this.errorText,
@@ -59,7 +59,7 @@ class _CustomTextFormFieldState extends State<MyCustomTextFormField> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
       child: TextFormField(
-        maxLength: widget.maxLength ?? 50,
+        maxLength: widget.maxLength ?? 5,
         keyboardType:
             widget.onlyNumber! ? TextInputType.number : null, // 숫자 키보드 표시
         textAlign: widget.textAlign,
@@ -74,13 +74,13 @@ class _CustomTextFormFieldState extends State<MyCustomTextFormField> {
         cursorColor: cursorColor,
         obscureText: widget.obscureText,
         obscuringCharacter: '●',
-        minLines: widget.expands == true ? null : widget.textFieldMinLine,
+        minLines: widget.expands == true ? 1 : widget.minLines,
         maxLines: widget.expands == true ? null : (widget.maxLines ?? 1),
         expands: widget.expands ?? false, // 연결
         autofocus: widget.autofocus,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
-          fillColor: Colors.grey[200],
+          fillColor: Colors.grey[50],
           filled: true,
           suffixIcon: widget.showClearIcon!
               ? IconButton(
