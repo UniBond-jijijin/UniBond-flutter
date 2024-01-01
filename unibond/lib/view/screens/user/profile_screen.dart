@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/view/screens/home_screen.dart';
-import 'package:unibond/view/screens/letter/letter_box_screen.dart';
 import 'package:unibond/view/screens/user/modify_screen.dart';
-import 'package:unibond/view/widgets/navigator.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -248,79 +250,6 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                //   Positioned(
-                //     top: 220,
-                //     left: 0,
-                //     right: 0,
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //       children: [
-                //         Container(
-                //           margin: const EdgeInsets.all(12),
-                //           width: 150,
-                //           height: 70,
-                //           padding: const EdgeInsets.all(8),
-                //           decoration: BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.circular(10),
-                //           ),
-                //           child: const Column(
-                //             crossAxisAlignment: CrossAxisAlignment.start,
-                //             children: [
-                //               Padding(
-                //                 padding: EdgeInsets.all(3),
-                //                 child: Text(
-                //                   '질환정보',
-                //                   style: TextStyle(
-                //                     fontSize: 13,
-                //                     color: Colors.grey,
-                //                   ),
-                //                 ),
-                //               ),
-                //               Text(
-                //                 '망막색소변성증',
-                //                 style: TextStyle(
-                //                   fontSize: 13,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //         Container(
-                //           margin: const EdgeInsets.all(20),
-                //           width: 150,
-                //           height: 70,
-                //           padding: const EdgeInsets.all(8),
-                //           decoration: BoxDecoration(
-                //             color: Colors.white,
-                //             borderRadius: BorderRadius.circular(10),
-                //           ),
-                //           child: const Column(
-                //             crossAxisAlignment: CrossAxisAlignment.start,
-                //             children: [
-                //               Padding(
-                //                 padding: EdgeInsets.all(3),
-                //                 child: Text(
-                //                   '진단 시기',
-                //                   style: TextStyle(
-                //                     fontSize: 13,
-                //                     color: Colors.grey,
-                //                   ),
-                //                 ),
-                //               ),
-                //               Text(
-                //                 '2001.01.25',
-                //                 style: TextStyle(
-                //                   fontSize: 13,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                //
               ],
             ),
             const SizedBox(
@@ -390,34 +319,6 @@ class ProfileScreen extends StatelessWidget {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          } else if (index == 1) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LetterBoxScreen(
-                  fakeEnvelopes: [
-                    LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-                    LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-                  ],
-                ),
-              ),
-            );
-          } else if (index == 2) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileScreen()),
-            );
-          }
-        },
       ),
     );
   }
