@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:unibond/domain/letter/letter.dart';
+import 'package:unibond/view/screens/letter/letter_write_screen.dart';
+import 'package:unibond/view/widgets/custon_elevated_button.dart';
 
 class LetterReadScreen extends StatefulWidget {
   final Letter letter;
@@ -15,11 +18,12 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("받은 편지"),
+        centerTitle: true,
+        title: const Text('받은 편지'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
         actions: [
@@ -41,6 +45,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Text(
                 widget.letter.title,
@@ -56,6 +61,11 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                   fontSize: 18,
                 ),
               ),
+              CustomElevatedButton(
+                  text: "답장 쓰기",
+                  screenRoute: () {
+                    Get.to(() => const LetterWriteScreen());
+                  })
             ],
           ),
         ),
