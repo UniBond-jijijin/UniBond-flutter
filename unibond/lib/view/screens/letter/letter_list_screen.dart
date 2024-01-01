@@ -36,13 +36,15 @@ class LetterList extends StatelessWidget {
           children: List.generate(
             10,
             (index) {
-              double topPosition = index * 50.0;
+              double topPosition = index * 40.0;
+              double leftPosition = index * 5.0;
 
               Color backgroundColor =
                   index.isEven ? backgroundColor1 : backgroundColor2;
 
               return Positioned(
                 top: topPosition,
+                left: leftPosition,
                 child: GestureDetector(
                   onTap: () {
                     Get.to(LetterReadScreen(
@@ -56,7 +58,7 @@ class LetterList extends StatelessWidget {
                     ));
                   },
                   child: Card(
-                    elevation: 4.0, // 카드 그림자 깊이
+                    elevation: 7.0, // 카드 그림자 깊이
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
                       width: 300,

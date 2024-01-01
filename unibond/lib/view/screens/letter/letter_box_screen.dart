@@ -40,9 +40,9 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
               child: Text(
                 '편지함',
                 style: TextStyle(
-                    fontWeight: currentIndex == 0
-                        ? FontWeight.bold
-                        : FontWeight.normal),
+                  fontWeight:
+                      currentIndex == 0 ? FontWeight.bold : FontWeight.normal,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -55,9 +55,9 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
               child: Text(
                 '좋아함',
                 style: TextStyle(
-                    fontWeight: currentIndex == 1
-                        ? FontWeight.bold
-                        : FontWeight.normal),
+                  fontWeight:
+                      currentIndex == 1 ? FontWeight.bold : FontWeight.normal,
+                ),
               ),
             ),
           ],
@@ -88,70 +88,139 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                 ),
               );
             },
-            child: Card(
-              elevation: 4, // 그림자 효과 추가
-              margin: const EdgeInsets.all(20.0), // 여백 추가
-              child: Container(
-                height: 180,
-                width: 160,
-                padding: const EdgeInsets.all(16.0), // 내용 여백 추가
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: colorSet,
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                  ),
+            child: Container(
+              margin: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(0),
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                gradient: LinearGradient(
+                  colors: colorSet,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(envelope.date,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.bold)),
-                      ],
+              ),
+              child: Stack(
+                children: [
+                  // 여러 개의 평행사변형 추가
+                  for (int i = 0; i < 10; i++)
+                    Positioned(
+                      left: 40.0 * i,
+                      top: 0,
+                      child: Transform(
+                        transform: Matrix4.skewX(-0.4),
+                        child: Container(
+                          width: 13,
+                          height: 16,
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 8), // 간격 추가
-                    Text('보낸 사람: ${envelope.sender}'),
-                  ],
-                ),
+                  for (int i = 0; i < 10; i++)
+                    Positioned(
+                      left: 40.0 * i,
+                      bottom: 0,
+                      child: Transform(
+                        transform: Matrix4.skewX(-0.4),
+                        child: Container(
+                          width: 13,
+                          height: 16,
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                    ),
+                  for (int i = 0; i < 6; i++)
+                    Positioned(
+                      left: 0,
+                      bottom: 40.0 * i,
+                      child: Transform(
+                        transform: Matrix4.skewX(-0.4),
+                        child: Container(
+                          width: 13,
+                          height: 16,
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                    ),
+                  for (int i = 0; i < 6; i++)
+                    Positioned(
+                      right: 0,
+                      bottom: 40.0 * i,
+                      child: Transform(
+                        transform: Matrix4.skewX(-0.4),
+                        child: Container(
+                          width: 13,
+                          height: 16,
+                          color: Colors.white.withOpacity(0.2),
+                        ),
+                      ),
+                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            envelope.date,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Container(
+                        margin: EdgeInsets.only(left: 20, top: 20),
+                        child: Text('보낸 사람: ${envelope.sender}'),
+                      ),
+                      SizedBox(height: 8),
+                      Container(
+                        margin: EdgeInsets.only(left: 20, top: 70),
+                        child: Text(
+                          'unibond',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontFamily: 'Pinyon_Script',
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           );
         },
       ),
-      // 리팩터링 필요함
       bottomNavigationBar: MyBottomNavigationBar(
-        // 현재 선택된 바텀 바 아이콘 인덱스
         currentIndex: 0,
         onTap: (index) {
-          // 바텀 바 아이콘을 누를 때 화면 전환
           if (index == 0) {
-            // 홈 화면으로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomeScreen()),
             );
           } else if (index == 1) {
-            //편지함 화면으로 이동
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) => LetterBoxScreen(
-                        fakeEnvelopes: [
-                          LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-                          LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-                          LetterEnvelope(date: '2023-10-14', sender: '지진지'),
-                        ],
-                      )),
+                builder: (context) => LetterBoxScreen(
+                  fakeEnvelopes: [
+                    LetterEnvelope(date: '2023-10-15', sender: '지지진'),
+                    LetterEnvelope(date: '2023-10-14', sender: '진지지'),
+                    LetterEnvelope(date: '2023-10-14', sender: '지진지'),
+                  ],
+                ),
+              ),
             );
           } else if (index == 2) {
-            // 프로필 화면으로 이동
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              MaterialPageRoute(
+                builder: (context) => const ProfileScreen(),
+              ),
             );
           }
         },
