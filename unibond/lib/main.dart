@@ -9,11 +9,10 @@ void main() async {
   runApp(const MaterialApp(
     home: MyApp(),
   ));
+
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -33,5 +32,12 @@ class MyApp extends StatelessWidget {
         Locale('ko', ''),
       ],
     );
+  }
+}
+
+class InitialBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(LetterController()); // LetterController를 등록합니다.
   }
 }
