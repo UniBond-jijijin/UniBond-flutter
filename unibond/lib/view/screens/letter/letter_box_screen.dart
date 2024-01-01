@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:unibond/view/screens/home_screen.dart';
-import 'package:unibond/view/screens/user/profile_screen.dart';
-import 'package:unibond/view/widgets/navigator.dart';
 
 @override
 Widget build(BuildContext context) {
@@ -62,39 +59,6 @@ class LetterBoxScreen extends StatelessWidget {
               ),
             ),
           );
-        },
-      ),
-      // 리팩터링 필요함
-      bottomNavigationBar: MyBottomNavigationBar(
-        // 현재 선택된 바텀 바 아이콘 인덱스
-        currentIndex: 0,
-        onTap: (index) {
-          // 바텀 바 아이콘을 누를 때 화면 전환
-          if (index == 0) {
-            // 홈 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          } else if (index == 1) {
-            //편지함 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LetterBoxScreen(
-                        fakeEnvelopes: [
-                          LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-                          LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-                        ],
-                      )),
-            );
-          } else if (index == 2) {
-            // 프로필 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileScreen()),
-            );
-          }
         },
       ),
     );
