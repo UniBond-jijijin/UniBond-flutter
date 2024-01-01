@@ -8,6 +8,6 @@ const host = "http://3.35.110.214";
 class LetterProvider extends GetConnect {
   Future<Response> sendLetter(Map data) => post(
       '$host/api/v1/letters',
-      headers: {"Authorization": userIdNum ?? ""},
+      headers: {"Authorization": "26"}, // 실제 userIdNum을 넣어야함
       data);
 }

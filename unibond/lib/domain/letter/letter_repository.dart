@@ -7,26 +7,24 @@ const host = "http://3.35.110.214";
 class LetterRepository {
   final LetterProvider _letterProvider = LetterProvider();
 
-  Future<bool> sendLetter(int receiverId, String content, String title) async {
+  Future<bool> sendLetter(
+      String receiverId, String title, String content) async {
     try {
       final LetterReqDto letterReqDto = LetterReqDto(
         receiverId: receiverId,
-        content: content,
         title: title,
+        content: content,
       );
+
+      print(letterReqDto.toJson());
       Response response =
           await _letterProvider.sendLetter(letterReqDto.toJson());
 
-      print(response.body);
-      print(response.body["isSuccess"]);
-
       bool isSuccess = response.body["isSuccess"];
-      print("전송 성공 여부: $isSuccess");
       return isSuccess;
     } catch (error) {
-      print("Failed");
-      print(error);
-      throw error;
+      print("Failed: $error");
+      rethrow;
     }
   }
 }

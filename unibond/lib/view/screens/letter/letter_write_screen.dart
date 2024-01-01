@@ -8,11 +8,13 @@ import 'package:unibond/view/widgets/custon_elevated_button.dart';
 
 class LetterWriteScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
+
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
 
   LetterWriteScreen({Key? key}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     final l = Get.find<LetterController>();
 
@@ -56,12 +58,13 @@ class LetterWriteScreen extends StatelessWidget {
                 screenRoute: () async {
                   if (isValid(_formKey)) {
                     var isSuccess = await l.sendLetter(
-                        2,
-                        _titleController.text.trim(),
-                        _contentController.text.trim());
+                      "30",
+                      _titleController.text.trim(),
+                      _contentController.text.trim(),
+                    );
                     if (isSuccess == true) {
                       print('편지 전송 성공');
-                      Get.off(() => HomeScreen());
+                      Get.off(() => const HomeScreen());
                     } else {
                       print('편지 전송 실패');
                     }

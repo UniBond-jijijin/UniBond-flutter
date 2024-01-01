@@ -1,17 +1,17 @@
 class LetterReqDto {
-  int? receiverId;
+  String receiverId;
   String content;
   String title;
 
   LetterReqDto({
     required this.receiverId,
-    required this.content,
     required this.title,
+    required this.content,
   });
 
   Map<String, dynamic> toJson() => {
         'receiverId': receiverId,
-        'content': content,
         'title': title,
+        'content': content,
       };
 }
