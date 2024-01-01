@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/controller/letter_controller.dart'; // LetterController를 가져옵니다.
-import 'package:unibond/view/screens/letter/letter_write_screen.dart';
+import 'package:unibond/view/screens/user/root_tab.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:unibond/view/screens/letter/letter_box_screen.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MaterialApp(
+    home: MyApp(),
+  ));
+
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Your App Title',
-      home: LetterWriteScreen(), // 앱의 초기 화면을 설정합니다.
-      initialBinding: InitialBinding(), // 여기에서 LetterController를 초기화합니다.
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        useMaterial3: true,
+      ),
+      home: const RootTab(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('ko', ''),
+      ],
     );
   }
 }

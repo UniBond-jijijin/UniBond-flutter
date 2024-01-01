@@ -26,7 +26,7 @@ class _DetailScreenState extends State<DetailScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Get.offAll(() => const HomeScreen());
+            Get.back();
           },
         ),
         actions: [

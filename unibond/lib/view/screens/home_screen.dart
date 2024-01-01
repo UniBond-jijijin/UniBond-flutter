@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/controller/post_controller.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/post_write_screen.dart';
-import 'package:unibond/view/screens/letter/letter_box_screen.dart';
-import 'package:unibond/view/screens/user/profile_screen.dart';
-import 'package:unibond/view/widgets/navigator.dart';
 
 @override
 Widget build(BuildContext context) {
@@ -16,8 +14,6 @@ Widget build(BuildContext context) {
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  get index => 1;
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +110,10 @@ class HomeScreen extends StatelessWidget {
             flex: 6,
             child: Container(
               color: Colors.white,
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 12.0),
                     child: Text(
                       "질문 게시판",
@@ -126,62 +122,12 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 6.0, horizontal: 12),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.black,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: TextButton(
-                        onPressed: () {
-                          Get.to(() => DetailScreen(id: index));
-                        },
-                        child: const CustomListitem(),
-                      ),
-                    ),
-                  ),
+                  Expanded(child: PostsListView()),
                 ],
               ),
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: MyBottomNavigationBar(
-        // 현재 선택된 바텀 바 아이콘 인덱스
-        currentIndex: 0,
-        onTap: (index) {
-          // 바텀 바 아이콘을 누를 때 화면 전환
-          if (index == 0) {
-            // 홈 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          } else if (index == 1) {
-            //편지함 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LetterBoxScreen(
-                        fakeEnvelopes: [
-                          LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-                          LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-                        ],
-                      )),
-            );
-          } else if (index == 2) {
-            // 프로필 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileScreen()),
-            );
-          }
-        },
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -203,29 +149,62 @@ class PostsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-                color: Colors.black,
+    PostController p = Get.put(PostController());
+
+    return Obx(
+      () => ListView.builder(
+        padding: EdgeInsets.zero,
+        itemCount: p.posts.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 1,
+                  color: Colors.black,
+                ),
+                borderRadius: BorderRadius.circular(20),
               ),
-              borderRadius: BorderRadius.circular(20),
+              child: TextButton(
+                onPressed: () {
+                  Get.to(() => DetailScreen(id: index));
+                },
+                // TODO: CustomListitem 위젯으로 변경
+                child: Column(
+                  children: [
+                    ListTile(
+                      leading: const CircleAvatar(child: Text('오지')),
+                      title: Row(
+                        children: [
+                          Text(p.posts[index].ownerNick!),
+                          const SizedBox(width: 3),
+                          // TODO: 날짜계산 필요
+                          const Text('1일 전'),
+                        ],
+                      ),
+                      subtitle: Text(p.posts[index].disease!),
+                      isThreeLine: true,
+                    ),
+                    const SizedBox(height: 0),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      // child: ,
+                      // 테스트
+                      child: Text(
+                        p.posts[index].contentPreview!,
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            child: TextButton(
-              onPressed: () {
-                Get.to(() => DetailScreen(id: index));
-              },
-              child: const CustomListitem(),
-            ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -235,6 +214,9 @@ class CustomListitem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Get.put() 싱글턴 확인
+    // PostController p = Get.put(PostController());
+
     return const Column(
       children: [
         ListTile(
@@ -252,6 +234,8 @@ class CustomListitem extends StatelessWidget {
         SizedBox(height: 0),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 12.0),
+          // child: ,
+          // 테스트
           child: Text(
             "이것은 게시물의 내용입니다... 과연 어떤 게시물들이 올라올까요..기대가됩니다...",
             style: TextStyle(

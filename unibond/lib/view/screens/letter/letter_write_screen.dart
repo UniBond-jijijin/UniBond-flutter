@@ -5,6 +5,8 @@ import 'package:unibond/controller/letter_controller.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/widgets/custon_elevated_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 class LetterWriteScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -20,9 +22,10 @@ class LetterWriteScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("편지 작성"),
+        centerTitle: true,
+        title: const Text('작성중인 편지'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
             Get.back();
           },
@@ -63,6 +66,7 @@ class LetterWriteScreen extends StatelessWidget {
                       _contentController.text.trim(),
                     );
                     if (isSuccess == true) {
+                      showToastMessage();
                       print('편지 전송 성공');
                       Get.off(() => const HomeScreen());
                     } else {
@@ -77,4 +81,16 @@ class LetterWriteScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void showToastMessage() {
+  Fluttertoast.showToast(
+    msg: "전송이 완료되었습니다",
+    toastLength: Toast.LENGTH_SHORT,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 2,
+    backgroundColor: Colors.grey,
+    textColor: Colors.white,
+    fontSize: 16.0,
+  );
 }

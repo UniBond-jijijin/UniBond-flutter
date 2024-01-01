@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/letter/letter_list_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 import 'package:unibond/view/widgets/navigator.dart';
-
-@override
-Widget build(BuildContext context) {
-  return MaterialApp(
-    home: LetterBoxScreen(
-      fakeEnvelopes: [
-        LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-        LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-        //추가 편지봉투를 여기에 추가
-      ],
-    ),
-  );
-}
 
 class LetterEnvelope {
   final String date;
@@ -23,41 +12,111 @@ class LetterEnvelope {
   LetterEnvelope({required this.date, required this.sender});
 }
 
-class LetterBoxScreen extends StatelessWidget {
-  final List<LetterEnvelope> fakeEnvelopes;
-
+class LetterBoxScreen extends StatefulWidget {
   const LetterBoxScreen({Key? key, required this.fakeEnvelopes})
       : super(key: key);
+
+  final List<LetterEnvelope> fakeEnvelopes;
+
+  @override
+  _LetterBoxScreenState createState() => _LetterBoxScreenState();
+}
+
+class _LetterBoxScreenState extends State<LetterBoxScreen> {
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('편지함'),
+        title: Row(
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  currentIndex = 0;
+                });
+              },
+              child: Text(
+                '편지함',
+                style: TextStyle(
+                    fontWeight: currentIndex == 0
+                        ? FontWeight.bold
+                        : FontWeight.normal),
+              ),
+            ),
+            const SizedBox(width: 16),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  currentIndex = 1;
+                });
+              },
+              child: Text(
+                '좋아함',
+                style: TextStyle(
+                    fontWeight: currentIndex == 1
+                        ? FontWeight.bold
+                        : FontWeight.normal),
+              ),
+            ),
+          ],
+        ),
+        automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
-        itemCount: fakeEnvelopes.length,
+        itemCount: widget.fakeEnvelopes.length,
         itemBuilder: (context, index) {
-          final envelope = fakeEnvelopes[index];
-          return Card(
-            elevation: 4, // 그림자 효과 추가
-            margin: const EdgeInsets.all(8.0), // 여백 추가
-            child: Container(
-              padding: const EdgeInsets.all(16.0), // 내용 여백 추가
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(envelope.date,
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      const Icon(Icons.mail_outline), // 편지 아이콘
-                    ],
+          final envelope = widget.fakeEnvelopes[index];
+          final List<List<Color>> colorSets = [
+            [Color(0xFFD08EFF), Color(0xFFFFACC6)],
+            [Color(0xFFFF88AC), Color(0xFFFFE9CC)],
+            [Color(0xFF99B9FF), Color(0xFFCA80FF)],
+          ];
+
+          final colorSet = colorSets[index % colorSets.length];
+
+          return GestureDetector(
+            onTap: () {
+              // TODO: 각 편지를 구분하는 id 넘기기
+              Get.to(
+                () => LetterList(
+                  backgroundColor1: colorSet[0],
+                  backgroundColor2: colorSet[1],
+                  sender: envelope.sender,
+                  date: envelope.date,
+                ),
+              );
+            },
+            child: Card(
+              elevation: 4, // 그림자 효과 추가
+              margin: const EdgeInsets.all(20.0), // 여백 추가
+              child: Container(
+                height: 180,
+                width: 160,
+                padding: const EdgeInsets.all(16.0), // 내용 여백 추가
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: colorSet,
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                  const SizedBox(height: 8), // 간격 추가
-                  Text('보낸 사람: ${envelope.sender}'),
-                ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(envelope.date,
+                            style:
+                                const TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    const SizedBox(height: 8), // 간격 추가
+                    Text('보낸 사람: ${envelope.sender}'),
+                  ],
+                ),
               ),
             ),
           );
@@ -84,6 +143,7 @@ class LetterBoxScreen extends StatelessWidget {
                         fakeEnvelopes: [
                           LetterEnvelope(date: '2023-10-15', sender: '지지진'),
                           LetterEnvelope(date: '2023-10-14', sender: '진지지'),
+                          LetterEnvelope(date: '2023-10-14', sender: '지진지'),
                         ],
                       )),
             );

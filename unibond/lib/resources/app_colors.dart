@@ -1,5 +1,21 @@
 import 'package:flutter/material.dart';
 
+const primaryColor = Color(0xFF9359CD);
+const borderColor = Color(0xFF575757);
+const cursorColor = Color(0xFF241E17);
+
+// 임시: 텍스트 스타일 위젯도 모아둠
+const titleTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+);
+const AskTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 18,
+);
+
 class AppColors {
   static const Color primary = contentColorLightBlue;
   static const Color menuBackground = Color(0xFF090912);
