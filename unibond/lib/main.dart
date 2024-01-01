@@ -15,13 +15,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-          useMaterial3: true,
-        ),
         home: LetterBoxScreen(fakeEnvelopes: [
           LetterEnvelope(date: '2023-10-15', sender: '지지진'),
           LetterEnvelope(date: '2023-10-14', sender: '진지지'),
+          LetterEnvelope(date: '2023-10-14', sender: '지진지'),
           //추가 편지봉투를 여기에 추가
         ])
         // home: DetailScreen(
