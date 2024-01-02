@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/view/widgets/default_layout.dart';
-import 'package:unibond/view/widgets/next_button.dart';
+import 'dart:async';
+import 'package:dio/dio.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -16,8 +12,8 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController editingController = TextEditingController();
   Timer? debouncer;
+  List<dynamic> searchResults = []; // 검색 결과를 저장할 리스트
 
-  // 질환 검색 api연결 필요
   void debounce(VoidCallback callback,
       {Duration duration = const Duration(milliseconds: 1000)}) {
     if (debouncer != null) {
@@ -29,66 +25,67 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void dispose() {
     debouncer?.cancel();
+    editingController.dispose();
     super.dispose();
   }
 
-  void searchDisease(String query) => debounce(
-        () async {},
-      );
+  // 질병 검색 API 호출
+  Future<void> searchDisease(String query) async {
+    debouncer?.cancel();
+    debouncer = Timer(const Duration(milliseconds: 1000), () async {
+      try {
+        final dio = Dio();
+        var response = await dio.get(
+            'http://3.35.110.214/api/v1/diseases/search',
+            queryParameters: {'lan': 'kor', 'query': query, 'page': 0});
+        if (response.statusCode == 200 && response.data['isSuccess']) {
+          setState(() {
+            searchResults = response.data['result']['diseaseDataList'];
+          });
+        }
+      } catch (err) {
+        print(err);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
-      isSingleChildScrollView: true,
-      title: '질환 검색',
-      child: Column(
-        children: [
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('질환 검색'),
+      ),
+      body: Column(
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
               controller: editingController,
-              cursorColor: primaryColor,
+              onChanged: searchDisease,
               decoration: InputDecoration(
-                suffixIcon: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    IconButton(
-                      icon: SvgPicture.asset('assets/images/clear.svg'),
-                      onPressed: () {
-                        editingController.clear();
-                      },
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 1),
-                      child: IconButton(
-                        icon: const Icon(Icons.search, color: primaryColor),
-                        onPressed: () {
-                          searchDisease(editingController.text);
-                        },
-                      ),
-                    ),
-                  ],
+                hintText: '진단받은 병명',
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    searchDisease(editingController.text);
+                  },
                 ),
-                hintText: "진단받은 병명",
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: primaryColor, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.65,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: NextButton(
-              onPressed: () {},
-              buttonName: '완료',
-              isButtonEnabled: true,
+          Expanded(
+            child: ListView.builder(
+              itemCount: searchResults.length,
+              itemBuilder: (context, index) {
+                var disease = searchResults[index];
+                return ListTile(
+                  title: Text(disease['diseaseNameKor']),
+                  subtitle: Text(disease['diseaseNameEng']),
+                );
+              },
             ),
           ),
         ],
