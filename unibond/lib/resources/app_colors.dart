@@ -16,6 +16,12 @@ const AskTextStyle = TextStyle(
   fontSize: 18,
 );
 
+const homeMenuTextStyle = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w700,
+  fontSize: 20,
+);
+
 class AppColors {
   static const Color primary = contentColorLightBlue;
   static const Color menuBackground = Color(0xFF090912);

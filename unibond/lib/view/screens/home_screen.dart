@@ -13,9 +13,16 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        forceMaterialTransparency: true,
-        title: const Text("UniBond"),
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            'UniBond',
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -28,6 +35,10 @@ class HomeScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
               ),
               child: SingleChildScrollView(
                 child: Column(
@@ -36,63 +47,7 @@ class HomeScreen extends StatelessWidget {
                     const SizedBox(height: 100),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 120,
-                            width: 170,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              border: Border.all(
-                                width: 5,
-                                color: Colors.white,
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Text(
-                                "질문",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 20),
-                          Container(
-                            height: 120,
-                            width: 170,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              // border: Border.all(
-                              //   width: 0,
-                              // ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Text(
-                                "경험기록",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: buildMenuHeader(context),
                     ),
                   ],
                 ),
@@ -107,12 +62,11 @@ class HomeScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(left: 12.0),
+                    padding: EdgeInsets.fromLTRB(16, 20, 0, 10),
                     child: Text(
                       "질문 게시판",
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                   Expanded(child: PostsListView()),
@@ -137,6 +91,77 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+Widget buildMenuHeader(BuildContext context) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        clipBehavior: Clip.hardEdge,
+        height: 120,
+        width: 170,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          border: Border.all(
+            width: 5,
+            color: Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Stack(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text("Q & A", style: homeMenuTextStyle),
+            ),
+            Align(
+              alignment: const Alignment(2.0, 2.0),
+              child: Image.asset(
+                'assets/images/qna_community_design.png',
+                width: 140,
+                // 이미지의 다른 속성들 설정
+              ),
+            ),
+          ],
+        ),
+      ),
+      const SizedBox(width: 20),
+      Container(
+        clipBehavior: Clip.hardEdge,
+        height: 120,
+        width: 170,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Stack(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text("경험 공유", style: homeMenuTextStyle),
+            ),
+            Align(
+              alignment: const Alignment(1.5, 1.5),
+              child: Image.asset(
+                'assets/images/exp_community_design.png',
+                width: 140,
+                // 이미지의 다른 속성들 설정
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
 class PostsListView extends StatelessWidget {
   const PostsListView({super.key});
 
@@ -150,49 +175,25 @@ class PostsListView extends StatelessWidget {
         itemCount: p.posts.length,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
             child: Container(
               decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Colors.black,
-                ),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.8),
+                    spreadRadius: 0,
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
               child: TextButton(
                 onPressed: () {
                   Get.to(() => DetailScreen(id: index));
                 },
-                // TODO: CustomListitem 위젯으로 변경
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: const CircleAvatar(child: Text('오지')),
-                      title: Row(
-                        children: [
-                          Text(p.posts[index].ownerNick!),
-                          const SizedBox(width: 3),
-                          // TODO: 날짜계산 필요
-                          const Text('1일 전'),
-                        ],
-                      ),
-                      subtitle: Text(p.posts[index].disease!),
-                      isThreeLine: true,
-                    ),
-                    const SizedBox(height: 0),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      // child: ,
-                      // 테스트
-                      child: Text(
-                        p.posts[index].contentPreview!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                child: MyCustomListItem(p, index),
               ),
             ),
           );
@@ -202,41 +203,57 @@ class PostsListView extends StatelessWidget {
   }
 }
 
-class CustomListitem extends StatelessWidget {
-  const CustomListitem({super.key});
+Widget MyCustomListItem(PostController p, int index) {
+  var postDate = p.posts[index].createdDate;
+  DateTime currentDate = DateTime.now();
+  Duration difference = currentDate.difference(postDate!);
+  int daysDifference = difference.inDays;
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: Get.put() 싱글턴 확인
-    // PostController p = Get.put(PostController());
-
-    return const Column(
-      children: [
-        ListTile(
-          leading: CircleAvatar(child: Text('오지')),
-          title: Row(
-            children: [
-              Text('지지진'),
-              SizedBox(width: 3),
-              Text('1일 전'),
-            ],
-          ),
-          subtitle: Text("망막생소변성증"),
-          isThreeLine: true,
+  return Column(
+    children: [
+      ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: ClipOval(
+          child: p.posts[index].ownerProfileImg!.isNotEmpty
+              ? Image.network(
+                  p.posts[index].ownerProfileImg!,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  'assets/images/user_image.jpg',
+                  width: 50,
+                  height: 50,
+                ),
         ),
-        SizedBox(height: 0),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0),
-          // child: ,
-          // 테스트
-          child: Text(
-            "이것은 게시물의 내용입니다... 과연 어떤 게시물들이 올라올까요..기대가됩니다...",
-            style: TextStyle(
-              color: Colors.black,
+        title: Row(
+          children: [
+            Text(
+              p.posts[index].ownerNick!,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
             ),
-          ),
+            const SizedBox(width: 12),
+            Text(
+              '$daysDifference일 전',
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            ),
+          ],
         ),
-      ],
-    );
-  }
+        subtitle: Text(
+          p.posts[index].disease!,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 14),
+        ),
+        isThreeLine: true,
+      ),
+      Text(
+        p.posts[index].contentPreview!,
+        style: const TextStyle(
+          color: Colors.black,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    ],
+  );
 }
