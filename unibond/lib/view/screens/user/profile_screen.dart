@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    userProfile = getMyProfile("31");
+    userProfile = getMyProfile("29");
   }
 
   @override
@@ -136,6 +136,7 @@ Widget buildProfileInfo(BuildContext context, UserProfile profile) {
                 profile.result.profileImage,
                 width: 70,
                 height: 70,
+                fit: BoxFit.cover,
               )
             : Image.asset(
                 'assets/images/user_image.jpg',
