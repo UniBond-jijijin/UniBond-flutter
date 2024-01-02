@@ -4,10 +4,12 @@ import 'package:unibond/resources/app_colors.dart';
 class SelectableContainer extends StatefulWidget {
   final String text;
   final Function(bool isSelected) onSelected;
+  final bool isSelected;
 
   const SelectableContainer({
     required this.text,
     required this.onSelected,
+    this.isSelected = false,
     super.key,
   });
 
@@ -17,6 +19,12 @@ class SelectableContainer extends StatefulWidget {
 
 class _SelectableContainerState extends State<SelectableContainer> {
   bool isSelected = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isSelected = widget.isSelected;
+  }
 
   void toggleSelection() {
     setState(() {

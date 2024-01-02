@@ -5,13 +5,6 @@ import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/post_write_screen.dart';
 
-@override
-Widget build(BuildContext context) {
-  return const MaterialApp(
-    home: HomeScreen(),
-  );
-}
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 

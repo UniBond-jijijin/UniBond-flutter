@@ -3,6 +3,7 @@ import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/tab_item.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_box_screen.dart';
+import 'package:unibond/view/screens/user/other_profile_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 
 class RootTab extends StatefulWidget {
@@ -58,7 +59,8 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
               LetterEnvelope(date: '2023-10-14', sender: '진지지'),
             ],
           ),
-          const ProfileScreen(),
+          // const ProfileScreen(),
+          const OtherProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
