@@ -4,7 +4,7 @@ import 'package:unibond/controller/post_controller.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/post_write_screen.dart';
-import 'package:unibond/view/screens/exp_share_screen.dart';
+import 'package:unibond/view/screens/community/exp_home_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -222,6 +222,8 @@ class PostsListView extends StatelessWidget {
 
 Widget MyCustomListItem(PostController p, int index) {
   var postDate = p.posts[index].createdDate;
+  print(postDate);
+
   DateTime currentDate = DateTime.now();
   Duration difference = currentDate.difference(postDate!);
   int daysDifference = difference.inDays;

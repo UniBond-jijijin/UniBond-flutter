@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/qna_home_screen.dart';
 import 'package:unibond/controller/user_controller.dart';
 import 'package:unibond/view/screens/user/join_screen.dart';
 import 'package:unibond/util/validator_util.dart';

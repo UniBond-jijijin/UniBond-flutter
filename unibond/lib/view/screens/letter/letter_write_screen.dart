@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:unibond/controller/dto/letter_req_dto.dart';
 import 'package:unibond/controller/letter_controller.dart';
 import 'package:unibond/util/validator_util.dart';
-import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/qna_home_screen.dart';
 import 'package:unibond/view/widgets/custon_elevated_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
