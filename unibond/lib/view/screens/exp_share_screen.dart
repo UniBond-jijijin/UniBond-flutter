@@ -4,16 +4,15 @@ import 'package:unibond/controller/post_controller.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/post_write_screen.dart';
-import 'package:unibond/view/screens/exp_share_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class ExpShareScreen extends StatefulWidget {
+  const ExpShareScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ExpShareScreen> createState() => _ExpShareScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ExpShareScreenState extends State<ExpShareScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -104,7 +103,7 @@ Widget buildMenuHeader(BuildContext context) {
     children: [
       GestureDetector(
         onTap: () {
-          Get.to(() => const HomeScreen());
+          Get.to(() => const ExpShareScreen());
         },
         child: Container(
           clipBehavior: Clip.hardEdge,
