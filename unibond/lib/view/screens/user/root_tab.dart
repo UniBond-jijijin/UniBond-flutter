@@ -59,8 +59,8 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
               LetterEnvelope(date: '2023-10-14', sender: '진지지'),
             ],
           ),
-          // const ProfileScreen(),
-          const OtherProfileScreen(),
+          const ProfileScreen(),
+          // const OtherProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

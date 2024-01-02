@@ -64,7 +64,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
               CustomElevatedButton(
                   text: "답장 쓰기",
                   screenRoute: () {
-                    Get.to(() => const LetterWriteScreen());
+                    Get.to(() => LetterWriteScreen());
                   })
             ],
           ),
