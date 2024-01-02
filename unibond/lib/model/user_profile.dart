@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_profile.g.dart';
 
+// 내 프로필 GET
 @JsonSerializable()
 class UserProfile {
   final bool isSuccess;
