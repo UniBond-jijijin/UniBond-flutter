@@ -20,7 +20,8 @@ class PrevPost {
   });
 
   PrevPost.fromJson(Map<String, dynamic> json)
-      : createdDate = DateFormat("yyyy-mm-dd").parse(json["createdDate"]),
+      : createdDate =
+            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(json["createdDate"]),
         ownerProfileImg = json["ownerProfileImg"],
         ownerNick = json["ownerNick"],
         disease = json["disease"],
