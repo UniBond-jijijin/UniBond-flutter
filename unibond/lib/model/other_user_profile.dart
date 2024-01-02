@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'other_user_profile.g.dart';
 
+// 남의 프로필 GET을 위한 모델
 @JsonSerializable()
 class OtherUserProfile {
   final bool isSuccess;
@@ -61,18 +62,25 @@ class OtherUserProfileResult {
 @JsonSerializable()
 class PostPreview {
   final String createdDate;
+  // API문서 변경된 부분
+  final String ownerId;
   final String ownerProfileImg;
   final String ownerNick;
   final String disease;
+  final String postId;
+  final String? postImg;
   final String contentPreview;
   final String boardType;
   final bool isEnd;
 
   PostPreview({
     required this.createdDate,
+    required this.ownerId,
     required this.ownerProfileImg,
     required this.ownerNick,
     required this.disease,
+    required this.postId,
+    this.postImg,
     required this.contentPreview,
     required this.boardType,
     required this.isEnd,

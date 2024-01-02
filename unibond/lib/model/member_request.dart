@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'member_request.g.dart';
 
+// 회원가입 POST, 내 프로필 조회 GET을 위한 모델
 @JsonSerializable()
 class MemberRequest {
   final int diseaseId;

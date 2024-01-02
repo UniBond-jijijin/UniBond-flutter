@@ -63,9 +63,12 @@ Map<String, dynamic> _$OtherUserProfileResultToJson(
 
 PostPreview _$PostPreviewFromJson(Map<String, dynamic> json) => PostPreview(
       createdDate: json['createdDate'] as String,
+      ownerId: json['ownerId'] as String,
       ownerProfileImg: json['ownerProfileImg'] as String,
       ownerNick: json['ownerNick'] as String,
       disease: json['disease'] as String,
+      postId: json['postId'] as String,
+      postImg: json['postImg'] as String?,
       contentPreview: json['contentPreview'] as String,
       boardType: json['boardType'] as String,
       isEnd: json['isEnd'] as bool,
@@ -74,9 +77,12 @@ PostPreview _$PostPreviewFromJson(Map<String, dynamic> json) => PostPreview(
 Map<String, dynamic> _$PostPreviewToJson(PostPreview instance) =>
     <String, dynamic>{
       'createdDate': instance.createdDate,
+      'ownerId': instance.ownerId,
       'ownerProfileImg': instance.ownerProfileImg,
       'ownerNick': instance.ownerNick,
       'disease': instance.disease,
+      'postId': instance.postId,
+      'postImg': instance.postImg,
       'contentPreview': instance.contentPreview,
       'boardType': instance.boardType,
       'isEnd': instance.isEnd,
