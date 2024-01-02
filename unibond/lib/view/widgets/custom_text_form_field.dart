@@ -18,8 +18,8 @@ class CustomTextFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: TextFormField(
-        controller: controller,
-        initialValue: value,
+        // controller: controller,
+        // initialValue: value,
         validator: funvalidator,
         obscureText: hint == "비밀번호" ? true : false,
         style: const TextStyle(fontSize: 14),
