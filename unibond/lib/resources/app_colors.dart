@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xFF9359CD);
+const secondaryColor = Color(0xFF1F65FF);
 const borderColor = Color(0xFF575757);
 const cursorColor = Color(0xFF241E17);
 

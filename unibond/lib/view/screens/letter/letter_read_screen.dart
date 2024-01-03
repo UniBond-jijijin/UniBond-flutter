@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/domain/letter/letter.dart';
 import 'package:unibond/view/screens/letter/letter_write_screen.dart';
-import 'package:unibond/view/widgets/custon_elevated_button.dart';
+import 'package:unibond/view/widgets/custom_elevated_button.dart';
 
 class LetterReadScreen extends StatefulWidget {
   final Letter letter;

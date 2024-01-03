@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/widgets/custom_text_form_field.dart';
 import 'package:unibond/view/widgets/custom_textarea.dart';
-import 'package:unibond/view/widgets/custon_elevated_button.dart';
+import 'package:unibond/view/widgets/custom_elevated_button.dart';
 
 class UpdateScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();

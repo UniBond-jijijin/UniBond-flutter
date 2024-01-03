@@ -4,7 +4,7 @@ import 'package:unibond/controller/user_controller.dart';
 import 'package:unibond/view/screens/user/login_screen.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/widgets/custom_text_form_field.dart';
-import 'package:unibond/view/widgets/custon_elevated_button.dart';
+import 'package:unibond/view/widgets/custom_elevated_button.dart';
 
 class JoinScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();

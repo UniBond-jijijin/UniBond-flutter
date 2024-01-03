@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unibond/resources/app_colors.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
@@ -19,7 +20,10 @@ class CustomElevatedButton extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       onPressed: screenRoute,
-      child: Text("$text"),
+      child: Text(
+        text,
+        style: homeMenuTextStyle,
+      ),
     );
   }
 }

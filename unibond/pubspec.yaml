@@ -45,6 +45,7 @@ dependencies:
   permission_handler: ^11.1.0
   flutter_local_notifications: ^15.1.0+1
   flutter_localization: ^0.1.13
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
