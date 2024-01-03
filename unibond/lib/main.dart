@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/controller/letter_controller.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:unibond/view/screens/letter/letter_box_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MaterialApp(
+  runApp(MaterialApp(
     home: MyApp(),
   ));
-
 }
 
 class MyApp extends StatelessWidget {

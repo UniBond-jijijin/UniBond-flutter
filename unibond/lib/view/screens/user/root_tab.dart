@@ -57,6 +57,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
             fakeEnvelopes: [
               LetterEnvelope(date: '2023-10-15', sender: '지지진'),
               LetterEnvelope(date: '2023-10-14', sender: '진지지'),
+              LetterEnvelope(date: '2023-10-14', sender: '지진지'),
             ],
           ),
           // const ProfileScreen(),

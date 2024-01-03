@@ -6,7 +6,6 @@ import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/widgets/custon_elevated_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 
 class LetterWriteScreen extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -31,53 +30,67 @@ class LetterWriteScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextField(
-                controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: "제목",
-                  border: OutlineInputBorder(),
-                ),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/letterwritescreen.jpg'),
+                fit: BoxFit.cover,
               ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: TextField(
-                  controller: _contentController,
-                  maxLines: null,
-                  expands: true,
-                  decoration: const InputDecoration(
-                    hintText: "내용을 입력하세요...",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-              ),
-              CustomElevatedButton(
-                text: "편지 전송",
-                screenRoute: () async {
-                  if (isValid(_formKey)) {
-                    var isSuccess = await l.sendLetter(
-                      "30",
-                      _titleController.text.trim(),
-                      _contentController.text.trim(),
-                    );
-                    if (isSuccess == true) {
-                      showToastMessage();
-                      print('편지 전송 성공');
-                      Get.off(() => const HomeScreen());
-                    } else {
-                      print('편지 전송 실패');
-                    }
-                  }
-                },
-              ),
-            ],
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    controller: _titleController,
+                    decoration: const InputDecoration(
+                      labelText: "제목",
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: TextField(
+                      controller: _contentController,
+                      maxLines: null,
+                      expands: true,
+                      decoration: const InputDecoration(
+                        hintText: "내용을 입력하세요...",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  CustomElevatedButton(
+                    text: "편지 전송", // Set the button color
+                    screenRoute: () async {
+                      if (isValid(_formKey)) {
+                        var isSuccess = await l.sendLetter(
+                          "30",
+                          _titleController.text.trim(),
+                          _contentController.text.trim(),
+                        );
+                        if (isSuccess == true) {
+                          showToastMessage();
+                          print('편지 전송 성공');
+                          Get.off(() => const HomeScreen());
+                        } else {
+                          print('편지 전송 실패');
+                        }
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
