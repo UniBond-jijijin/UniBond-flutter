@@ -33,8 +33,10 @@ QnaPostResult _$QnaPostResultFromJson(Map<String, dynamic> json) =>
       postImg: json['postImg'] as String?,
       content: json['content'] as String,
       commentCount: json['commentCount'] as int,
-      parentCommentPageInfo: ParentCommentPageInfo.fromJson(
-          json['parentCommentPageInfo'] as Map<String, dynamic>),
+      parentCommentPageInfo: json['parentCommentPageInfo'] == null
+          ? null
+          : ParentCommentPageInfo.fromJson(
+              json['parentCommentPageInfo'] as Map<String, dynamic>),
       parentCommentList: (json['parentCommentList'] as List<dynamic>?)
           ?.map((e) => ParentComment.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -83,8 +85,10 @@ ParentComment _$ParentCommentFromJson(Map<String, dynamic> json) =>
       commentId: json['commentId'] as int,
       createdDate: json['createdDate'] as String,
       content: json['content'] as String,
-      childCommentPageInfo: ChildCommentPageInfo.fromJson(
-          json['childCommentPageInfo'] as Map<String, dynamic>),
+      childCommentPageInfo: json['childCommentPageInfo'] == null
+          ? null
+          : ChildCommentPageInfo.fromJson(
+              json['childCommentPageInfo'] as Map<String, dynamic>),
       childCommentList: (json['childCommentList'] as List<dynamic>?)
           ?.map((e) => ChildComment.fromJson(e as Map<String, dynamic>))
           .toList(),

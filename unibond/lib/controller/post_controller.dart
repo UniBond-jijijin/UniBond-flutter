@@ -9,11 +9,11 @@ class PostController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getPostsList();
+    getQnaPostsList();
   }
 
-  Future<void> getPostsList() async {
-    List<PrevPost> posts = await _postRepository.getPostsList();
+  Future<void> getQnaPostsList() async {
+    List<PrevPost> posts = await _postRepository.getQnaPostsList();
     this.posts.value = posts;
   }
 

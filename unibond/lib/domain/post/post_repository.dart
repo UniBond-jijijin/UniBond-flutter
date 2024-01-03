@@ -9,9 +9,9 @@ import 'package:unibond/domain/post/pre_post_model.dart';
 class PostRepository {
   final PostProvider _postProvider = PostProvider();
 
-  Future<List<PrevPost>> getPostsList() async {
+  Future<List<PrevPost>> getQnaPostsList() async {
     try {
-      Response response = await _postProvider.getPostsList();
+      Response response = await _postProvider.getQnaPostsList();
       dynamic body = response.body;
       CodeMsgResDto codeMsgResDto = CodeMsgResDto.fromJson(body);
 
