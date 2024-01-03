@@ -6,15 +6,16 @@ import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/post_write_screen.dart';
 import 'package:unibond/view/screens/community/exp_home_screen.dart';
+import 'package:unibond/view/screens/qna_home_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class ExpShareScreen extends StatefulWidget {
+  const ExpShareScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<ExpShareScreen> createState() => _ExpShareScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _ExpShareScreenState extends State<ExpShareScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
