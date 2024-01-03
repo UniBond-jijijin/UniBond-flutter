@@ -31,6 +31,7 @@ class MyApp extends StatelessWidget {
         Locale('en', ''),
         Locale('ko', ''),
       ],
+      initialBinding: InitialBinding(),
     );
   }
 }

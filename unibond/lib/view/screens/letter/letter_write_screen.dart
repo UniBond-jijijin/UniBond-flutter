@@ -4,6 +4,7 @@ import 'package:unibond/controller/dto/letter_req_dto.dart';
 import 'package:unibond/controller/letter_controller.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/home_screen.dart';
+import 'package:unibond/view/screens/letter/letter_success_screen.dart';
 import 'package:unibond/view/widgets/custon_elevated_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -68,7 +69,7 @@ class LetterWriteScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   CustomElevatedButton(
-                    text: "편지 전송", // Set the button color
+                    text: "전송하기", // Set the button color
                     screenRoute: () async {
                       if (isValid(_formKey)) {
                         var isSuccess = await l.sendLetter(
@@ -79,7 +80,7 @@ class LetterWriteScreen extends StatelessWidget {
                         if (isSuccess == true) {
                           showToastMessage();
                           print('편지 전송 성공');
-                          Get.off(() => const HomeScreen());
+                          Get.off(() => LetterSuccessScreen());
                         } else {
                           print('편지 전송 실패');
                         }
