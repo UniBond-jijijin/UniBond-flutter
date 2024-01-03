@@ -6,15 +6,15 @@ part of 'qnapost_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-QnaPostRequest _$QnaPostRequestFromJson(Map<String, dynamic> json) =>
-    QnaPostRequest(
+QnaPostDetail _$QnaPostDetailFromJson(Map<String, dynamic> json) =>
+    QnaPostDetail(
       isSuccess: json['isSuccess'] as bool,
       code: json['code'] as int,
       message: json['message'] as String,
       result: QnaPostResult.fromJson(json['result'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$QnaPostRequestToJson(QnaPostRequest instance) =>
+Map<String, dynamic> _$QnaPostDetailToJson(QnaPostDetail instance) =>
     <String, dynamic>{
       'isSuccess': instance.isSuccess,
       'code': instance.code,
@@ -30,9 +30,9 @@ QnaPostResult _$QnaPostResultFromJson(Map<String, dynamic> json) =>
       postOwnerName: json['postOwnerName'] as String,
       createdDate: json['createdDate'] as String,
       diseaseName: json['diseaseName'] as String,
-      postImg: json['postImg'] as String,
+      postImg: json['postImg'] as String?,
       content: json['content'] as String,
-      commentCount: json['commentCount'] as String,
+      commentCount: json['commentCount'] as int,
       parentCommentPageInfo: ParentCommentPageInfo.fromJson(
           json['parentCommentPageInfo'] as Map<String, dynamic>),
       parentCommentList: (json['parentCommentList'] as List<dynamic>?)

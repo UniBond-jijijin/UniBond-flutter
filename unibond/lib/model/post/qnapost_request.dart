@@ -4,23 +4,23 @@ part 'qnapost_request.g.dart';
 
 // 질문게시판 상세 게시물 GET을 위한 모델
 @JsonSerializable()
-class QnaPostRequest {
+class QnaPostDetail {
   final bool isSuccess;
   final int code;
   final String message;
   final QnaPostResult result;
 
-  QnaPostRequest({
+  QnaPostDetail({
     required this.isSuccess,
     required this.code,
     required this.message,
     required this.result,
   });
 
-  factory QnaPostRequest.fromJson(Map<String, dynamic> json) =>
-      _$QnaPostRequestFromJson(json);
+  factory QnaPostDetail.fromJson(Map<String, dynamic> json) =>
+      _$QnaPostDetailFromJson(json);
 
-  Map<String, dynamic> toJson() => _$QnaPostRequestToJson(this);
+  Map<String, dynamic> toJson() => _$QnaPostDetailToJson(this);
 }
 
 @JsonSerializable()
@@ -31,10 +31,10 @@ class QnaPostResult {
   final String postOwnerName;
   final String createdDate;
   final String diseaseName;
-  final String postImg;
+  final String? postImg;
   final String content;
-  final String commentCount;
-  final ParentCommentPageInfo parentCommentPageInfo;
+  final int commentCount;
+  final ParentCommentPageInfo? parentCommentPageInfo;
   final List<ParentComment>? parentCommentList;
 
   QnaPostResult({
@@ -44,10 +44,10 @@ class QnaPostResult {
     required this.postOwnerName,
     required this.createdDate,
     required this.diseaseName,
-    required this.postImg,
+    this.postImg,
     required this.content,
     required this.commentCount,
-    required this.parentCommentPageInfo,
+    this.parentCommentPageInfo,
     this.parentCommentList,
   });
 
@@ -87,7 +87,7 @@ class ParentComment {
   final int commentId;
   final String createdDate;
   final String content;
-  final ChildCommentPageInfo childCommentPageInfo;
+  final ChildCommentPageInfo? childCommentPageInfo;
   final List<ChildComment>? childCommentList;
 
   ParentComment({
@@ -97,7 +97,7 @@ class ParentComment {
     required this.commentId,
     required this.createdDate,
     required this.content,
-    required this.childCommentPageInfo,
+    this.childCommentPageInfo,
     this.childCommentList,
   });
 
