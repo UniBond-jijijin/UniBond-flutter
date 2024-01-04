@@ -10,4 +10,12 @@ class LetterProvider extends GetConnect {
       '$host/api/v1/letters',
       headers: {"Authorization": "26"}, // 실제 userIdNum을 넣어야함
       data);
+  Future<Response> getSentLetters(Map data) => get(
+        '$host/api/v1/letters/2',
+        headers: {"Authorization": "3"}, // 실제 userIdNum을 넣어야함
+      );
+  Future<Response> getReceivedLetters(Map data) => get(
+        '$host/api/v1/letters/2',
+        headers: {"Authorization": "3"}, // 실제 userIdNum을 넣어야함
+      );
 }
