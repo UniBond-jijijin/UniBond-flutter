@@ -6,21 +6,27 @@ const borderColor = Color(0xFF575757);
 const cursorColor = Color(0xFF241E17);
 
 // 임시: 텍스트 스타일 위젯도 모아둠
+const homeMenuTextStyle = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w700,
+  fontSize: 20,
+);
+
 const titleTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w500,
   fontSize: 16,
 );
-const AskTextStyle = TextStyle(
+const askTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w500,
   fontSize: 18,
 );
 
-const homeMenuTextStyle = TextStyle(
-  color: Colors.white,
-  fontWeight: FontWeight.w700,
-  fontSize: 20,
+const notifyTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w200,
+  fontSize: 18,
 );
 
 class AppColors {

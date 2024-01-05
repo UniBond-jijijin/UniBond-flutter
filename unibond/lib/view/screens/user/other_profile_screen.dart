@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:unibond/model/other_user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';

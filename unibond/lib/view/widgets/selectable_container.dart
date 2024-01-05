@@ -42,7 +42,7 @@ class _SelectableContainerState extends State<SelectableContainer> {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 8.0),
         child: Container(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
           decoration: BoxDecoration(
             color: isSelected ? primaryColor : Colors.white,
             borderRadius: BorderRadius.circular(20),
