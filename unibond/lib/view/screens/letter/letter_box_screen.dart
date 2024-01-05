@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/qna_home_screen.dart';
+import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_list_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 import 'package:unibond/view/widgets/navigator.dart';

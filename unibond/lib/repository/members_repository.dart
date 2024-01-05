@@ -7,6 +7,11 @@ import 'package:unibond/model/user_profile.dart';
 // 나의 프로필 조회
 Future<UserProfile> getMyProfile(String memberId) async {
   final dio = Dio();
+
+  ///아래 LogInterceptor를 활용하면 어디서 통신에러가 나는지 디버깅하기 편함.
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true, // 응답 본문을 찍을지 여부
+  ));
   final response = await dio.get(
     'http://3.35.110.214/api/v1/members/$memberId',
     options: Options(headers: {'Authorization': memberId}),
@@ -36,7 +41,7 @@ Future<CodeMsgResDto> updateMember(
   final response = await dio.patch(
     'http://3.35.110.214/api/v1/members/$memberId',
     data: updateRequest.toJson(),
-    options: Options(headers: {'Authorization': '3'}),
+    options: Options(headers: {'Authorization': '29'}),
   );
   return CodeMsgResDto.fromJson(response.data);
 }
