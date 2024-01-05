@@ -32,11 +32,8 @@ class OtherUserProfileResult {
   final String diagnosisTiming;
   final String bio;
   final List<String>? interestList;
+  final OtherUserProfilePageInfo? otherUserProfilePageInfo;
   final List<PostPreview>? postPreviewList;
-  final bool lastPage;
-  final int totalPages;
-  final int totalElements;
-  final int size;
 
   OtherUserProfileResult({
     required this.profileImage,
@@ -46,17 +43,36 @@ class OtherUserProfileResult {
     required this.diagnosisTiming,
     required this.bio,
     this.interestList,
+    this.otherUserProfilePageInfo,
     this.postPreviewList,
-    required this.lastPage,
-    required this.totalPages,
-    required this.totalElements,
-    required this.size,
   });
 
   factory OtherUserProfileResult.fromJson(Map<String, dynamic> json) =>
       _$OtherUserProfileResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$OtherUserProfileResultToJson(this);
+}
+
+@JsonSerializable()
+class OtherUserProfilePageInfo {
+  final int numberOfElements;
+  final bool lastPage;
+  final int totalPages;
+  final int totalElements;
+  final int size;
+
+  OtherUserProfilePageInfo({
+    required this.numberOfElements,
+    required this.lastPage,
+    required this.totalPages,
+    required this.totalElements,
+    required this.size,
+  });
+
+  factory OtherUserProfilePageInfo.fromJson(Map<String, dynamic> json) =>
+      _$OtherUserProfilePageInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OtherUserProfilePageInfoToJson(this);
 }
 
 @JsonSerializable()
