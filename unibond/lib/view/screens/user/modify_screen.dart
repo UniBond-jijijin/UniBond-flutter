@@ -269,7 +269,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                         children: [
                           const Text(
                             '닉네임',
-                            style: AskTextStyle,
+                            style: askTextStyle,
                           ),
                           MyCustomTextFormFieldWithNickname(
                             onChanged: (value) {},
@@ -277,7 +277,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                           ),
                           const Text(
                             '한줄 소개',
-                            style: AskTextStyle,
+                            style: askTextStyle,
                           ),
                           MyCustomTextFormField(
                             controller: bioController,
@@ -288,7 +288,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                           ),
                           const Text(
                             '성별',
-                            style: AskTextStyle,
+                            style: askTextStyle,
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -369,14 +369,14 @@ class _ModifyScreenState extends State<ModifyScreen> {
                         children: [
                           const Text(
                             '질환',
-                            style: AskTextStyle,
+                            style: askTextStyle,
                           ),
                           buildSearchRow(),
                           const Padding(
                             padding: EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               '진단 시기',
-                              style: AskTextStyle,
+                              style: askTextStyle,
                             ),
                           ),
                           Row(
@@ -391,7 +391,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                   ),
                                   child: Text(
                                     '${selectedDate.year}',
-                                    style: AskTextStyle,
+                                    style: askTextStyle,
                                   ),
                                 ),
                               ),
@@ -416,7 +416,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                   ),
                                   child: Text(
                                     '${selectedDate.month}',
-                                    style: AskTextStyle,
+                                    style: askTextStyle,
                                   ),
                                 ),
                               ),
@@ -441,7 +441,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                   ),
                                   child: Text(
                                     '${selectedDate.day}',
-                                    style: AskTextStyle,
+                                    style: askTextStyle,
                                   ),
                                 ),
                               ),
@@ -506,7 +506,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                         children: [
                           const Text(
                             '질환',
-                            style: AskTextStyle,
+                            style: askTextStyle,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -540,7 +540,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                             padding: EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               '일상',
-                              style: AskTextStyle,
+                              style: askTextStyle,
                             ),
                           ),
                           Padding(

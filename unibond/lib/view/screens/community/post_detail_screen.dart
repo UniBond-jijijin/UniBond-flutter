@@ -6,7 +6,6 @@ import 'package:unibond/repository/posts_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
-import 'package:unibond/view/screens/qna_home_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id;
