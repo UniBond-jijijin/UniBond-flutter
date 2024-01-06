@@ -200,7 +200,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 6),
                 child: Text(
-                  profile.result.bio,
+                  formattedBio,
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.w400),
                 ),
