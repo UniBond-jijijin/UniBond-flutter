@@ -32,6 +32,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
+              print(snapshot.error);
               return Center(child: Text("에러 발생: ${snapshot.error}"));
             } else if (snapshot.hasData) {
               OtherUserProfile profile = snapshot.data!;

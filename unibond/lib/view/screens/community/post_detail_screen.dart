@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:unibond/model/post/comment_post.dart';
 import 'package:unibond/model/post/qnapost_request.dart';
 import 'package:unibond/repository/posts_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
@@ -17,16 +18,14 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   Future<QnaPostDetail>? qnaPostDetail;
+  List<ParentComment> parentComments = [];
 
-  List<Comment> comments = [];
   final TextEditingController _commentController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    qnaPostDetail = getPostDetail(widget.id, "29");
-    // qnaPostDetail = getPostDetail(widget.id.toString(), "29");
-    // 테스트용'60', real postId로 변경 필요함(preview단에서 단순 item 길이를 index로 써두고 그걸 postId로 취급했는데, 그게아니라 홈에서도 통신을 해서 postId값을 뽑아내고 그걸 arg로 넘겨주는식으로 리팩터링ㄱㄱ)
+    qnaPostDetail = getQnaPostDetail(widget.id, "29");
   }
 
   @override
@@ -43,14 +42,15 @@ class _DetailScreenState extends State<DetailScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.10,
                 ),
-                const CircularProgressIndicator(),
+                // const CircularProgressIndicator(),
               ],
             ));
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
-            /// future형 qnaPostDetail은 futurebuilder를 통해서 데이터를 받아오기 위한 놈이고, 아래 저놈은 실제 받아온 데이터를 활용하기 위한 변수임.
             QnaPostDetail qnaPostDetail = snapshot.data!;
+            parentComments = qnaPostDetail.result.parentCommentList!;
+
             return GestureDetector(
               onTap: () {
                 FocusScope.of(context).unfocus();
@@ -74,22 +74,19 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  void addComment() {}
-
+  // 댓글 다는 영역
   Widget buildCommentPost(BuildContext context, QnaPostDetail qnaPostDetail) {
     return IconTheme(
       data: const IconThemeData(color: primaryColor),
       child: Container(
           // margin: const EdgeInsets.fromLTRB(12, 4, 8, 24),
           decoration: const BoxDecoration(
-            color: Colors.white, // 내부 색상을 정합니다.
+            color: Colors.white,
             border: Border(
               left: BorderSide(color: primaryColor, width: 1), // 왼쪽 테두리
               top: BorderSide(color: primaryColor, width: 1), // 위쪽 테두리
               right: BorderSide(color: primaryColor, width: 1), // 오른쪽 테두리
-              // bottom 테두리는 정의하지 않음
             ),
-
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
@@ -138,18 +135,14 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  // 댓글 전송 완료시 실행되는 함수
   void _handleSubmitted(String text) {
-    _commentController.clear();
-    setState(() {
-      // 여기서 서버통신; 보내고
-      comments.add(
-        Comment(
-          author: '지지진',
-          comment: _commentController.text,
-        ),
-      );
-      _commentController.clear();
-    });
+    CommentPost comment = CommentPost(content: text);
+    postComment(widget.id, comment).then((value) => setState(() {
+          // 댓글 실시간 반영이 어려워서 GET -> POST -> GET으로 구현했음.
+          qnaPostDetail = getQnaPostDetail(widget.id, "29");
+          _commentController.clear();
+        }));
   }
 }
 
@@ -292,10 +285,6 @@ Widget buildPostContent(BuildContext context, QnaPostDetail qnaPostDetail) {
 
 // 댓글내용 부분
 Widget buildCommentContent(BuildContext context, QnaPostDetail qnaPostDetail) {
-  DateTime converToDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
-      .parse(qnaPostDetail.result.createdDate);
-  int passedDays = calculatePassedDays(converToDateTime);
-
   List<ParentComment> parentCommentList =
       qnaPostDetail.result.parentCommentList!;
 
@@ -310,50 +299,60 @@ Widget buildCommentContent(BuildContext context, QnaPostDetail qnaPostDetail) {
           const SizedBox(
             height: 8,
           ),
-          Text('댓글 ${qnaPostDetail.result.commentCount}개'),
+          Text(
+              '댓글 ${qnaPostDetail.result.parentCommentPageInfo!.totalElements}개'),
           ListView.builder(
+            reverse: true,
             padding: EdgeInsets.zero,
             itemCount: parentCommentList.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               var comment = parentCommentList[index];
-              return Container(
-                child: ListTile(
-                  leading: ClipOval(
-                    child: comment.profileImgUrl.isNotEmpty
-                        ? Image.network(
-                            comment.profileImgUrl,
-                            width: 40,
-                            height: 40,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/images/user_image.jpg',
-                            width: 40,
-                            height: 40,
-                          ),
-                  ),
-                  title: Row(
-                    children: [
-                      Text(comment.commentUserName),
-                      const SizedBox(width: 12),
-                      Text(
-                        '$passedDays일 전',
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 25, 25, 25),
-                            fontSize: 13.0,
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ],
-                  ),
-                  subtitle: Text(comment.content),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.report_gmailerrorred), // 신고 아이콘
-                    onPressed: () {
-                      showReportConfirmationDialog(context);
-                    },
-                  ),
+              DateTime converToDateTime =
+                  DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+                      .parse(comment.createdDate);
+              int passedDays = calculatePassedDays(converToDateTime);
+
+              return ListTile(
+                leading: ClipOval(
+                  child: comment.profileImgUrl.isNotEmpty
+                      ? Image.network(
+                          comment.profileImgUrl,
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          'assets/images/user_image.jpg',
+                          width: 40,
+                          height: 40,
+                        ),
+                ),
+                title: Row(
+                  children: [
+                    Text(
+                      comment.commentUserName,
+                      style: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(width: 12),
+                    // 패키지 사용해서 시간 단위로 표시하기
+                    // Text(
+                    //   '$passedDays일 전',
+                    //   style: const TextStyle(
+                    //       color: Color.fromARGB(255, 25, 25, 25),
+                    //       fontSize: 13.0,
+                    //       fontWeight: FontWeight.w400),
+                    // ),
+                  ],
+                ),
+                subtitle: Text(comment.content),
+                trailing: IconButton(
+                  icon: const Icon(Icons.report_gmailerrorred), // 신고 아이콘
+                  onPressed: () {
+                    showReportConfirmationDialog(context);
+                  },
                 ),
               );
             },
@@ -362,37 +361,4 @@ Widget buildCommentContent(BuildContext context, QnaPostDetail qnaPostDetail) {
       ),
     ),
   );
-}
-
-class Comment {
-  final String author;
-  final String comment;
-
-  Comment({required this.author, required this.comment});
-}
-
-class CommentWidget extends StatelessWidget {
-  final String author;
-  final String comment;
-
-  const CommentWidget({super.key, required this.author, required this.comment});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$author 님의 댓글',
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(comment),
-        ],
-      ),
-    );
-  }
 }
