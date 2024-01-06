@@ -26,11 +26,6 @@ Future<OtherUserProfile> getOtherProfile(String memberId) async {
     'http://3.35.110.214/api/v1/members/$memberId',
     options: Options(headers: {'Authorization': memberId}),
   );
-  print(response);
-  print(OtherUserProfile.fromJson(response.data));
-  print(response.data);
-  print(response);
-
   return OtherUserProfile.fromJson(response.data);
 }
 
