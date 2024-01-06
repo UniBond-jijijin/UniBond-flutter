@@ -1,3 +1,5 @@
+import 'package:unibond/domain/letter/pre_send_letter.dart';
+
 class SendLetterGetDto {
   final bool? isSuccess;
   final int? code;
@@ -10,5 +12,5 @@ class SendLetterGetDto {
       : isSuccess = json["isSuccess"],
         code = json["code"],
         msg = json["message"],
-        result = json["result"];
+        result = PreSendLetter.fromJson(json["result"]);
 }
