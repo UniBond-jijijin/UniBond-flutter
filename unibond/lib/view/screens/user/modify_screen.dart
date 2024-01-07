@@ -596,6 +596,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                               child: Text(
                                 '일상',
                                 style: askTextStyle,
+
                               ),
                             ),
                             InkWell(

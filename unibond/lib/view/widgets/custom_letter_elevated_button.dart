@@ -18,7 +18,7 @@ class CustomLetterElevatedButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFF9359CD),
         foregroundColor: Colors.white,
       ),
       onPressed: () async {

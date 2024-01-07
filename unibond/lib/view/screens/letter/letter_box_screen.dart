@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/controller/letter_controller.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_list_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 import 'package:unibond/view/widgets/navigator.dart';
 
-class LetterEnvelope {
-  final String date;
-  final String sender;
-
-  LetterEnvelope({required this.date, required this.sender});
-}
-
 class LetterBoxScreen extends StatefulWidget {
-  const LetterBoxScreen({Key? key, required this.fakeEnvelopes})
-      : super(key: key);
-
-  final List<LetterEnvelope> fakeEnvelopes;
+  final LetterController letterController = Get.put(LetterController());
 
   @override
   _LetterBoxScreenState createState() => _LetterBoxScreenState();
@@ -26,135 +17,235 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
   int currentIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // 호출할 위치에 다음 코드 추가
+    widget.letterController.getAllLetterRooms();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  currentIndex = 0;
-                });
-              },
-              child: Text(
-                '편지함',
-                style: TextStyle(
-                    fontWeight: currentIndex == 0
-                        ? FontWeight.bold
-                        : FontWeight.normal),
-              ),
-            ),
-            const SizedBox(width: 16),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  currentIndex = 1;
-                });
-              },
-              child: Text(
-                '좋아함',
-                style: TextStyle(
-                    fontWeight: currentIndex == 1
-                        ? FontWeight.bold
-                        : FontWeight.normal),
-              ),
-            ),
-          ],
-        ),
-        automaticallyImplyLeading: false,
-      ),
-      body: ListView.builder(
-        itemCount: widget.fakeEnvelopes.length,
-        itemBuilder: (context, index) {
-          final envelope = widget.fakeEnvelopes[index];
-          final List<List<Color>> colorSets = [
-            [const Color(0xFFD08EFF), const Color(0xFFFFACC6)],
-            [const Color(0xFFFF88AC), const Color(0xFFFFE9CC)],
-            [const Color(0xFF99B9FF), const Color(0xFFCA80FF)],
-          ];
-
-          final colorSet = colorSets[index % colorSets.length];
-
-          return GestureDetector(
-            onTap: () {
-              // TODO: 각 편지를 구분하는 id 넘기기
-              Get.to(
-                () => LetterList(
-                  backgroundColor1: colorSet[0],
-                  backgroundColor2: colorSet[1],
-                  sender: envelope.sender,
-                  date: envelope.date,
+      body: Stack(
+        children: [
+          // 배경화면
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/letterbackground.jpg'),
+                  fit: BoxFit.cover,
                 ),
-              );
-            },
-            child: Card(
-              elevation: 4, // 그림자 효과 추가
-              margin: const EdgeInsets.all(20.0), // 여백 추가
-              child: Container(
-                height: 180,
-                width: 160,
-                padding: const EdgeInsets.all(16.0), // 내용 여백 추가
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: colorSet,
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          // 편지함과 좋아함
+          Positioned(
+            top: 50,
+            left: 16,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 0;
+                    });
+                  },
+                  child: Text(
+                    '편지함',
+                    style: TextStyle(
+                      fontWeight: currentIndex == 0
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      fontSize: 20,
+                      color: Colors.black, // Text color
+                    ),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(envelope.date,
-                            style:
-                                const TextStyle(fontWeight: FontWeight.bold)),
-                      ],
+                const SizedBox(width: 16),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      currentIndex = 1;
+                    });
+                  },
+                  child: Text(
+                    '좋아함',
+                    style: TextStyle(
+                      fontWeight: currentIndex == 1
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      fontSize: 20,
+                      color: Colors.black, // Text color
                     ),
-                    const SizedBox(height: 8), // 간격 추가
-                    Text('보낸 사람: ${envelope.sender}'),
-                  ],
+                  ),
                 ),
+              ],
+            ),
+          ),
+
+          // Letter Papers
+          Positioned.fill(
+            top: 120,
+            child: Expanded(
+              child: ListView.builder(
+                itemCount: widget.letterController.letterRoom.length,
+                itemBuilder: (context, index) {
+                  final letterBox = widget.letterController.letterRoom[index];
+                  final List<List<Color>> colorSets = [
+                    [Color(0xFFD08EFF), Color(0xFFFFACC6)],
+                    [Color(0xFFFF88AC), Color(0xFFFFE9CC)],
+                    [Color(0xFF99B9FF), Color(0xFFCA80FF)],
+                  ];
+
+                  final colorSet = colorSets[index % colorSets.length];
+
+                  String plane;
+                  if (colorSet == colorSets[0]) {
+                    plane = 'purpleplane.png';
+                  } else if (colorSet == colorSets[1]) {
+                    plane = 'pinkplane.png';
+                  } else {
+                    plane = 'blueplane.png';
+                  }
+
+                  String planewiggle = 'planewiggle.png';
+
+                  return GestureDetector(
+                    onTap: () {
+                      // TODO: 각 편지를 구분하는 id 넘기기
+                      Get.to(
+                        () => LetterList(
+                          backgroundColor1: colorSet[0],
+                          backgroundColor2: colorSet[1],
+                          sender: letterBox.senderNick,
+                          date: letterBox.recentLetterSentDate,
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(0),
+                      height: 200,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        gradient: LinearGradient(
+                          colors: colorSet,
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            right: 30,
+                            top: 20,
+                            child: Image.asset(
+                              'assets/images/$planewiggle',
+                              width: 100,
+                              height: 90,
+                            ),
+                          ),
+                          Positioned(
+                            right: 80,
+                            top: 40,
+                            child: Image.asset(
+                              'assets/images/$plane',
+                              width: 30,
+                              height: 30,
+                            ),
+                          ),
+                          Positioned(
+                            top: 80,
+                            bottom: 0,
+                            right: 10,
+                            child: Image.asset(
+                              'assets/images/letterline.png',
+                              width: 200,
+                              height: 200,
+                            ),
+                          ),
+                          Positioned(
+                            top: 50,
+                            left: 100,
+                            child: Transform.rotate(
+                              angle: 90 *
+                                  3.141592653589793 /
+                                  180, // 90 degrees in radians
+                              child: Image.asset(
+                                'assets/images/letterline2.png',
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 0,
+                            right: 0,
+                            child: Image.asset(
+                              'assets/images/rectangleTop.png',
+                              width: 400,
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: Image.asset(
+                              'assets/images/rectangleTop.png',
+                              width: 400,
+                            ),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 8),
+                              Positioned(
+                                bottom:
+                                    8, // Adjust this value for vertical positioning
+                                right:
+                                    8, // Adjust this value for horizontal positioning
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 20),
+                                      child: Text(
+                                        letterBox.recentLetterSentDate,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 20),
+                                      child: Text(
+                                          '보낸 사람: ${letterBox.senderNick}'),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Container(
+                                margin: EdgeInsets.only(left: 20, top: 70),
+                                child: Text(
+                                  'unibond',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontFamily: 'Pinyon_Script',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
-          );
-        },
-      ),
-      // 리팩터링 필요함
-      bottomNavigationBar: MyBottomNavigationBar(
-        // 현재 선택된 바텀 바 아이콘 인덱스
-        currentIndex: 0,
-        onTap: (index) {
-          // 바텀 바 아이콘을 누를 때 화면 전환
-          if (index == 0) {
-            // 홈 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-            );
-          } else if (index == 1) {
-            //편지함 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => LetterBoxScreen(
-                        fakeEnvelopes: [
-                          LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-                          LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-                          LetterEnvelope(date: '2023-10-14', sender: '지진지'),
-                        ],
-                      )),
-            );
-          } else if (index == 2) {
-            // 프로필 화면으로 이동
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const ProfileScreen()),
-            );
-          }
-        },
+          ),
+        ],
       ),
     );
   }

@@ -56,12 +56,7 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           const HomeScreen(),
-          LetterBoxScreen(
-            fakeEnvelopes: [
-              LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-              LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-            ],
-          ),
+          LetterBoxScreen(),
           const ProfileScreen(),
           // const OtherProfileScreen(),
         ],
