@@ -28,6 +28,7 @@ class ModifyScreen extends StatefulWidget {
 }
 
 class _ModifyScreenState extends State<ModifyScreen> {
+  int selectedDiseaseId = -1;
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
   bool isPrivateSelected = false;
@@ -121,7 +122,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
           : isFemaleSelected
               ? 'FEMALE'
               : 'NULL';
-      int diseaseId = 3; // 질환 ID
+      int diseaseId = selectedDiseaseId; // 질환 ID
       String diagnosisTiming = selectedDate.toString(); // 진단 시기
       String bio = bioController.text.trim(); // 한 줄 소개
       List<String> interestList = selectedInterests; // 관심사 목록
@@ -555,30 +556,33 @@ class _ModifyScreenState extends State<ModifyScreen> {
                               '질환',
                               style: askTextStyle,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Container(
-                                width: 400,
-                                height: 50,
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    diseaseInterests.join(' / '),
-                                    style: TextStyle(
-                                      color: Colors.grey[800],
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      overflow: TextOverflow.ellipsis,
+                            InkWell(
+                              onTap: navigateAndHandleInterests,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  width: 400,
+                                  height: 50,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
                                     ),
-                                    textAlign: TextAlign.center,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      diseaseInterests.join(' / '),
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -590,30 +594,33 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                 style: askTextStyle,
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Container(
-                                width: 400,
-                                height: 50,
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    dailyInterests.join(' / '),
-                                    style: TextStyle(
-                                      color: Colors.grey[800],
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 16,
-                                      overflow: TextOverflow.ellipsis,
+                            InkWell(
+                              onTap: navigateAndHandleInterests,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  width: 400,
+                                  height: 50,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
                                     ),
-                                    textAlign: TextAlign.center,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      dailyInterests.join(' / '),
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -688,6 +695,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                     if (selectedData != null) {
                       setState(() {
                         searchController.text = selectedData['diseaseNameKor'];
+                        selectedDiseaseId = selectedData["diseaseId"];
                       });
                     }
                   },
