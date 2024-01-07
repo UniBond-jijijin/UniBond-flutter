@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:unibond/controller/dto/code_msg_res_dto.dart';
+import 'package:unibond/model/member_request.dart';
 import 'package:unibond/model/member_update_request.dart';
 import 'package:unibond/model/other_user_profile.dart';
 import 'package:unibond/model/user_profile.dart';
@@ -50,4 +51,24 @@ Future<CodeMsgResDto> checkNicknameDuplicate(String nickname) async {
     queryParameters: {'nickname': nickname},
   );
   return CodeMsgResDto.fromJson(response.data);
+}
+
+/// 회원가입
+Future<CodeMsgDto> createMember(MemberRequest createRequest) async {
+  final dio = Dio();
+
+  dio.interceptors.add(LogInterceptor(
+    request: true, // 요청 세부 정보 출력
+    requestHeader: true, // 요청 헤더 출력
+    requestBody: true, // 요청 본문 출력
+    responseBody: true, // 응답 본문 출력
+    responseHeader: false, // 응답 헤더는 출력하지 않음
+    error: true, // 오류 출력
+  ));
+
+  final response = await dio.post(
+    'http://3.35.110.214/api/v1/members',
+    data: createRequest.toJson(),
+  );
+  return CodeMsgDto.fromJson(response.data);
 }
