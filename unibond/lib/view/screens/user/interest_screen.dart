@@ -23,18 +23,12 @@ class _InterestScreenState extends State<InterestScreen> {
 
   // 관심사를 선택하면 관심사 리스트에 추가 또는 삭제하기 위한 함수
   void handleSelection(bool isSelected, String interest) {
-    print(selectedInterests);
-    // print(isSelected);
-
     setState(() {
       if (isSelected) {
         if (selectedInterests.length < maxSelectedInterests) {
           selectedInterests.add(interest);
-          print(selectedInterests);
         } else {
           _showResetDialog();
-          // 방금 선택한 관심사의 색상 변경 필요..
-          // isSelected = !isSelected;
           return;
         }
       } else {

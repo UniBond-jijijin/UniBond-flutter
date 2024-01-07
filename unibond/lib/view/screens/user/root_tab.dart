@@ -3,13 +3,15 @@ import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/tab_item.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_box_screen.dart';
-import 'package:unibond/view/screens/user/other_profile_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 
 class RootTab extends StatefulWidget {
+  final int initialIndex;
+
   static String get routeName => '/';
   const RootTab({
     Key? key,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   @override
@@ -18,10 +20,11 @@ class RootTab extends StatefulWidget {
 
 class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _currentIndex = 0;
+  late int _currentIndex;
 
   @override
   void initState() {
+    _currentIndex = widget.initialIndex;
     _tabController = TabController(
       length: tabItems.length,
       vsync: this,

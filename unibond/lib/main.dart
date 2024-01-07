@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/view/screens/letter/letter_write_screen.dart';
 import 'package:unibond/view/widgets/custom_elevated_button.dart';
+import 'package:unibond/view/screens/splash_screen.dart';
+import 'package:unibond/view/screens/user/root_tab.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class LetterReadScreen extends StatefulWidget {
   final Letter letter;
@@ -131,6 +134,16 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+//       home: const SplashScreen(),
+//       localizationsDelegates: const [
+//         GlobalMaterialLocalizations.delegate,
+//         GlobalWidgetsLocalizations.delegate,
+//         GlobalCupertinoLocalizations.delegate,
+//       ],
+//       supportedLocales: const [
+//         Locale('en', ''),
+//         Locale('ko', ''),
+//       ],
     );
   }
 }

@@ -4,10 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:unibond/model/member_update_request.dart';
 import 'package:unibond/model/user_profile.dart';
+import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/util/url.dart';
+import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
+import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/screens/user/search_screen.dart';
 import 'package:unibond/view/widgets/next_button.dart';
 import 'package:unibond/view/widgets/selected_button.dart';
@@ -23,10 +26,12 @@ class ModifyScreen extends StatefulWidget {
 }
 
 class _ModifyScreenState extends State<ModifyScreen> {
+  int? selectedDiseaseId;
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
   bool isPrivateSelected = false;
   String? _imageUrl; // 서버에서 받은 프로필 이미지 url 저장 변수
+  dynamic changedImagePath;
 
   TextEditingController searchController = TextEditingController();
   TextEditingController nicknameController = TextEditingController();
@@ -45,7 +50,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
   void initState() {
     super.initState();
     final UserProfileResult profile = Get.arguments;
-    _imageUrl = profile.profileImage; // 이미지 URL 초기화
+    // _imageUrl = profile.profileImage; // 이미지 URL 초기화
     nicknameController.text = profile.nickname;
     bioController.text = profile.bio;
     searchController.text = profile.diseaseName;
@@ -59,18 +64,24 @@ class _ModifyScreenState extends State<ModifyScreen> {
     selectedDate = DateTime.parse(profile.diagnosisTiming);
   }
 
-  Future getImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  // Future getImage() async {
+  //   final pickedFile = await picker.pickImage(
+  //     source: ImageSource.gallery,
+  //     maxHeight: 75,
+  //     maxWidth: 75,
+  //     imageQuality: 30, // 이미지 크기 압축을 위해 퀄리티를 30으로 낮춤.
+  //   );
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        _imageUrl = null; // 새 이미지를 선택했으므로 기존 프로필사진 url은 초기화한다.
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //       _imageUrl = null; // 새 이미지를 선택했으므로 기존 프로필사진 url은 초기화한다.
+  //       changedImagePath = pickedFile.path;
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+  // }
 
   // 질환 진단 시기 선택
   void _showDatePicker(BuildContext context) {
@@ -101,46 +112,77 @@ class _ModifyScreenState extends State<ModifyScreen> {
 
   // 프로필 수정 완료 요청
   void updateMemberInfo() async {
+    String? authToken = await AuthStorage.getAuthToken();
+
     try {
+      // String fileName = changedImagePath.split('/').last;
       String nickname = nicknameController.text.trim();
       String gender = isMaleSelected
           ? 'MALE'
           : isFemaleSelected
               ? 'FEMALE'
               : 'NULL';
-      String diseaseId = "3"; // 질환 ID
+      int? diseaseId = selectedDiseaseId; // 질환 ID
       String diagnosisTiming = selectedDate.toString(); // 진단 시기
       String bio = bioController.text.trim(); // 한 줄 소개
       List<String> interestList = selectedInterests; // 관심사 목록
 
-      var dioClient = dio.Dio();
       var requestData = {
         "nickname": nickname,
         "gender": gender,
         "diseaseId": diseaseId,
-        "diagnosisTiming": diagnosisTiming,
+        "diagnosisTiming": diagnosisTiming.split(" ")[0],
         "bio": bio,
         "interestList": interestList
       };
 
-      // 미완성 formData
-      dio.FormData formData = dio.FormData.fromMap({
-        "request": requestData // 'request' key에 JSON 데이터 할당
-      });
+      MemberUpdateRequest request = MemberUpdateRequest.fromJson(requestData);
 
-      var response = await dioClient.patch(
-        '$ip/api/v1/members/29',
-        options: dio.Options(headers: {'Authorization': '29'}),
-        data: formData,
-      );
+      print(diagnosisTiming.split(" ")[0]);
+      print(request);
 
-      if (response.statusCode == 200) {
+      var dioClient = dio.Dio();
+
+      ///@
+      dioClient.interceptors.add(dio.LogInterceptor(
+        responseBody: true, // 응답 본문을 찍을지 여부
+      ));
+
+      var response = await updateMember(authToken!, request);
+
+      // 미완성 formData 통신
+      // dio.FormData formData = dio.FormData.fromMap(
+      //   {
+      //     "request": dio.MultipartFile.fromString(
+      //       requestData,
+      //       contentType: MediaType.parse('application/json'),
+      //     ),
+      //     "profileImg": await dio.MultipartFile.fromFile(
+      //       changedImagePath,
+      //       filename: fileName,
+      //       contentType: MediaType("image", "png"),
+      //     ),
+      //   },
+      //   dio.ListFormat.multiCompatible,
+      // );
+      // 현재 임시로 29번 유저로 설정
+      // var response = await dioClient.patch(
+      //   'http://3.35.110.214/api/v1/members/29',
+      //   options: dio.Options(headers: {
+      //     'Authorization': '29',
+      //     "Content-Type": "multipart/form-data"
+      //   }),
+      //   data: formData,
+      // );
+
+      if (response.code == 1000) {
         print("Profile updated successfully.");
+        Get.off(() => const RootTab(initialIndex: 2));
       } else {
-        print("Error updating profile: ${response.data}");
+        print("Error updating profile: ${response.result}");
       }
     } catch (e) {
-      print("Exception caught: $e");
+      print("프로필 수정 Exception caught: $e");
     }
   }
 
@@ -188,7 +230,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
               '음악',
               '아웃도어',
               '반려동물',
-              '영화,드라마',
+              '영화/드라마',
               '요리',
               '친목',
               '환우회',
@@ -199,396 +241,414 @@ class _ModifyScreenState extends State<ModifyScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          '프로필 수정',
-          style: TextStyle(fontWeight: FontWeight.w700),
+        centerTitle: true,
+        title: const Text('프로필 수정'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Get.back();
+          },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              Center(
-                child: Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    ClipOval(
-                      child: _image != null
-                          ? Image.file(
-                              _image!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : (_imageUrl != null
-                              ? Image.network(
-                                  _imageUrl!,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.asset(
-                                  'assets/images/user_image.jpg', // 기본 이미지
-                                  width: 100,
-                                  height: 100,
-                                )),
-                    ),
-                    GestureDetector(
-                      onTap: getImage,
-                      child: Container(
-                        margin: const EdgeInsets.all(3),
-                        padding: const EdgeInsets.all(3),
-                        decoration: const BoxDecoration(
-                          color: Colors.grey,
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(Icons.settings),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                Center(
+                  child: Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      ClipOval(
+                        child: _image != null
+                            ? Image.file(
+                                _image!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : (_imageUrl != null
+                                ? Image.network(
+                                    _imageUrl!,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(
+                                    'assets/images/user_image.jpg', // 기본 이미지
+                                    width: 100,
+                                    height: 100,
+                                  )),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                      // 사진 수정 기능 제외로 인한 주석처리
+                      // GestureDetector(
+                      //   onTap: getImage,
+                      //   child: Container(
+                      //     margin: const EdgeInsets.all(3),
+                      //     padding: const EdgeInsets.all(3),
+                      //     decoration: const BoxDecoration(
+                      //       color: Colors.grey,
+                      //       shape: BoxShape.circle,
+                      //     ),
+                      //     child: const Icon(Icons.settings),
+                      //   ),
+                      // ),
+                    ],
                   ),
-                  child: Container(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
                     color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '닉네임',
-                            style: askTextStyle,
-                          ),
-                          MyCustomTextFormFieldWithNickname(
-                            onChanged: (value) {},
-                            controller: nicknameController,
-                          ),
-                          const Text(
-                            '한줄 소개',
-                            style: askTextStyle,
-                          ),
-                          MyCustomTextFormField(
-                            controller: bioController,
-                            onChanged: (value) {},
-                            maxLength: 34,
-                            maxLines: 4,
-                            hintText: '자기 자신을 간단하게 소개해주세요!',
-                          ),
-                          const Text(
-                            '성별',
-                            style: askTextStyle,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: SignupEitherButton(
-                                  text: '남',
-                                  isSelected: isMaleSelected,
-                                  onPressed: () {
-                                    setState(() {
-                                      isMaleSelected = true;
-                                      isFemaleSelected = false;
-                                      isPrivateSelected = false;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: SignupEitherButton(
-                                  text: '여',
-                                  isSelected: isFemaleSelected,
-                                  onPressed: () {
-                                    setState(() {
-                                      isFemaleSelected = true;
-                                      isMaleSelected = false;
-                                      isPrivateSelected = false;
-                                    });
-                                  },
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: SignupEitherButton(
-                                  text: '비공개',
-                                  isSelected: isPrivateSelected,
-                                  onPressed: () {
-                                    setState(() {
-                                      isPrivateSelected = true;
-                                      isMaleSelected = false;
-                                      isFemaleSelected = false;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
-                child: Text(
-                  '질환 정보',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Container(
-                    color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '질환',
-                            style: askTextStyle,
-                          ),
-                          buildSearchRow(),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              '진단 시기',
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '닉네임',
                               style: askTextStyle,
                             ),
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () => _showDatePicker(context),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    '${selectedDate.year}',
-                                    style: askTextStyle,
-                                  ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  '년',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              InkWell(
-                                onTap: () => _showDatePicker(context),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    '${selectedDate.month}',
-                                    style: askTextStyle,
+                            MyCustomTextFormFieldWithNickname(
+                              onChanged: (value) {},
+                              controller: nicknameController,
+                            ),
+                            const Text(
+                              '한줄 소개',
+                              style: askTextStyle,
+                            ),
+                            MyCustomTextFormField(
+                              controller: bioController,
+                              onChanged: (value) {},
+                              maxLength: 34,
+                              maxLines: 4,
+                              hintText: '자기 자신을 간단하게 소개해주세요!',
+                            ),
+                            const Text(
+                              '성별',
+                              style: askTextStyle,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: SignupEitherButton(
+                                    text: '남',
+                                    isSelected: isMaleSelected,
+                                    onPressed: () {
+                                      setState(() {
+                                        isMaleSelected = true;
+                                        isFemaleSelected = false;
+                                        isPrivateSelected = false;
+                                      });
+                                    },
                                   ),
                                 ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  '월',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
+                                Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: SignupEitherButton(
+                                    text: '여',
+                                    isSelected: isFemaleSelected,
+                                    onPressed: () {
+                                      setState(() {
+                                        isFemaleSelected = true;
+                                        isMaleSelected = false;
+                                        isPrivateSelected = false;
+                                      });
+                                    },
                                   ),
                                 ),
-                              ),
-                              const SizedBox(width: 5),
-                              InkWell(
-                                onTap: () => _showDatePicker(context),
-                                child: Container(
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[100],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    '${selectedDate.day}',
-                                    style: askTextStyle,
-                                  ),
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(
-                                  '일',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 20,
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: SignupEitherButton(
+                                    text: '비공개',
+                                    isSelected: isPrivateSelected,
+                                    onPressed: () {
+                                      setState(() {
+                                        isPrivateSelected = true;
+                                        isMaleSelected = false;
+                                        isFemaleSelected = false;
+                                      });
+                                    },
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      '관심사',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(16, 20, 16, 0),
+                  child: Text(
+                    '질환 정보',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '질환',
+                              style: askTextStyle,
+                            ),
+                            const SizedBox(height: 8),
+                            buildSearchRow(),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                '진단 시기',
+                                style: askTextStyle,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () => _showDatePicker(context),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${selectedDate.year}',
+                                      style: askTextStyle,
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    '년',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                InkWell(
+                                  onTap: () => _showDatePicker(context),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${selectedDate.month}',
+                                      style: askTextStyle,
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    '월',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                InkWell(
+                                  onTap: () => _showDatePicker(context),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[100],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${selectedDate.day}',
+                                      style: askTextStyle,
+                                    ),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 10),
+                                  child: Text(
+                                    '일',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    InkWell(
-                      onTap: navigateAndHandleInterests,
-                      child: const Text(
-                        '변경',
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        '관심사',
                         style: TextStyle(
-                          color: primaryColor,
+                          color: Colors.black,
                           fontWeight: FontWeight.w700,
                           fontSize: 18,
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                      InkWell(
+                        onTap: navigateAndHandleInterests,
+                        child: const Text(
+                          '변경',
+                          style: TextStyle(
+                            color: primaryColor,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  color: Colors.white,
-                  child: Container(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     color: Colors.white,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            '질환',
-                            style: askTextStyle,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Container(
-                              width: 400,
-                              height: 50,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  diseaseInterests.join(' / '),
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              '일상',
+                    child: Container(
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              '질환',
                               style: askTextStyle,
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Container(
-                              width: 400,
-                              height: 50,
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 1,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  dailyInterests.join(' / '),
-                                  style: TextStyle(
-                                    color: Colors.grey[800],
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 16,
-                                    overflow: TextOverflow.ellipsis,
+                            InkWell(
+                              onTap: navigateAndHandleInterests,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  width: 400,
+                                  height: 50,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
                                   ),
-                                  textAlign: TextAlign.center,
+                                  child: Center(
+                                    child: Text(
+                                      diseaseInterests.join(' / '),
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                '일상',
+                                style: askTextStyle,
+
+                              ),
+                            ),
+                            InkWell(
+                              onTap: navigateAndHandleInterests,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Container(
+                                  width: 400,
+                                  height: 50,
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      dailyInterests.join(' / '),
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 16,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: NextButton(
-                  onPressed: updateMemberInfo,
-                  buttonName: '완료',
-                  isButtonEnabled: true,
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: NextButton(
+                    onPressed: updateMemberInfo,
+                    buttonName: '완료',
+                    isButtonEnabled: true,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -631,14 +691,18 @@ class _ModifyScreenState extends State<ModifyScreen> {
                 padding: const EdgeInsets.only(right: 8),
                 child: IconButton(
                   icon: const Icon(Icons.search, color: primaryColor),
-                  onPressed: () {
-                    print("검색 버튼 클릭!");
-                    Get.to(() => const SearchScreen());
-                    // Navigator.of(context).push(
-                    //   MaterialPageRoute(
-                    //     builder: (context) => const SearchScreen(),
-                    //   ),
-                    // );
+                  onPressed: () async {
+                    // SearchScreen 이동 후 선택된 데이터를 기다림.
+                    final selectedData = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => const SearchScreen()),
+                    );
+                    if (selectedData != null) {
+                      setState(() {
+                        searchController.text = selectedData['diseaseNameKor'];
+                        selectedDiseaseId = selectedData["diseaseId"];
+                      });
+                    }
                   },
                 ),
               ),

@@ -319,30 +319,23 @@ class _MyCustomTextFormFieldWithNicknameState
             ),
             onPressed: () async {
               try {
-                print('noww');
                 String nickname = widget.controller!.text.trim();
-                print(nickname);
                 var dio = Dio();
-                // URL 구성
                 String url = 'http://3.35.110.214/api/v1/members/duplicate';
                 Map<String, dynamic> queryParams = {"nickname": nickname};
-                // URL 및 쿼리 파라미터 출력
-                print('Request URL: $url');
-                print('Query Parameters: $queryParams');
                 var response = await dio.get(url, queryParameters: queryParams);
 
                 if (response.statusCode == 200) {
                   int responseCode = response.data["code"];
-
+                  if (!mounted) return;
                   // 중복 검사 결과에 따라 대화 상자를 띄움
                   if (responseCode == 1700) {
-                    print(5);
                     // 이미 존재하는 닉네임인 경우
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('알림'),
-                        content: const Text('이미 사용중인 아이디입니다.'),
+                        content: const Text('이미 사용중인 닉네임입니다. \n닉네임을 변경해주세요.'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('확인'),
@@ -352,13 +345,12 @@ class _MyCustomTextFormFieldWithNicknameState
                       ),
                     );
                   } else if (responseCode == 1701) {
-                    print(6);
                     // 사용 가능한 닉네임인 경우
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('알림'),
-                        content: const Text('사용 가능한 아이디입니다!'),
+                        content: const Text('사용 가능한 닉네임입니다!'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('확인'),
