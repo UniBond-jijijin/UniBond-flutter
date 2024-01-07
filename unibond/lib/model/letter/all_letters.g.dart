@@ -24,6 +24,7 @@ Map<String, dynamic> _$AllLettersRequestToJson(AllLettersRequest instance) =>
 
 AllLettersResult _$AllLettersResultFromJson(Map<String, dynamic> json) =>
     AllLettersResult(
+      loginId: json['loginId'] as int,
       receiverId: json['receiverId'] as int,
       receiverProfileImg: json['receiverProfileImg'] as String,
       receiverName: json['receiverName'] as String,
@@ -31,20 +32,21 @@ AllLettersResult _$AllLettersResultFromJson(Map<String, dynamic> json) =>
       receiverDiagnosisTiming: json['receiverDiagnosisTiming'] as String,
       pageInfo:
           AllLettersPageInfo.fromJson(json['pageInfo'] as Map<String, dynamic>),
-      letterRoomList: (json['letterRoomList'] as List<dynamic>)
+      letterList: (json['letterList'] as List<dynamic>)
           .map((e) => AllLetters.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$AllLettersResultToJson(AllLettersResult instance) =>
     <String, dynamic>{
+      'loginId': instance.loginId,
       'receiverId': instance.receiverId,
       'receiverProfileImg': instance.receiverProfileImg,
       'receiverName': instance.receiverName,
       'receiverDiseaseName': instance.receiverDiseaseName,
       'receiverDiagnosisTiming': instance.receiverDiagnosisTiming,
       'pageInfo': instance.pageInfo,
-      'letterRoomList': instance.letterRoomList,
+      'letterList': instance.letterList,
     };
 
 AllLettersPageInfo _$AllLettersPageInfoFromJson(Map<String, dynamic> json) =>

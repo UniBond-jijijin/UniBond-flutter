@@ -25,13 +25,15 @@ class ReceivedLetterDetail {
 
 @JsonSerializable()
 class ReceivedLetter {
-  final String? sendDate;
+  final String? arrivalDate;
   final bool? liked;
+  final String? title;
   final String? content;
 
   ReceivedLetter({
-    this.sendDate,
+    this.arrivalDate,
     this.liked,
+    this.title,
     this.content,
   });
 

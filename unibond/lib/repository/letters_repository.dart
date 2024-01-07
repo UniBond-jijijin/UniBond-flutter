@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:unibond/model/letter/all_letter_boxs.dart';
+import 'package:unibond/model/letter/all_letters.dart';
 import 'package:unibond/model/letter/received_letter_detail.dart';
 import 'package:unibond/model/letter/sent_letter_detail.dart';
 import 'package:unibond/util/auth_storage.dart';
@@ -26,57 +27,56 @@ Future<LetterBoxRequest> getMyLetterBox() async {
   return LetterBoxRequest.fromJson(response.data);
 }
 
-// class LetterController extends GetxController {
-//   final LetterRepository _letterRepository = LetterRepository();
-//   final getsendletter = <PreSendLetter>[].obs;
-//   final getreceiveletter = <ReceivedLetter>[].obs;
-//   final letterRoom = <LetterRoom>[].obs;
+// 편지함 내부 편지들 조회
+// api 명세에 따라 변수명 room으로 설정
+Future<AllLettersRequest> getAllLettersRequest(String letterRoomId) async {
+  final dio = Dio();
 
-//   Future<bool> sendLetter(
-//     String receiverId,
-//     String title,
-//     String content,
-//   ) async {
-//     try {
-//       bool isSuccess =
-//           await _letterRepository.sendLetter(receiverId, title, content);
-//       return isSuccess;
-//     } catch (error) {
-//       print('sendLetter error: $error');
-//       rethrow;
-//     }
-//   }
+  String? authToken = await AuthStorage.getAuthToken();
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true,
+  ));
 
-//   Future<void> getSentLetters() async {
-//     try {
-//       List<PreSendLetter> getsendletter =
-//           await _letterRepository.getSentLetters();
-//       this.getsendletter.value = getsendletter;
-//     } catch (error) {
-//       print('getSentLetters error: $error');
-//       rethrow;
-//     }
-//   }
+  final response = await dio.get(
+    'http://3.35.110.214/api/v1/letter-rooms/$letterRoomId',
+    options: Options(headers: {'Authorization': authToken}),
+  );
 
-//   // 내가 받은 편지 목록 가져오기
-//   Future<void> getReceivedLetters() async {
-//     try {
-//       List<ReceivedLetter> getreceiveletter =
-//           await _letterRepository.getReceivedLetters();
-//       this.getreceiveletter.value = getreceiveletter;
-//     } catch (error) {
-//       print('getReceivedLetters error: $error');
-//       rethrow;
-//     }
-//   }
+  print(response);
 
-//   Future<void> getAllLetterRooms() async {
-//     try {
-//       List<LetterRoom> letterRoom = await _letterRepository.getAllLetterRooms();
-//       this.letterRoom.value = letterRoom;
-//     } catch (error) {
-//       print('getAllLetterRooms error: $error');
-//       // Handle error if needed
-//     }
-//   }
-// }
+  return AllLettersRequest.fromJson(response.data);
+}
+
+// 받은 편지 조회
+Future<ReceivedLetterDetail> getReceivedLetterDetail(String letterId) async {
+  final dio = Dio();
+
+  String? authToken = await AuthStorage.getAuthToken();
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true,
+  ));
+
+  final response = await dio.get(
+    'http://3.35.110.214/api/v1/letters/$letterId',
+    options: Options(headers: {'Authorization': authToken}),
+  );
+
+  return ReceivedLetterDetail.fromJson(response.data);
+}
+
+// 보낸 편지 조회
+Future<SentLetterDetail> getSentLetterDetail(String letterId) async {
+  final dio = Dio();
+
+  String? authToken = await AuthStorage.getAuthToken();
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true,
+  ));
+
+  final response = await dio.get(
+    'http://3.35.110.214/api/v1/letters/$letterId',
+    options: Options(headers: {'Authorization': authToken}),
+  );
+
+  return SentLetterDetail.fromJson(response.data);
+}

@@ -6,7 +6,7 @@ import 'package:unibond/model/post/qnapost_request.dart';
 import 'package:unibond/util/auth_storage.dart';
 
 // 상세 게시물 조회
-Future<QnaPostDetail> getQnaPostDetail(String postId, String memberId) async {
+Future<QnaPostDetail> getQnaPostDetail(String postId) async {
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 

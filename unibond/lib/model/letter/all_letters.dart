@@ -25,22 +25,24 @@ class AllLettersRequest {
 
 @JsonSerializable()
 class AllLettersResult {
+  final int loginId;
   final int receiverId;
   final String receiverProfileImg;
   final String receiverName;
   final String receiverDiseaseName;
   final String receiverDiagnosisTiming;
   final AllLettersPageInfo pageInfo;
-  final List<AllLetters> letterRoomList;
+  final List<AllLetters> letterList;
 
   AllLettersResult({
+    required this.loginId,
     required this.receiverId,
     required this.receiverProfileImg,
     required this.receiverName,
     required this.receiverDiseaseName,
     required this.receiverDiagnosisTiming,
     required this.pageInfo,
-    required this.letterRoomList,
+    required this.letterList,
   });
 
   factory AllLettersResult.fromJson(Map<String, dynamic> json) =>

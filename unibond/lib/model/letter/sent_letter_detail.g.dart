@@ -24,13 +24,13 @@ Map<String, dynamic> _$SentLetterDetailToJson(SentLetterDetail instance) =>
 
 SentLetter _$SentLetterFromJson(Map<String, dynamic> json) => SentLetter(
       sendDate: json['sendDate'] as String?,
-      arrivalDate: json['arrivalDate'] as String?,
+      title: json['title'] as String?,
       content: json['content'] as String?,
     );
 
 Map<String, dynamic> _$SentLetterToJson(SentLetter instance) =>
     <String, dynamic>{
       'sendDate': instance.sendDate,
-      'arrivalDate': instance.arrivalDate,
+      'title': instance.title,
       'content': instance.content,
     };

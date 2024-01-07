@@ -26,12 +26,12 @@ class SentLetterDetail {
 @JsonSerializable()
 class SentLetter {
   final String? sendDate;
-  final String? arrivalDate;
+  final String? title;
   final String? content;
 
   SentLetter({
     this.sendDate,
-    this.arrivalDate,
+    this.title,
     this.content,
   });
 

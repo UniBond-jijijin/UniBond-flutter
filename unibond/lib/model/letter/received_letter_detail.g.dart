@@ -26,14 +26,16 @@ Map<String, dynamic> _$ReceivedLetterDetailToJson(
 
 ReceivedLetter _$ReceivedLetterFromJson(Map<String, dynamic> json) =>
     ReceivedLetter(
-      sendDate: json['sendDate'] as String?,
+      arrivalDate: json['arrivalDate'] as String?,
       liked: json['liked'] as bool?,
+      title: json['title'] as String?,
       content: json['content'] as String?,
     );
 
 Map<String, dynamic> _$ReceivedLetterToJson(ReceivedLetter instance) =>
     <String, dynamic>{
-      'sendDate': instance.sendDate,
+      'arrivalDate': instance.arrivalDate,
       'liked': instance.liked,
+      'title': instance.title,
       'content': instance.content,
     };
