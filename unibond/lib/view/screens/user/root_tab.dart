@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/tab_item.dart';
+import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_box_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
@@ -32,6 +34,8 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
     );
     _tabController.addListener(tabListener);
     super.initState();
+
+    // AuthStorage.delAuthToken();
   }
 
   void tabListener() {
@@ -54,10 +58,10 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          const HomeScreen(),
+        children: const <Widget>[
+          HomeScreen(),
           LetterBoxScreen(),
-          const ProfileScreen(),
+          ProfileScreen(),
           // const OtherProfileScreen(),
         ],
       ),

@@ -65,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ));
           } else if (snapshot.hasError) {
             print(snapshot.error);
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('내 프로필 스냅샷 Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             UserProfile profile = snapshot.data!;
             return Column(

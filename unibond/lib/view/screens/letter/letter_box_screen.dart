@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/controller/letter_controller.dart';
+import 'package:unibond/model/letter/all_letter_boxs.dart';
+import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_list_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 import 'package:unibond/view/widgets/navigator.dart';
 
 class LetterBoxScreen extends StatefulWidget {
-  final LetterController letterController = Get.put(LetterController());
+  const LetterBoxScreen({super.key});
+
+  // final LetterController letterController = Get.put(LetterController());
 
   @override
   _LetterBoxScreenState createState() => _LetterBoxScreenState();
 }
 
 class _LetterBoxScreenState extends State<LetterBoxScreen> {
+  Future<LetterBoxRequest>? myLetterBox;
   int currentIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    // 호출할 위치에 다음 코드 추가
-    widget.letterController.getAllLetterRooms();
+    myLetterBox = getMyLetterBox();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -30,9 +35,9 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
           // 배경화면
           Positioned.fill(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/letterbackground.jpg'),
+                  image: AssetImage('assets/images/letterbackground.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -87,15 +92,47 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
           // Letter Papers
           Positioned.fill(
             top: 120,
-            child: Expanded(
+            child: buildLetterBoxBody(context),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildLetterBoxBody(BuildContext context) {
+    return SingleChildScrollView(
+      child: FutureBuilder(
+        future: myLetterBox,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.50,
+                ),
+                // const CircularProgressIndicator(),
+              ],
+            ));
+          } else if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(child: Text('편지함 에러: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            LetterBoxRequest myLetterBox = snapshot.data!;
+
+            print(myLetterBox);
+
+            return Expanded(
               child: ListView.builder(
-                itemCount: widget.letterController.letterRoom.length,
+                shrinkWrap: true,
+                itemCount: myLetterBox.result.letterRoomList?.length ?? 0,
                 itemBuilder: (context, index) {
-                  final letterBox = widget.letterController.letterRoom[index];
+                  final letterBox = myLetterBox.result.letterRoomList?[index];
                   final List<List<Color>> colorSets = [
-                    [Color(0xFFD08EFF), Color(0xFFFFACC6)],
-                    [Color(0xFFFF88AC), Color(0xFFFFE9CC)],
-                    [Color(0xFF99B9FF), Color(0xFFCA80FF)],
+                    [const Color(0xFFD08EFF), const Color(0xFFFFACC6)],
+                    [const Color(0xFFFF88AC), const Color(0xFFFFE9CC)],
+                    [const Color(0xFF99B9FF), const Color(0xFFCA80FF)],
                   ];
 
                   final colorSet = colorSets[index % colorSets.length];
@@ -114,14 +151,14 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                   return GestureDetector(
                     onTap: () {
                       // TODO: 각 편지를 구분하는 id 넘기기
-                      Get.to(
-                        () => LetterList(
-                          backgroundColor1: colorSet[0],
-                          backgroundColor2: colorSet[1],
-                          sender: letterBox.senderNick,
-                          date: letterBox.recentLetterSentDate,
-                        ),
-                      );
+                      // Get.to(
+                      //   () => LetterList(
+                      //     backgroundColor1: colorSet[0],
+                      //     backgroundColor2: colorSet[1],
+                      //     sender: letterBox.senderNick,
+                      //     date: letterBox.recentLetterSentDate,
+                      //   ),
+                      // );
                     },
                     child: Container(
                       margin: const EdgeInsets.all(16.0),
@@ -206,27 +243,28 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(right: 20),
+                                      margin: const EdgeInsets.only(right: 20),
                                       child: Text(
-                                        letterBox.recentLetterSentDate,
+                                        letterBox!.recentLetterSentDate,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                    SizedBox(height: 8),
+                                    const SizedBox(height: 8),
                                     Container(
-                                      margin: EdgeInsets.only(right: 20),
+                                      margin: const EdgeInsets.only(right: 20),
                                       child: Text(
                                           '보낸 사람: ${letterBox.senderNick}'),
                                     ),
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Container(
-                                margin: EdgeInsets.only(left: 20, top: 70),
-                                child: Text(
+                                margin:
+                                    const EdgeInsets.only(left: 20, top: 70),
+                                child: const Text(
                                   'unibond',
                                   style: TextStyle(
                                     fontSize: 20,
@@ -243,9 +281,11 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                   );
                 },
               ),
-            ),
-          ),
-        ],
+            );
+          } else {
+            return const Center(child: Text("편지함 데이터 없음"));
+          }
+        },
       ),
     );
   }
