@@ -71,7 +71,6 @@ class _ModifyScreenState extends State<ModifyScreen> {
   //     maxWidth: 75,
   //     imageQuality: 30, // 이미지 크기 압축을 위해 퀄리티를 30으로 낮춤.
   //   );
-
   //   setState(() {
   //     if (pickedFile != null) {
   //       _image = File(pickedFile.path);
@@ -596,7 +595,6 @@ class _ModifyScreenState extends State<ModifyScreen> {
                               child: Text(
                                 '일상',
                                 style: askTextStyle,
-
                               ),
                             ),
                             InkWell(

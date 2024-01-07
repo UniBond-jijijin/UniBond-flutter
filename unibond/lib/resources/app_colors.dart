@@ -29,6 +29,12 @@ const notifyTextStyle = TextStyle(
   fontSize: 18,
 );
 
+const letterTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w200,
+  fontSize: 16,
+);
+
 class AppColors {
   static const Color primary = contentColorLightBlue;
   static const Color menuBackground = Color(0xFF090912);
