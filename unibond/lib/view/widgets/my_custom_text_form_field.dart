@@ -335,7 +335,7 @@ class _MyCustomTextFormFieldWithNicknameState
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('알림'),
-                        content: const Text('이미 사용중인 아이디입니다.'),
+                        content: const Text('이미 사용중인 닉네임입니다. \n닉네임을 변경해주세요.'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('확인'),
@@ -350,7 +350,7 @@ class _MyCustomTextFormFieldWithNicknameState
                       context: context,
                       builder: (context) => AlertDialog(
                         title: const Text('알림'),
-                        content: const Text('사용 가능한 아이디입니다!'),
+                        content: const Text('사용 가능한 닉네임입니다!'),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('확인'),
