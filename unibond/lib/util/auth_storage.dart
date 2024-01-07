@@ -13,4 +13,10 @@ class AuthStorage {
   static Future<String?> getAuthToken() async {
     return await _storage.read(key: _authKey);
   }
+
+  // 인증 키 삭제
+  static Future<String?> delAuthToken() async {
+    await _storage.delete(key: _authKey);
+    return null;
+  }
 }

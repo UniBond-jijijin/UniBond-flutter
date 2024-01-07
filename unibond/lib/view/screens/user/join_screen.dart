@@ -105,7 +105,9 @@ class _JoinScreenState extends State<JoinScreen> {
         print("Profile created successfully.");
 
         // result 값을 Auth key로 저장하기
+        // 임시 주석처리;
         await AuthStorage.saveAuthToken(response.result.toString());
+        // await AuthStorage.saveAuthToken("29");
         Get.off(() => const RootTab());
       } else {
         if (response.code == 2502) {
