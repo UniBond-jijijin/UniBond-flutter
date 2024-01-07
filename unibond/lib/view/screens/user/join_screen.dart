@@ -10,6 +10,7 @@ import 'package:unibond/model/member_request.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
@@ -102,6 +103,9 @@ class _JoinScreenState extends State<JoinScreen> {
 
       if (response.code == 1000) {
         print("Profile created successfully.");
+
+        // result 값을 Auth key로 저장하기
+        await AuthStorage.saveAuthToken(response.result.toString());
         Get.off(() => const RootTab());
       } else {
         if (response.code == 2502) {

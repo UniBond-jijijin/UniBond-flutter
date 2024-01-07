@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/modify_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -18,7 +19,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    userProfile = getMyProfile("29");
+
+    AuthStorage.getAuthToken().then((String? authToken) {
+      if (authToken != null) {
+        setState(() {
+          userProfile = getMyProfile(authToken);
+        });
+      } else {
+        // authToken이 null인 경우의 처리
+        print("authToken 없음");
+      }
+    });
   }
 
   // bio 오버플로우 방지

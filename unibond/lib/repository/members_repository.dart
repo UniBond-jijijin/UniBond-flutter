@@ -4,10 +4,14 @@ import 'package:unibond/model/member_request.dart';
 import 'package:unibond/model/member_update_request.dart';
 import 'package:unibond/model/other_user_profile.dart';
 import 'package:unibond/model/user_profile.dart';
+import 'package:unibond/util/auth_storage.dart';
 
 // 나의 프로필 조회
 Future<UserProfile> getMyProfile(String memberId) async {
   final dio = Dio();
+
+  // 저장된 인증 키 추출
+  String? authToken = await AuthStorage.getAuthToken();
 
   ///아래 LogInterceptor를 활용하면 어디서 통신에러가 나는지 디버깅하기 편함.
   dio.interceptors.add(LogInterceptor(
@@ -15,17 +19,20 @@ Future<UserProfile> getMyProfile(String memberId) async {
   ));
   final response = await dio.get(
     'http://3.35.110.214/api/v1/members/$memberId',
-    options: Options(headers: {'Authorization': memberId}),
+    options: Options(headers: {'Authorization': authToken}),
   );
+
   return UserProfile.fromJson(response.data);
 }
 
 // 남의 프로필 조회
 Future<OtherUserProfile> getOtherProfile(String memberId) async {
   final dio = Dio();
+  String? authToken = await AuthStorage.getAuthToken();
+
   final response = await dio.get(
     'http://3.35.110.214/api/v1/members/$memberId',
-    options: Options(headers: {'Authorization': memberId}),
+    options: Options(headers: {'Authorization': authToken}),
   );
   return OtherUserProfile.fromJson(response.data);
 }
@@ -34,11 +41,18 @@ Future<OtherUserProfile> getOtherProfile(String memberId) async {
 Future<CodeMsgResDto> updateMember(
     String memberId, MemberUpdateRequest updateRequest) async {
   final dio = Dio();
+  String? authToken = await AuthStorage.getAuthToken();
+
+  print(updateRequest.toJson());
+
   final response = await dio.patch(
     'http://3.35.110.214/api/v1/members/$memberId',
     data: updateRequest.toJson(),
-    options: Options(headers: {'Authorization': '29'}),
+    options: Options(headers: {'Authorization': authToken}),
   );
+
+  print(response);
+
   return CodeMsgResDto.fromJson(response.data);
 }
 
@@ -47,14 +61,13 @@ Future<CodeMsgResDto> checkNicknameDuplicate(String nickname) async {
   final dio = Dio();
   final response = await dio.get(
     'http://3.35.110.214/api/v1/members/duplicate',
-    options: Options(headers: {'Authorization': '3'}),
     queryParameters: {'nickname': nickname},
   );
   return CodeMsgResDto.fromJson(response.data);
 }
 
 /// 회원가입
-Future<CodeMsgDto> createMember(MemberRequest createRequest) async {
+Future<CodeMsgResDto> createMember(MemberRequest createRequest) async {
   final dio = Dio();
 
   dio.interceptors.add(LogInterceptor(
@@ -70,5 +83,5 @@ Future<CodeMsgDto> createMember(MemberRequest createRequest) async {
     'http://3.35.110.214/api/v1/members',
     data: createRequest.toJson(),
   );
-  return CodeMsgDto.fromJson(response.data);
+  return CodeMsgResDto.fromJson(response.data);
 }

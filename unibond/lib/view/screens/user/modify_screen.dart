@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:http_parser/http_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,8 +8,8 @@ import 'package:unibond/model/member_update_request.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
-import 'package:unibond/view/screens/user/profile_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/screens/user/search_screen.dart';
 import 'package:unibond/view/widgets/next_button.dart';
@@ -28,7 +26,7 @@ class ModifyScreen extends StatefulWidget {
 }
 
 class _ModifyScreenState extends State<ModifyScreen> {
-  int selectedDiseaseId = -1;
+  int? selectedDiseaseId;
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
   bool isPrivateSelected = false;
@@ -52,7 +50,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
   void initState() {
     super.initState();
     final UserProfileResult profile = Get.arguments;
-    _imageUrl = profile.profileImage; // 이미지 URL 초기화
+    // _imageUrl = profile.profileImage; // 이미지 URL 초기화
     nicknameController.text = profile.nickname;
     bioController.text = profile.bio;
     searchController.text = profile.diseaseName;
@@ -66,24 +64,24 @@ class _ModifyScreenState extends State<ModifyScreen> {
     selectedDate = DateTime.parse(profile.diagnosisTiming);
   }
 
-  Future getImage() async {
-    final pickedFile = await picker.pickImage(
-      source: ImageSource.gallery,
-      maxHeight: 75,
-      maxWidth: 75,
-      imageQuality: 30, // 이미지 크기 압축을 위해 퀄리티를 30으로 낮춤.
-    );
+  // Future getImage() async {
+  //   final pickedFile = await picker.pickImage(
+  //     source: ImageSource.gallery,
+  //     maxHeight: 75,
+  //     maxWidth: 75,
+  //     imageQuality: 30, // 이미지 크기 압축을 위해 퀄리티를 30으로 낮춤.
+  //   );
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-        _imageUrl = null; // 새 이미지를 선택했으므로 기존 프로필사진 url은 초기화한다.
-        changedImagePath = pickedFile.path;
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //       _imageUrl = null; // 새 이미지를 선택했으므로 기존 프로필사진 url은 초기화한다.
+  //       changedImagePath = pickedFile.path;
+  //     } else {
+  //       print('No image selected.');
+  //     }
+  //   });
+  // }
 
   // 질환 진단 시기 선택
   void _showDatePicker(BuildContext context) {
@@ -114,6 +112,8 @@ class _ModifyScreenState extends State<ModifyScreen> {
 
   // 프로필 수정 완료 요청
   void updateMemberInfo() async {
+    String? authToken = await AuthStorage.getAuthToken();
+
     try {
       // String fileName = changedImagePath.split('/').last;
       String nickname = nicknameController.text.trim();
@@ -122,7 +122,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
           : isFemaleSelected
               ? 'FEMALE'
               : 'NULL';
-      int diseaseId = selectedDiseaseId; // 질환 ID
+      int? diseaseId = selectedDiseaseId; // 질환 ID
       String diagnosisTiming = selectedDate.toString(); // 진단 시기
       String bio = bioController.text.trim(); // 한 줄 소개
       List<String> interestList = selectedInterests; // 관심사 목록
@@ -131,12 +131,16 @@ class _ModifyScreenState extends State<ModifyScreen> {
         "nickname": nickname,
         "gender": gender,
         "diseaseId": diseaseId,
-        "diagnosisTiming": diagnosisTiming,
+        "diagnosisTiming": diagnosisTiming.split(" ")[0],
         "bio": bio,
         "interestList": interestList
       };
 
       MemberUpdateRequest request = MemberUpdateRequest.fromJson(requestData);
+
+      print(diagnosisTiming.split(" ")[0]);
+      print(request);
+
       var dioClient = dio.Dio();
 
       ///@
@@ -144,7 +148,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
         responseBody: true, // 응답 본문을 찍을지 여부
       ));
 
-      var response = await updateMember("29", request);
+      var response = await updateMember(authToken!, request);
 
       // 미완성 formData 통신
       // dio.FormData formData = dio.FormData.fromMap(

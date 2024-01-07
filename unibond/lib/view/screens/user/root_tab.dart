@@ -3,7 +3,6 @@ import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/tab_item.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_box_screen.dart';
-import 'package:unibond/view/screens/user/other_profile_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 
 class RootTab extends StatefulWidget {
