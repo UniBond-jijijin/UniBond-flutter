@@ -34,14 +34,20 @@ class LetterSuccessScreen extends StatelessWidget {
                       height: 100,
                     ),
                     const SizedBox(height: 60),
-                    Image.asset(
-                      'assets/images/sendsuccess.png',
-                      width: 200,
+                    Text(
+                      '전송이 완료되었습니다',
+                      style: TextStyle(
+                        fontFamily: 'MapoGoldenPier',
+                        fontSize: 24,
+                      ),
                     ),
                     const SizedBox(height: 15),
-                    Image.asset(
-                      'assets/images/sendhour.png',
-                      width: 200,
+                    Text(
+                      '전송된 편지는 1시간 뒤에 도착합니다',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xFF5A5A5A),
+                      ),
                     ),
                     const SizedBox(height: 300),
                   ],

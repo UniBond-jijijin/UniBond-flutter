@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/view/screens/letter/letter_success_screen.dart';
 import 'package:unibond/view/screens/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -14,16 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: [
-        Locale('en', ''),
-        Locale('ko', ''),
-      ],
+      home: LetterSuccessScreen(),
     );
   }
 }

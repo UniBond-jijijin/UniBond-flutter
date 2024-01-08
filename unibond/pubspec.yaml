@@ -100,14 +100,14 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Pinyon Script
+    - family: Pinyon_Script
       fonts:
-        - asset: assets/font/Pinyon_Script/PinyonScript-Regular.ttf
+        - asset: assets/font/PinyonScript-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+    - family: MapoGoldenPier
+      fonts:
+        - asset: assets/font/MapoGoldenPier.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
