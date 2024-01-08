@@ -6,6 +6,7 @@ import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/util/auth_storage.dart';
+import 'package:unibond/view/screens/letter/letter_write_screen.dart';
 import 'package:unibond/view/screens/user/modify_screen.dart';
 
 class OtherProfileScreen extends StatefulWidget {
@@ -144,7 +145,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     String formattedBio = processBioText(profile.result.bio);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
         // 프로필 사진
         ClipOval(
@@ -202,10 +203,14 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 6),
-                child: Text(
-                  formattedBio,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w400),
+                child: SizedBox(
+                  width: 290,
+                  child: Text(
+                    formattedBio,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w400),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],
@@ -320,6 +325,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
       child: ElevatedButton(
         onPressed: () {
           // 버튼 클릭 시 실행할 동작
+          Get.to(() =>
+              LetterWriteScreen(receiverId: widget.postOwnerId.toString()));
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: primaryColor,
