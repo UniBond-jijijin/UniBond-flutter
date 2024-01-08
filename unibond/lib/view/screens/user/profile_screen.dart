@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/modify_screen.dart';
 
@@ -154,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     String formattedBio = processBioText(profile.result.bio);
 
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
         // 프로필 사진
         ClipOval(
@@ -212,10 +213,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 6),
-                child: Text(
-                  formattedBio,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w400),
+                child: SizedBox(
+                  width: 290,
+                  child: Text(
+                    formattedBio,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.w400),
+                  ),
                 ),
               ),
             ],
@@ -326,47 +330,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildActivityOptions(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ListTile(
-          title: const Text(
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
+          child: Text(
             '활동 관리',
             style: TextStyle(color: borderColor),
           ),
-          onTap: () {},
         ),
         ListTile(
           title: const Text('내가 올린 게시글'),
-          onTap: () {},
+          onTap: () {
+            showToastMessage("업데이트 준비중인 기능입니다.");
+          },
         ),
         ListTile(
           title: const Text('댓글 단 게시글'),
-          onTap: () {},
+          onTap: () {
+            showToastMessage("업데이트 준비중인 기능입니다.");
+          },
         ),
         ListTile(
           title: const Text('즐겨찾는 편지'),
-          onTap: () {},
+          onTap: () {
+            showToastMessage("업데이트 준비중인 기능입니다.");
+          },
         ),
-        Divider(color: Colors.grey[200], thickness: 8.0),
-        ListTile(
-          title: const Text(
-            '기타',
+        Divider(color: Colors.grey[200], thickness: 4.0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 0, 8),
+          child: Text(
+            '서비스 정보',
             style: TextStyle(color: borderColor),
           ),
-          onTap: () {},
-        ),
-        ListTile(
-          title: const Text(
-            '사용설명서',
-            style: titleTextStyle,
-          ),
-          onTap: () {},
-        ),
-        ListTile(
-          title: const Text(
-            '고객센터',
-            style: titleTextStyle,
-          ),
-          onTap: () {},
         ),
         ListTile(
           title: const Text(
@@ -377,18 +374,75 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ListTile(
           title: const Text(
-            '로그아웃',
+            '서비스 이용방법',
             style: titleTextStyle,
           ),
           onTap: () {},
         ),
         ListTile(
           title: const Text(
-            '회원탈퇴',
+            '개인정보 처리방침',
             style: titleTextStyle,
           ),
           onTap: () {},
         ),
+        Divider(color: Colors.grey[200], thickness: 4.0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 16, 0, 8),
+          child: Text(
+            '도움말 및 기타',
+            style: TextStyle(color: borderColor),
+          ),
+        ),
+        ListTile(
+          title: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '고객센터',
+                style: titleTextStyle,
+              ),
+              Text(
+                'unibond34@gmail.com',
+                style: greyTitleTextStyle,
+              ),
+            ],
+          ),
+          onTap: () {},
+        ),
+        ListTile(
+          title: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '버전 정보',
+                style: titleTextStyle,
+              ),
+              Text(
+                '1.0.0',
+                style: greyTitleTextStyle,
+              ),
+            ],
+          ),
+          onTap: () {},
+        ),
+        Divider(color: Colors.grey[200], thickness: 4.0),
+        Center(
+          child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
+              child: TextButton(
+                onPressed: () {
+                  // 여기에 버튼이 눌렸을 때 실행할 코드를 작성하세요
+                },
+                child: const Text(
+                  '회원 탈퇴',
+                  style: TextStyle(color: borderColor),
+                ),
+              )),
+        ),
+        const SizedBox(
+          height: 20,
+        )
       ],
     );
   }
