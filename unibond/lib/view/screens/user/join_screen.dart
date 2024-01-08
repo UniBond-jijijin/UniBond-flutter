@@ -10,6 +10,7 @@ import 'package:unibond/model/member_request.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
@@ -19,7 +20,8 @@ import 'package:unibond/view/widgets/next_button.dart';
 import 'package:unibond/view/widgets/selected_button.dart';
 import 'package:unibond/view/widgets/my_custom_text_form_field.dart';
 
-import 'package:dio/dio.dart' as dio; // Get Package와의 충돌 방지
+import 'package:dio/dio.dart' as dio;
+import 'package:url_launcher/url_launcher.dart'; // Get Package와의 충돌 방지
 
 class JoinScreen extends StatefulWidget {
   const JoinScreen({super.key});
@@ -42,6 +44,8 @@ class _JoinScreenState extends State<JoinScreen> {
   bool isPrivateSelected = false;
   List<String> selectedInterests = [];
   DateTime selectedDate = DateTime.now();
+  bool isPrivacyPolicyChecked = false;
+  bool isTermsPolicyChecked = false;
 
   @override
   void initState() {
@@ -147,6 +151,71 @@ class _JoinScreenState extends State<JoinScreen> {
         selectedInterests = result;
       });
     }
+  }
+
+  //개인정보 처리방침
+  void _launchPrivacyPolicy() async {
+    final Uri privacy = Uri.parse(
+      'https://doc-hosting.flycricket.io/unibond-privacy-policy/f88dd207-dad1-4425-b2f2-d64c8070b93b/privacy',
+    );
+    if (await canLaunchUrl(privacy)) {
+      await launchUrl(privacy);
+    } else {
+      throw 'Could not launch $privacy';
+    }
+  }
+
+  void _launchTermsPolicy() async {
+    final Uri terms = Uri.parse(
+      'https://doc-hosting.flycricket.io/unibond-terms-of-use/fcd182e2-1c70-4d7b-bf1a-2684759dcae5/terms',
+    );
+    if (await canLaunchUrl(terms)) {
+      await launchUrl(terms);
+    } else {
+      throw 'Could not launch $terms';
+    }
+  }
+
+  void showSelectPrivacyDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('주의'),
+          content: const Text('개인정보 수집 및 이용에 동의하세요'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Get.off(() => const HomeScreen());
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showSelectTermsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('주의'),
+          content: const Text('이용약관에 동의하세요'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Get.off(() => const HomeScreen());
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -530,6 +599,68 @@ class _JoinScreenState extends State<JoinScreen> {
                                   ),
                                 ),
                               ),
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: isPrivacyPolicyChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isPrivacyPolicyChecked = value ?? false;
+                                    });
+
+                                    if (!isPrivacyPolicyChecked) {
+                                      showSelectPrivacyDialog(context);
+                                      setState(() {
+                                        isPrivacyPolicyChecked = false;
+                                      });
+                                    }
+                                  },
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '개인정보 수집 및 이용동의(필수)',
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: _launchPrivacyPolicy,
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: isTermsPolicyChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isTermsPolicyChecked = value ?? false;
+                                    });
+
+                                    if (!isTermsPolicyChecked) {
+                                      showSelectTermsDialog(context);
+                                      setState(() {
+                                        isTermsPolicyChecked = false;
+                                      });
+                                    }
+                                  },
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    '이용약관 동의(필수)',
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: _launchTermsPolicy,
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

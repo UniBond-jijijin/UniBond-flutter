@@ -6,6 +6,7 @@ import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/modify_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -329,6 +330,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildActivityOptions(BuildContext context) {
+    final Uri terms = Uri.parse(
+      'https://doc-hosting.flycricket.io/unibond-terms-of-use/fcd182e2-1c70-4d7b-bf1a-2684759dcae5/terms',
+    );
+    final Uri privacy = Uri.parse(
+      'https://doc-hosting.flycricket.io/unibond-privacy-policy/f88dd207-dad1-4425-b2f2-d64c8070b93b/privacy',
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -370,7 +377,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             '이용약관 및 정책',
             style: titleTextStyle,
           ),
-          onTap: () {},
+          onTap: () async {
+            if (await canLaunchUrl(terms)) {
+              launchUrl(terms);
+            } else {
+              print("Can't launch $terms");
+            }
+          },
         ),
         ListTile(
           title: const Text(
@@ -384,7 +397,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             '개인정보 처리방침',
             style: titleTextStyle,
           ),
-          onTap: () {},
+          onTap: () async {
+            if (await canLaunchUrl(privacy)) {
+              launchUrl(privacy);
+            } else {
+              print("Can't launch $privacy");
+            }
+          },
         ),
         Divider(color: Colors.grey[200], thickness: 4.0),
         const Padding(

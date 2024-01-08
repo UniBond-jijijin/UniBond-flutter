@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  url_launcher: ^6.2.2
   json_annotation: ^4.8.1
   flutter:
     sdk: flutter
@@ -48,6 +49,7 @@ dependencies:
   fluttertoast: ^8.2.4
   file_picker: ^6.1.1
   flutter_image_compress: ^2.1.0
+
 
 dev_dependencies:
   flutter_test:

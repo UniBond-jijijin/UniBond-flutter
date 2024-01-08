@@ -63,6 +63,27 @@ void showDeleteConfirmationDialog(BuildContext context) {
   );
 }
 
+void showSelectPrivacyDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('주의'),
+        content: const Text('개인정보 수집 및 이용에 동의하세요'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              // Get.off(() => const HomeScreen());
+              Navigator.of(context).pop();
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
 // // 임시 스낵바 -> 작동 오류
 // ScaffoldMessenger.of(context).showSnackBar(
