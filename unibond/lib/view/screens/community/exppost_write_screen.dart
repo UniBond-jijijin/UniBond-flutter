@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/controller/exppost_controller.dart';
-import 'package:unibond/controller/qnapost_controller.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/widgets/custom_textarea.dart';

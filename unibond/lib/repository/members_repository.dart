@@ -28,12 +28,18 @@ Future<UserProfile> getMyProfile(String memberId) async {
 // 남의 프로필 조회
 Future<OtherUserProfile> getOtherProfile(String memberId) async {
   final dio = Dio();
+
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true, // 응답 본문을 찍을지 여부
+  ));
+
   String? authToken = await AuthStorage.getAuthToken();
 
   final response = await dio.get(
     'http://3.35.110.214/api/v1/members/$memberId',
     options: Options(headers: {'Authorization': authToken}),
   );
+
   return OtherUserProfile.fromJson(response.data);
 }
 
@@ -43,15 +49,11 @@ Future<CodeMsgResDto> updateMember(
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 
-  print(updateRequest.toJson());
-
   final response = await dio.patch(
     'http://3.35.110.214/api/v1/members/$memberId',
     data: updateRequest.toJson(),
     options: Options(headers: {'Authorization': authToken}),
   );
-
-  print(response);
 
   return CodeMsgResDto.fromJson(response.data);
 }

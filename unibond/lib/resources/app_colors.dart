@@ -12,11 +12,25 @@ const homeMenuTextStyle = TextStyle(
   fontSize: 20,
 );
 
+const coloredButtonTextStyle = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w700,
+  fontSize: 16,
+);
+
 const titleTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w500,
   fontSize: 16,
 );
+
+const contentTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+  height: 1.6,
+);
+
 const askTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w500,

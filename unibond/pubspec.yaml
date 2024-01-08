@@ -62,12 +62,12 @@ dev_dependencies:
   build_runner: ^2.4.6
   json_serializable: ^6.6.0
   retrofit_generator: '>=5.0.0 <6.0.0'
-  flutter_launcher_icons: "^0.13.1"
+  flutter_launcher_icons: '^0.13.1'
 
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: 'launcher_icon'
   ios: true
-  image_path: "assets/logo/playstore.png"
+  image_path: 'assets/logo/playstore.png'
   min_sdk_android: 21
 
 # For information on the generic Dart part of this file, see the
@@ -98,9 +98,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Pinyon Script
-       fonts:
-         - asset: assets/font/Pinyon_Script/PinyonScript-Regular.ttf
+    - family: Pinyon Script
+      fonts:
+        - asset: assets/font/Pinyon_Script/PinyonScript-Regular.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

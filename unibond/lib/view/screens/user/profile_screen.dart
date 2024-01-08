@@ -47,38 +47,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-          child: FutureBuilder(
-        future: userProfile,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.50,
-                ),
-                const CircularProgressIndicator(),
-              ],
-            ));
-          } else if (snapshot.hasError) {
-            print(snapshot.error);
-            return Center(child: Text('내 프로필 스냅샷 Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            UserProfile profile = snapshot.data!;
-            return Column(
-              children: [
-                buildProfileHeader(context, profile),
-                buildProfileBody(context, profile),
-              ],
-            );
-          } else {
-            return const Center(child: Text("No data"));
-          }
-        },
-      )),
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
+            child: FutureBuilder(
+          future: userProfile,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.50,
+                  ),
+                  const CircularProgressIndicator(),
+                ],
+              ));
+            } else if (snapshot.hasError) {
+              print(snapshot.error);
+              return Center(child: Text('내 프로필 스냅샷 Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              UserProfile profile = snapshot.data!;
+              return Column(
+                children: [
+                  buildProfileHeader(context, profile),
+                  buildProfileBody(context, profile),
+                ],
+              );
+            } else {
+              return const Center(child: Text("No data"));
+            }
+          },
+        )),
+      ),
     );
   }
 

@@ -80,11 +80,11 @@ Map<String, dynamic> _$OtherUserProfilePageInfoToJson(
 
 PostPreview _$PostPreviewFromJson(Map<String, dynamic> json) => PostPreview(
       createdDate: json['createdDate'] as String,
-      ownerId: json['ownerId'] as String,
+      ownerId: json['ownerId'] as int,
       ownerProfileImg: json['ownerProfileImg'] as String,
       ownerNick: json['ownerNick'] as String,
       disease: json['disease'] as String,
-      postId: json['postId'] as String,
+      postId: json['postId'] as int,
       postImg: json['postImg'] as String?,
       contentPreview: json['contentPreview'] as String,
       boardType: json['boardType'] as String,

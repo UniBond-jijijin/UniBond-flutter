@@ -78,12 +78,11 @@ class OtherUserProfilePageInfo {
 @JsonSerializable()
 class PostPreview {
   final String createdDate;
-  // API문서 변경된 부분
-  final String ownerId;
+  final int ownerId;
   final String ownerProfileImg;
   final String ownerNick;
   final String disease;
-  final String postId;
+  final int postId;
   final String? postImg;
   final String contentPreview;
   final String boardType;
