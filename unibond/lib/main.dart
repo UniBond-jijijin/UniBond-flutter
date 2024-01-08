@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/letter/letter_write_screen.dart';
-import 'package:unibond/view/widgets/custom_elevated_button.dart';
 import 'package:unibond/view/screens/splash_screen.dart';
-import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {

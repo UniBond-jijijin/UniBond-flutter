@@ -23,6 +23,11 @@ const titleTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 16,
 );
+const greyTitleTextStyle = TextStyle(
+  color: Color.fromARGB(255, 100, 100, 100),
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+);
 
 const contentTextStyle = TextStyle(
   color: Colors.black,
