@@ -97,3 +97,16 @@ Future<CodeMsgResDto> postLetter(LetterPostRequest letterPostRequest) async {
   );
   return CodeMsgResDto.fromJson(response.data);
 }
+
+// 토큰값 반환 함수
+// 보안에 문제가 있는지어쩐지는 모름.
+Future<String> getAuthToken() async {
+  String? authToken = await AuthStorage.getAuthToken();
+  return authToken!;
+}
+
+// 토큰값 vs Id 비교 함수
+Future<bool> compareAuthToken(String id) async {
+  String? authToken = await AuthStorage.getAuthToken();
+  return authToken! == id;
+}
