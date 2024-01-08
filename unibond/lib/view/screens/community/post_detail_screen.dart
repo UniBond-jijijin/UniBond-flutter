@@ -233,7 +233,7 @@ Widget buildProfileInfo(BuildContext context, QnaPostDetail qnaPostDetail) {
                   height: 50,
                 ),
         ),
-        // 닉네임 및 성별 정보
+        // 닉네임 및 질환 정보
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 0, 0, 10),
           child: Column(

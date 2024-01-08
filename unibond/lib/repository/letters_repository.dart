@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 import 'package:unibond/controller/dto/code_msg_res_dto.dart';
 import 'package:unibond/model/letter/all_letter_boxs.dart';
 import 'package:unibond/model/letter/all_letters.dart';
