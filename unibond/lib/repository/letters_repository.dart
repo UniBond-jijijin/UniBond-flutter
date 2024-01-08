@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:unibond/controller/dto/code_msg_res_dto.dart';
 import 'package:unibond/model/letter/all_letter_boxs.dart';
 import 'package:unibond/model/letter/all_letters.dart';
 import 'package:unibond/model/letter/received_letter_detail.dart';
+import 'package:unibond/model/letter/send_letter.dart';
 import 'package:unibond/model/letter/sent_letter_detail.dart';
 import 'package:unibond/util/auth_storage.dart';
 
@@ -42,8 +44,6 @@ Future<AllLettersRequest> getAllLettersRequest(String letterRoomId) async {
     options: Options(headers: {'Authorization': authToken}),
   );
 
-  print(response);
-
   return AllLettersRequest.fromJson(response.data);
 }
 
@@ -79,4 +79,21 @@ Future<SentLetterDetail> getSentLetterDetail(String letterId) async {
   );
 
   return SentLetterDetail.fromJson(response.data);
+}
+
+// 편지 전송
+Future<CodeMsgResDto> postLetter(LetterPostRequest letterPostRequest) async {
+  final dio = Dio();
+  String? authToken = await AuthStorage.getAuthToken();
+
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true,
+  ));
+
+  final response = await dio.post(
+    'http://3.35.110.214/api/v1/letters',
+    data: letterPostRequest.toJson(),
+    options: Options(headers: {'Authorization': authToken}),
+  );
+  return CodeMsgResDto.fromJson(response.data);
 }
