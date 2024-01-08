@@ -70,7 +70,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                   final result = receivedLetterDetail.result;
                   var tempArrivalDate = receivedLetterDetail.result.sendDate;
                   var sendDate =
-                      tempArrivalDate!.split("T")[0].split("-").join(". ");
+                      tempArrivalDate!.split("T")[0].split("-").join(".");
                   var arrivalTime =
                       tempArrivalDate.split("T")[1].split(".")[0].split(":");
                   var title = result.title;
@@ -99,7 +99,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                                           width: 12,
                                         ),
                                         const Text(
-                                          '도착 시간.',
+                                          '보낸 시간.',
                                           style: letterTextStyle,
                                         ),
                                       ],
@@ -112,7 +112,8 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                                           padding:
                                               const EdgeInsets.only(left: 36.0),
                                           child: Text(
-                                            '$sendDate    ${arrivalTime[0]}:${arrivalTime[1]}',
+                                            '$sendDate   ${arrivalTime[0]}:${arrivalTime[1]}',
+                                            // '$sendDate   ${(int.parse(arrivalTime[0]) + 1).toString().padLeft(2, '0')}:${arrivalTime[1]}', // 열심히 1시간 더한 흔적..무의미했다고 한다..
                                             style: letterTextStyle,
                                           ),
                                         ),

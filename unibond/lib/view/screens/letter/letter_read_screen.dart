@@ -11,9 +11,13 @@ class LetterReadScreen extends StatefulWidget {
   // final ReceivedLetterDetail receivedLetterDetail;
   final String letterId;
   final String senderName;
+  final String senderId;
 
   const LetterReadScreen(
-      {Key? key, required this.letterId, required this.senderName})
+      {Key? key,
+      required this.letterId,
+      required this.senderName,
+      required this.senderId})
       : super(key: key);
 
   @override
@@ -90,7 +94,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                   final result = receivedLetterDetail.result;
                   var tempArrivalDate = receivedLetterDetail.result.arrivalDate;
                   var arrivalDate =
-                      tempArrivalDate!.split("T")[0].split("-").join(". ");
+                      tempArrivalDate!.split("T")[0].split("-").join(".");
                   var arrivalTime =
                       tempArrivalDate.split("T")[1].split(".")[0].split(":");
                   var senderName = widget.senderName;
@@ -133,7 +137,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                                           padding:
                                               const EdgeInsets.only(left: 36.0),
                                           child: Text(
-                                            '$arrivalDate    ${arrivalTime[0]}:${arrivalTime[1]}',
+                                            '$arrivalDate   ${arrivalTime[0]}:${arrivalTime[1]}',
                                             style: letterTextStyle,
                                           ),
                                         ),
@@ -172,7 +176,8 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                           child: CustomElevatedButton(
                             text: "답장 쓰기",
                             screenRoute: () {
-                              // Get.to(() => LetterWriteScreen());
+                              Get.to(() => LetterWriteScreen(
+                                  receiverId: widget.senderId));
                             },
                           ),
                         ),
