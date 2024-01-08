@@ -7,6 +7,7 @@ import 'package:unibond/repository/posts_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
+import 'package:unibond/view/screens/user/other_profile_screen.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id;
@@ -25,51 +26,53 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    qnaPostDetail = getQnaPostDetail(widget.id, "29");
+    qnaPostDetail = getQnaPostDetail(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FutureBuilder(
-        future: qnaPostDetail,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-                child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.10,
-                ),
-                // const CircularProgressIndicator(),
-              ],
-            ));
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            QnaPostDetail qnaPostDetail = snapshot.data!;
-            parentComments = qnaPostDetail.result.parentCommentList!;
-
-            return GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
-              child: Column(
+    return SafeArea(
+      child: Scaffold(
+        body: FutureBuilder(
+          future: qnaPostDetail,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                      flex: 6,
-                      child: SingleChildScrollView(
-                          child: buildPost(
-                              context, qnaPostDetail))), // 게시물+댓글 보는 영역
-                  buildCommentPost(context, qnaPostDetail), // 댓글 다는 영역
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.10,
+                  ),
+                  // const CircularProgressIndicator(),
                 ],
-              ),
-            );
-          } else {
-            return const Center(child: Text("No data"));
-          }
-        },
+              ));
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (snapshot.hasData) {
+              QnaPostDetail qnaPostDetail = snapshot.data!;
+              parentComments = qnaPostDetail.result.parentCommentList!;
+
+              return GestureDetector(
+                onTap: () {
+                  FocusScope.of(context).unfocus();
+                },
+                child: Column(
+                  children: [
+                    Expanded(
+                        flex: 6,
+                        child: SingleChildScrollView(
+                            child: buildPost(
+                                context, qnaPostDetail))), // 게시물+댓글 보는 영역
+                    buildCommentPost(context, qnaPostDetail), // 댓글 다는 영역
+                  ],
+                ),
+              );
+            } else {
+              return const Center(child: Text("No data"));
+            }
+          },
+        ),
       ),
     );
   }
@@ -140,7 +143,7 @@ class _DetailScreenState extends State<DetailScreen> {
     CommentPost comment = CommentPost(content: text);
     postComment(widget.id, comment).then((value) => setState(() {
           // 댓글 실시간 반영이 어려워서 GET -> POST -> GET으로 구현했음.
-          qnaPostDetail = getQnaPostDetail(widget.id, "29");
+          qnaPostDetail = getQnaPostDetail(widget.id);
           _commentController.clear();
         }));
   }
@@ -205,70 +208,78 @@ Widget buildProfileInfo(BuildContext context, QnaPostDetail qnaPostDetail) {
       .parse(qnaPostDetail.result.createdDate);
   int passedDays = calculatePassedDays(converToDateTime);
 
-  return Padding(
-    padding: const EdgeInsets.only(left: 20),
-    child: Row(children: [
-      // 프로필 사진
-      ClipOval(
-        child: qnaPostDetail.result.profileImage.isNotEmpty
-            ? Image.network(
-                qnaPostDetail.result.profileImage,
-                width: 50,
-                height: 50,
-                fit: BoxFit.cover,
-              )
-            : Image.asset(
-                'assets/images/user_image.jpg',
-                width: 50,
-                height: 50,
-              ),
-      ),
-      // 닉네임 및 성별 정보
-      Padding(
-        padding: const EdgeInsets.fromLTRB(12, 0, 0, 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: Row(
-                children: [
-                  Text(
-                    qnaPostDetail.result.postOwnerName,
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: Center(
-                      child: Text(
-                        "$passedDays일 전",
-                        style: const TextStyle(
-                            color: Color.fromARGB(255, 25, 25, 25),
-                            fontSize: 13.0,
-                            fontWeight: FontWeight.w400),
+  return GestureDetector(
+    onTap: () {
+      // 다른 사람 프로필 조회
+      Get.to(() => OtherProfileScreen(
+            postOwnerId: qnaPostDetail.result.postOwnerId,
+          ));
+    },
+    child: Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Row(children: [
+        // 프로필 사진
+        ClipOval(
+          child: qnaPostDetail.result.profileImage.isNotEmpty
+              ? Image.network(
+                  qnaPostDetail.result.profileImage,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  'assets/images/user_image.jpg',
+                  width: 50,
+                  height: 50,
+                ),
+        ),
+        // 닉네임 및 성별 정보
+        Padding(
+          padding: const EdgeInsets.fromLTRB(12, 0, 0, 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      qnaPostDetail.result.postOwnerName,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 6),
+                      child: Center(
+                        child: Text(
+                          "$passedDays일 전",
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 25, 25, 25),
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w400),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5),
-              child: Text(
-                qnaPostDetail.result.diseaseName,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  color: primaryColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                  ],
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(
+                  qnaPostDetail.result.diseaseName,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: primaryColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    ]),
+      ]),
+    ),
   );
 }
 
@@ -278,7 +289,7 @@ Widget buildPostContent(BuildContext context, QnaPostDetail qnaPostDetail) {
     padding: const EdgeInsets.fromLTRB(20, 8, 20, 18),
     child: SizedBox(
       width: double.infinity,
-      child: Text(qnaPostDetail.result.content),
+      child: Text(qnaPostDetail.result.content, style: contentTextStyle),
     ),
   );
 }
@@ -315,26 +326,41 @@ Widget buildCommentContent(BuildContext context, QnaPostDetail qnaPostDetail) {
               int passedDays = calculatePassedDays(converToDateTime);
 
               return ListTile(
-                leading: ClipOval(
-                  child: comment.profileImgUrl.isNotEmpty
-                      ? Image.network(
-                          comment.profileImgUrl,
-                          width: 40,
-                          height: 40,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          'assets/images/user_image.jpg',
-                          width: 40,
-                          height: 40,
-                        ),
+                leading: GestureDetector(
+                  onTap: () {
+                    // 다른 사람 프로필 조회
+                    Get.to(() => OtherProfileScreen(
+                          postOwnerId: comment.commentUserId,
+                        ));
+                  },
+                  child: ClipOval(
+                    child: comment.profileImgUrl.isNotEmpty
+                        ? Image.network(
+                            comment.profileImgUrl,
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.asset(
+                            'assets/images/user_image.jpg',
+                            width: 40,
+                            height: 40,
+                          ),
+                  ),
                 ),
                 title: Row(
                   children: [
-                    Text(
-                      comment.commentUserName,
-                      style: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => OtherProfileScreen(
+                              postOwnerId: comment.commentUserId,
+                            ));
+                      },
+                      child: Text(
+                        comment.commentUserName,
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold),
+                      ),
                     ),
                     const SizedBox(width: 12),
                     // 패키지 사용해서 시간 단위로 표시하기
