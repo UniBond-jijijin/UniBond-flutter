@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/model/other_user_profile.dart';
-import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
-import 'package:unibond/util/auth_storage.dart';
+import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/letter/letter_write_screen.dart';
-import 'package:unibond/view/screens/user/modify_screen.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   final int postOwnerId;
@@ -19,6 +18,7 @@ class OtherProfileScreen extends StatefulWidget {
 
 class _OtherProfileScreenState extends State<OtherProfileScreen> {
   Future<OtherUserProfile>? userProfile;
+  List<PostPreview>? postPreviewList;
 
   @override
   void initState() {
@@ -43,8 +43,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-            child: FutureBuilder<OtherUserProfile>(
+        body: FutureBuilder<OtherUserProfile>(
           future: userProfile,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -59,21 +58,62 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                 ],
               ));
             } else if (snapshot.hasError) {
-              print(snapshot.error);
-              return Center(child: Text('남의 프로필 스냅샷 에러: ${snapshot.error}'));
+              return const Center(child: Text('다른 회원의 프로필을 불러올 수 없습니다.'));
             } else if (snapshot.hasData) {
               OtherUserProfile profile = snapshot.data!;
+              postPreviewList = profile.result.postPreviewList;
+
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildProfileHeader(context, profile),
-                  buildProfileBody(context, profile),
+                  Center(child: buildLetterSendButton(context)),
+                  const Padding(
+                    padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
+                    child: Text("게시물", style: primaryColorTextStyle20),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: postPreviewList!.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 12),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.4),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 3),
+                                ),
+                              ],
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Get.to(() => DetailScreen(
+                                    id: postPreviewList![index]
+                                        .postId
+                                        .toString()));
+                              },
+                              child: qnaCustomListItem(postPreviewList!, index),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               );
             } else {
               return const Center(child: Text("No data"));
             }
           },
-        )),
+        ),
       ),
     );
   }
@@ -83,7 +123,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
       children: [
         // 배경 컨테이너
         Container(
-          height: MediaQuery.of(context).size.height * 0.40,
+          height: MediaQuery.of(context).size.height * 0.37,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -254,15 +294,6 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     );
   }
 
-  Widget buildProfileBody(BuildContext context, OtherUserProfile profile) {
-    return Column(
-      children: [
-        // 활동 관리 및 기타 옵션들
-        buildActivityOptions(context),
-      ],
-    );
-  }
-
   Widget buildDiseaseInfo(BuildContext context, OtherUserProfile profile) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -319,12 +350,11 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     );
   }
 
-  Widget buildActivityOptions(BuildContext context) {
+  Widget buildLetterSendButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
+      padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
       child: ElevatedButton(
         onPressed: () {
-          // 버튼 클릭 시 실행할 동작
           Get.to(() =>
               LetterWriteScreen(receiverId: widget.postOwnerId.toString()));
         },
@@ -350,5 +380,88 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
         ),
       ),
     );
+  }
+}
+
+Widget qnaCustomListItem(List<PostPreview> postPreviewList, int index) {
+  var postDate = postPreviewList[index].createdDate;
+  int daysDifference = calculatePassedDays(DateTime.parse(postDate));
+  String boardType = postPreviewList[index].boardType;
+
+  return Column(
+    children: [
+      ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: ClipOval(
+          child: postPreviewList[index].ownerProfileImg.isNotEmpty
+              ? Image.network(
+                  postPreviewList[index].ownerProfileImg,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  'assets/images/user_image.jpg',
+                  width: 50,
+                  height: 50,
+                ),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Text(
+                  postPreviewList[index].ownerNick,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  '$daysDifference일 전',
+                  style: const TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: Text(
+                getFormattedBoardType(boardType),
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: primaryColor,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+          ],
+        ),
+        subtitle: Text(
+          postPreviewList[index].disease,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 14),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(10, 2, 10, 6),
+        child: Text(
+          postPreviewList[index].contentPreview,
+          style: const TextStyle(
+            color: Colors.black,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+String getFormattedBoardType(String boardType) {
+  if (boardType == 'QNA') {
+    return 'Q & A';
+  } else if (boardType == 'EXPERIENCE') {
+    return '경험 공유';
+  } else {
+    return boardType;
   }
 }
