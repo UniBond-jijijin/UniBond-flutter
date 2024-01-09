@@ -48,13 +48,13 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
               ),
             ),
           ),
-          Center(
-            child: Image.asset(
-              'assets/images/logolight.png',
-              width: 350,
-              height: 350,
-            ),
-          ),
+          // Center(
+          //   child: Image.asset(
+          //     'assets/images/logolight.png',
+          //     width: 350,
+          //     height: 350,
+          //   ),
+          // ),
           FutureBuilder(
               future: receivedLetterDetail,
               builder: (context, snapshot) {

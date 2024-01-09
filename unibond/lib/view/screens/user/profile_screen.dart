@@ -341,32 +341,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
-          child: Text(
-            '활동 관리',
-            style: TextStyle(color: borderColor),
-          ),
-        ),
-        ListTile(
-          title: const Text('내가 올린 게시글'),
-          onTap: () {
-            showToastMessage("업데이트 준비중인 기능입니다.");
-          },
-        ),
-        ListTile(
-          title: const Text('댓글 단 게시글'),
-          onTap: () {
-            showToastMessage("업데이트 준비중인 기능입니다.");
-          },
-        ),
-        ListTile(
-          title: const Text('즐겨찾는 편지'),
-          onTap: () {
-            showToastMessage("업데이트 준비중인 기능입니다.");
-          },
-        ),
-        Divider(color: Colors.grey[200], thickness: 4.0),
+        // const Padding(
+        //   padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
+        //   child: Text(
+        //     '활동 관리',
+        //     style: TextStyle(color: borderColor),
+        //   ),
+        // ),
+        // ListTile(
+        //   title: const Text('내가 올린 게시글'),
+        //   onTap: () {
+        //     showToastMessage("업데이트 준비중인 기능입니다.");
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('댓글 단 게시글'),
+        //   onTap: () {
+        //     showToastMessage("업데이트 준비중인 기능입니다.");
+        //   },
+        // ),
+        // ListTile(
+        //   title: const Text('즐겨찾는 편지'),
+        //   onTap: () {
+        //     showToastMessage("업데이트 준비중인 기능입니다.");
+        //   },
+        // ),
+        // Divider(color: Colors.grey[200], thickness: 4.0),
         const Padding(
           padding: EdgeInsets.fromLTRB(16, 16, 0, 8),
           child: Text(
