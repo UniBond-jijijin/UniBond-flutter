@@ -164,7 +164,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
         PopupMenuButton<String>(
           onSelected: (value) async {
             if (value == 'report') {
-              showReportConfirmationDialog(context);
+              showReportConfirmationDialog(context, '사용자를');
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[

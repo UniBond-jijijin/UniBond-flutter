@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:unibond/model/block_model.dart';
 import 'package:unibond/model/post/comment_post.dart';
 import 'package:unibond/model/post/qnapost_request.dart';
+import 'package:unibond/repository/blocking_repository.dart';
 import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/repository/posts_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
+import 'package:unibond/resources/modal_bottom_sheet.dart';
+import 'package:unibond/resources/toast.dart';
 import 'package:unibond/view/screens/user/other_profile_screen.dart';
+import 'package:unibond/view/screens/user/root_tab.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id;
@@ -47,7 +52,7 @@ class _DetailScreenState extends State<DetailScreen> {
     return SafeArea(
       child: Scaffold(
         body: FutureBuilder(
-          future: Future.wait([fetchQnaPosts(), getAuthToken()]),
+          future: Future.wait([fetchQnaPosts(), fetchAuthToken()]),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -170,7 +175,7 @@ class _DetailScreenState extends State<DetailScreen> {
       children: [
         Column(
           children: [
-            buildAppBar(context, qnaPostDetail), // 앱바
+            buildAppBar(context, qnaPostDetail, myToken), // 앱바
             buildProfileInfo(context, qnaPostDetail, myToken), // 작성자 프로필
             buildPostContent(context, qnaPostDetail), // 글내용
             buildCommentContent(context, qnaPostDetail, myToken), // 댓글내용
@@ -180,7 +185,8 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  AppBar buildAppBar(BuildContext context, QnaPostDetail qnaPostDetail) {
+  AppBar buildAppBar(
+      BuildContext context, QnaPostDetail qnaPostDetail, String myToken) {
     return AppBar(
       centerTitle: true,
       title: const Text('경험 공유'),
@@ -191,28 +197,43 @@ class _DetailScreenState extends State<DetailScreen> {
         },
       ),
       actions: [
-        PopupMenuButton<String>(
-          onSelected: (value) async {
-            if (value == 'report') {
-              showReportConfirmationDialog(context);
-            }
-          },
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              value: 'report',
-              child: Text('신고하기'),
-            ),
-            const PopupMenuItem<String>(
-              value: 'modify',
-              child: Text('수정하기'),
-            ),
-            const PopupMenuItem<String>(
-              value: 'delete',
-              child: Text('삭제하기'),
-            ),
-          ],
-          icon: const Icon(Icons.more_vert, color: Colors.black),
-        ),
+        (myToken != qnaPostDetail.result.postOwnerId.toString())
+            ? PopupMenuButton<String>(
+                onSelected: (value) async {
+                  if (value == 'report') {
+                    showReportConfirmationDialog(context, '게시물을');
+                  } else if (value == 'block') {
+                    showBlockConfirmationDialog(context, '게시물을',
+                        int.parse(widget.id), _handleBlockPost);
+                  }
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: 'report',
+                    child: Text('신고하기'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'block',
+                    child: Text('차단하기'),
+                  ),
+                ],
+                icon: const Icon(Icons.more_vert, color: Colors.black),
+              )
+            : PopupMenuButton<String>(
+                onSelected: (value) async {
+                  if (value == 'delete') {
+                    showDeleteConfirmationDialog(context, '게시물을');
+                    // TODO: 내 게시물 삭제 API 연동
+                  }
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: 'delete',
+                    child: Text('삭제하기'),
+                  ),
+                ],
+                icon: const Icon(Icons.more_vert, color: Colors.black),
+              ),
       ],
     );
   }
@@ -348,9 +369,6 @@ class _DetailScreenState extends State<DetailScreen> {
                   leading: GestureDetector(
                     onTap: () {
                       // 다른 사람 프로필 조회
-                      print(myToken);
-                      print(qnaPostDetail.result.postOwnerId.toString());
-
                       if (myToken != comment.commentUserId.toString()) {
                         Get.to(() => OtherProfileScreen(
                               postOwnerId: comment.commentUserId,
@@ -401,12 +419,21 @@ class _DetailScreenState extends State<DetailScreen> {
                     ],
                   ),
                   subtitle: Text(comment.content),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.report_gmailerrorred), // 신고 아이콘
-                    onPressed: () {
-                      showReportConfirmationDialog(context);
-                    },
-                  ),
+                  // 댓글 신고 및 삭제 기능
+                  trailing: (myToken != comment.commentUserId.toString())
+                      ? IconButton(
+                          icon: const Icon(Icons.more_vert),
+                          onPressed: () {
+                            showBlockBottomSheet(context, comment.commentId,
+                                _handleBlockComment);
+                          },
+                        )
+                      : IconButton(
+                          icon: const Icon(Icons.more_vert),
+                          onPressed: () {
+                            showDeleteBottomSheet(context);
+                          },
+                        ),
                 );
               },
             )
@@ -414,5 +441,20 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
     );
+  }
+
+  // 댓글 차단시 실행되는 함수
+  void _handleBlockComment(int commentId) {
+    BlockingComment blockingComment =
+        BlockingComment(blockedCommentId: commentId);
+    blockComment(blockingComment).then((value) => setState(() {
+          qnaPostDetail = getQnaPostDetail(widget.id);
+        }));
+  }
+
+  // 게시물 차단시 실행되는 함수
+  void _handleBlockPost(int postId) {
+    BlockingPost blockingPost = BlockingPost(blockedPostId: postId);
+    blockPost(blockingPost).then((value) => Get.off(() => const RootTab()));
   }
 }

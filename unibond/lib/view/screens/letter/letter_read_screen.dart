@@ -50,7 +50,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
           PopupMenuButton<String>(
             onSelected: (value) async {
               if (value == 'report') {
-                showReportConfirmationDialog(context);
+                showReportConfirmationDialog(context, '편지를');
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
