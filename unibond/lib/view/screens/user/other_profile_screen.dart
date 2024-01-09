@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/model/block_model.dart';
 import 'package:unibond/model/other_user_profile.dart';
+import 'package:unibond/repository/blocking_repository.dart';
+import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/letter/letter_write_screen.dart';
+import 'package:unibond/view/screens/user/root_tab.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   final int postOwnerId;
@@ -23,7 +27,6 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
   @override
   void initState() {
     super.initState();
-    userProfile = getOtherProfile(widget.postOwnerId.toString());
   }
 
   // bio 오버플로우 방지
@@ -43,8 +46,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: FutureBuilder<OtherUserProfile>(
-          future: userProfile,
+        body: FutureBuilder(
+          future: Future.wait(
+              [getOtherProfile(widget.postOwnerId.toString()), getAuthToken()]),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(
@@ -60,13 +64,15 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
             } else if (snapshot.hasError) {
               return const Center(child: Text('다른 회원의 프로필을 불러올 수 없습니다.'));
             } else if (snapshot.hasData) {
-              OtherUserProfile profile = snapshot.data!;
+              OtherUserProfile profile = snapshot.data![0] as OtherUserProfile;
+              String myToken = snapshot.data![1] as String;
+
               postPreviewList = profile.result.postPreviewList;
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildProfileHeader(context, profile),
+                  buildProfileHeader(context, profile, myToken),
                   Center(child: buildLetterSendButton(context)),
                   const Padding(
                     padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
@@ -118,7 +124,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     );
   }
 
-  Widget buildProfileHeader(BuildContext context, OtherUserProfile profile) {
+  Widget buildProfileHeader(
+      BuildContext context, OtherUserProfile profile, String myToken) {
     return Stack(
       children: [
         // 배경 컨테이너
@@ -139,7 +146,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
         // 프로필 정보 섹션
         Column(
           children: [
-            buildAppBar(context, profile),
+            buildAppBar(context, profile, myToken),
             buildProfileInfo(context, profile),
             buildInterestTags(context, profile),
             // 질환 정보 및 진단 시기
@@ -150,7 +157,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     );
   }
 
-  AppBar buildAppBar(BuildContext context, OtherUserProfile profile) {
+  AppBar buildAppBar(
+      BuildContext context, OtherUserProfile profile, String myToken) {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -165,12 +173,19 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
           onSelected: (value) async {
             if (value == 'report') {
               showReportConfirmationDialog(context, '사용자를');
+            } else if (value == 'block') {
+              showBlockConfirmationDialog(
+                  context, '사용자를', widget.postOwnerId, _handleBlockUser);
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
             const PopupMenuItem<String>(
               value: 'report',
               child: Text('신고하기'),
+            ),
+            const PopupMenuItem<String>(
+              value: 'block',
+              child: Text('차단하기'),
             ),
           ],
           icon: const Icon(Icons.more_vert, color: Colors.black),
@@ -380,6 +395,12 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
         ),
       ),
     );
+  }
+
+  // 사용자 차단시 실행되는 함수
+  void _handleBlockUser(int userId) {
+    BlockingUser blockingUser = BlockingUser(blockedMemberId: userId);
+    blockUser(blockingUser).then((value) => Get.off(() => const RootTab()));
   }
 }
 

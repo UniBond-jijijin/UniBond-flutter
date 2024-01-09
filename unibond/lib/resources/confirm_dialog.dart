@@ -10,7 +10,8 @@ void showBlockConfirmationDialog(
         title: Text(
           '${object.substring(0, object.length - 1)} 차단 확인',
           style: const TextStyle(
-            fontSize: 18.0,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
         content: Text(
@@ -48,7 +49,8 @@ void showReportConfirmationDialog(BuildContext context, String object) {
         title: Text(
           '${object.substring(0, object.length - 1)} 신고 확인',
           style: const TextStyle(
-            fontSize: 18.0,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
         content: Text(
@@ -85,7 +87,8 @@ void showDeleteConfirmationDialog(BuildContext context, String object) {
         title: Text(
           '${object.substring(0, object.length - 1)} 삭제 확인',
           style: const TextStyle(
-            fontSize: 18.0,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
         content: Text(
