@@ -34,7 +34,7 @@ class PostRepository {
 
   Future<bool> uploadQnaPost(String content) async {
     try {
-      final PostUploadReqDto postUploadReqDto = PostUploadReqDto(content);
+      final QnAPostUploadReqDto postUploadReqDto = QnAPostUploadReqDto(content);
       Response response =
           await _postProvider.uploadQnaPost(postUploadReqDto.toJson());
       // 테스트
@@ -74,7 +74,7 @@ class PostRepository {
 
   Future<bool> uploadExpPost(String content) async {
     try {
-      final PostUploadReqDto postUploadReqDto = PostUploadReqDto(content);
+      final ExpPostUploadReqDto postUploadReqDto = ExpPostUploadReqDto(content);
       Response response =
           await _postProvider.uploadExpPost(postUploadReqDto.toJson());
       // 테스트

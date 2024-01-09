@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:unibond/util/auth_storage.dart';
-import 'package:unibond/util/userIdNum.dart';
 
 const host = "http://3.35.110.214";
 
@@ -35,7 +34,7 @@ class PostProvider extends GetConnect {
 
     return post(
         "$host/api/v1/community/experience",
-        headers: {"Authorization": "29"},
+        headers: {"Authorization": authToken!},
         data);
   }
 }

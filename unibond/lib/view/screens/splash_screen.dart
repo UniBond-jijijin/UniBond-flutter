@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void _checkAuthAndNavigate() async {
     String? memberId = await AuthStorage.getAuthToken();
 
-    // SecureStorage 초기화를 위한 임시 코드
+    // SecureStorage 초기화를 위해 회원가입 화면으로 이동시키기
     // memberId = null;
 
     if (memberId != null) {
