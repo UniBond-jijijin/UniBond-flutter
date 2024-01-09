@@ -36,12 +36,33 @@ Future<ExpPostPrevRequest> getExpPostsList() async {
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true, // 응답 본문을 찍을지 여부
-  ));
   final response = await dio.get(
     'http://3.35.110.214/api/v1/community/experience',
     options: Options(headers: {'Authorization': authToken}),
   );
   return ExpPostPrevRequest.fromJson(response.data);
+}
+
+/// 게시글 삭제
+Future<CodeMsgDto> delPost(String postId) async {
+  final dio = Dio();
+  String? authToken = await AuthStorage.getAuthToken();
+
+  final response = await dio.get(
+    'http://3.35.110.214/api/v1/community/$postId',
+    options: Options(headers: {'Authorization': authToken}),
+  );
+  return CodeMsgDto.fromJson(response.data);
+}
+
+/// 댓글 삭제
+Future<CodeMsgDto> delComment(String postId, String commentId) async {
+  final dio = Dio();
+  String? authToken = await AuthStorage.getAuthToken();
+
+  final response = await dio.get(
+    'http://3.35.110.214/api/v1/community/experience/$postId/$commentId',
+    options: Options(headers: {'Authorization': authToken}),
+  );
+  return CodeMsgDto.fromJson(response.data);
 }

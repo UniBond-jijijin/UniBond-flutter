@@ -46,3 +46,33 @@ class BlockingComment {
 
   Map<String, dynamic> toJson() => _$BlockingCommentToJson(this);
 }
+
+// 편지 차단 POST를 위한 모델
+@JsonSerializable()
+class BlockingLetter {
+  final int blockedLetterId;
+
+  BlockingLetter({
+    required this.blockedLetterId,
+  });
+
+  factory BlockingLetter.fromJson(Map<String, dynamic> json) =>
+      _$BlockingLetterFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockingLetterToJson(this);
+}
+
+// 편지리스트 차단 POST를 위한 모델
+@JsonSerializable()
+class BlockingLetterList {
+  final int blockedLetterRoomId;
+
+  BlockingLetterList({
+    required this.blockedLetterRoomId,
+  });
+
+  factory BlockingLetterList.fromJson(Map<String, dynamic> json) =>
+      _$BlockingLetterListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BlockingLetterListToJson(this);
+}

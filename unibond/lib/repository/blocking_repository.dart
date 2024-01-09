@@ -44,3 +44,36 @@ Future<CodeMsgDto> blockComment(BlockingComment blockingComment) async {
 
   return CodeMsgDto.fromJson(response.data);
 }
+
+/// 편지 차단
+Future<CodeMsgDto> blockLetter(BlockingLetter blockingLetter) async {
+  final dio = Dio();
+  String? authToken = await AuthStorage.getAuthToken();
+
+  final response = await dio.post(
+    'http://3.35.110.214/api/v1/blocks/letter',
+    data: blockingLetter.toJson(),
+    options: Options(headers: {'Authorization': authToken}),
+  );
+
+  return CodeMsgDto.fromJson(response.data);
+}
+
+/// 편지리스트 차단
+Future<CodeMsgDto> blockLetterList(
+    BlockingLetterList blockingLetterList) async {
+  final dio = Dio();
+  String? authToken = await AuthStorage.getAuthToken();
+
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true,
+  ));
+
+  final response = await dio.post(
+    'http://3.35.110.214/api/v1/blocks/letter-room',
+    data: blockingLetterList.toJson(),
+    options: Options(headers: {'Authorization': authToken}),
+  );
+
+  return CodeMsgDto.fromJson(response.data);
+}

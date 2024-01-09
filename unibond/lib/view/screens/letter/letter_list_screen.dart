@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/model/block_model.dart';
 import 'package:unibond/model/letter/all_letters.dart';
+import 'package:unibond/repository/blocking_repository.dart';
 import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/view/screens/letter/letter_read_mine_screen.dart';
 import 'package:unibond/view/screens/letter/letter_read_screen.dart';
 import 'package:unibond/view/screens/user/other_profile_screen.dart';
+import 'package:unibond/view/screens/user/root_tab.dart';
 
 class LetterList extends StatefulWidget {
   final Color backgroundColor1;
@@ -172,6 +176,29 @@ class _LetterListState extends State<LetterList> {
           Get.back();
         },
       ),
+      actions: [
+        PopupMenuButton<String>(
+          onSelected: (value) async {
+            if (value == 'report') {
+              showReportConfirmationDialog(context, '편지함을');
+            } else if (value == 'block') {
+              showBlockConfirmationDialog(context, '편지함을',
+                  int.parse(widget.letterRoomId), _handleBlockLetterList);
+            }
+          },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+            const PopupMenuItem<String>(
+              value: 'report',
+              child: Text('신고하기'),
+            ),
+            const PopupMenuItem<String>(
+              value: 'block',
+              child: Text('차단하기'),
+            ),
+          ],
+          icon: const Icon(Icons.more_vert, color: Colors.black),
+        ),
+      ],
     );
   }
 
@@ -193,7 +220,7 @@ class _LetterListState extends State<LetterList> {
                 : Color.lerp(widget.backgroundColor2, Colors.white, 0.3)!;
 
             return GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (letter.senderId == allLettersRequest.result.loginId) {
                   // 보낸 편지 상세조회 화면 이동
                   Get.to(() => MyLetterReadScreen(
@@ -201,11 +228,13 @@ class _LetterListState extends State<LetterList> {
                       ));
                 } else {
                   // 받은 편지 상세조회 화면 이동
-                  Get.to(() => LetterReadScreen(
+                  await Get.to(() => LetterReadScreen(
                         letterId: letter.letterId.toString(),
                         senderName: letter.senderName,
                         senderId: letter.senderId.toString(),
                       ));
+                  // 받은 편지가 차단되었을수도 있으므로 화면 업데이트
+                  setState(() {});
                 }
               },
               child: Padding(
@@ -243,5 +272,13 @@ class _LetterListState extends State<LetterList> {
         ),
       ),
     );
+  }
+
+  // 편지리스트 차단시 실행되는 함수
+  void _handleBlockLetterList(int letterRoomId) {
+    BlockingLetterList blockingLetterList =
+        BlockingLetterList(blockedLetterRoomId: letterRoomId);
+    blockLetterList(blockingLetterList)
+        .then((value) => Get.off(() => const RootTab(initialIndex: 1)));
   }
 }

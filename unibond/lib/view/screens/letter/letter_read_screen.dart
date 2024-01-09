@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/model/block_model.dart';
 import 'package:unibond/model/letter/received_letter_detail.dart';
+import 'package:unibond/repository/blocking_repository.dart';
 import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
@@ -51,12 +53,19 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
             onSelected: (value) async {
               if (value == 'report') {
                 showReportConfirmationDialog(context, '편지를');
+              } else if (value == 'block') {
+                showBlockConfirmationDialog(context, '편지를',
+                    int.parse(widget.letterId), _handleBlockLetter);
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
                 value: 'report',
                 child: Text('신고하기'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'block',
+                child: Text('차단하기'),
               ),
             ],
             icon: const Icon(Icons.more_vert, color: Colors.black),
@@ -200,5 +209,11 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
         ],
       ),
     );
+  }
+
+  // 편지 차단시 실행되는 함수
+  void _handleBlockLetter(int letterId) {
+    BlockingLetter blockingLetter = BlockingLetter(blockedLetterId: letterId);
+    blockLetter(blockingLetter).then((value) => Get.back());
   }
 }

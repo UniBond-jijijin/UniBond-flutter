@@ -33,3 +33,23 @@ Map<String, dynamic> _$BlockingCommentToJson(BlockingComment instance) =>
     <String, dynamic>{
       'blockedCommentId': instance.blockedCommentId,
     };
+
+BlockingLetter _$BlockingLetterFromJson(Map<String, dynamic> json) =>
+    BlockingLetter(
+      blockedLetterId: json['blockedLetterId'] as int,
+    );
+
+Map<String, dynamic> _$BlockingLetterToJson(BlockingLetter instance) =>
+    <String, dynamic>{
+      'blockedLetterId': instance.blockedLetterId,
+    };
+
+BlockingLetterList _$BlockingLetterListFromJson(Map<String, dynamic> json) =>
+    BlockingLetterList(
+      blockedLetterRoomId: json['blockedLetterRoomId'] as int,
+    );
+
+Map<String, dynamic> _$BlockingLetterListToJson(BlockingLetterList instance) =>
+    <String, dynamic>{
+      'blockedLetterRoomId': instance.blockedLetterRoomId,
+    };
