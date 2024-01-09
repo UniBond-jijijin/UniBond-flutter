@@ -6,6 +6,7 @@ import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/auth_storage.dart';
+import 'package:unibond/view/screens/user/join_screen.dart';
 import 'package:unibond/view/screens/user/modify_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -501,6 +502,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         WithdrawRepository().withdrawUser(userId).then((WithdrawDto dto) {
           if (dto.isSuccess) {
             showToastMessage("회원탈퇴 완료");
+            Get.offAll(() => const JoinScreen());
           } else {
             // Handle unsuccessful withdrawal
             showToastMessage(dto.message);

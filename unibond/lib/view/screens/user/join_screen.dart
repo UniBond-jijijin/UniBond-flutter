@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:unibond/model/member_request.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/resources/confirm_dialog.dart';
+import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
@@ -155,7 +155,7 @@ class _JoinScreenState extends State<JoinScreen> {
             ),
           );
         }
-        print("회원가입 Error : ${response.msg}");
+        showToastMessage(response.msg!);
       }
     } catch (e) {
       print("회원가입 Exception caught: $e");
