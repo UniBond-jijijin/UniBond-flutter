@@ -1,26 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:unibond/resources/toast.dart';
 
-void showReportConfirmationDialog(BuildContext context) {
+void showBlockConfirmationDialog(
+    BuildContext context, String object, int id, Function(int) onBlockPressed) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text(
-          '알림',
-          style: TextStyle(
-            fontSize: 16.0,
+        title: Text(
+          '${object.substring(0, object.length - 1)} 차단 확인',
+          style: const TextStyle(
+            fontSize: 18.0,
           ),
         ),
-        content: const Text(
-          '신고하시겠습니까?',
-          style: TextStyle(
-            fontSize: 18.0,
+        content: Text(
+          '이 $object 차단하시겠습니까?',
+          style: const TextStyle(
+            fontSize: 16.0,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () {
+              onBlockPressed(id);
               Navigator.of(context).pop();
+              showToastMessage('차단이 완료되었습니다.');
             },
             child: const Text('확인'),
           ),
@@ -36,17 +40,63 @@ void showReportConfirmationDialog(BuildContext context) {
   );
 }
 
-void showDeleteConfirmationDialog(BuildContext context) {
+void showReportConfirmationDialog(BuildContext context, String object) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('게시물 삭제 확인'),
-        content: const Text('이 게시물을 삭제하시겠습니까?'),
+        title: Text(
+          '${object.substring(0, object.length - 1)} 신고 확인',
+          style: const TextStyle(
+            fontSize: 18.0,
+          ),
+        ),
+        content: Text(
+          '이 $object 신고하시겠습니까?',
+          style: const TextStyle(
+            fontSize: 16.0,
+          ),
+        ),
         actions: [
           TextButton(
             onPressed: () {
-              // Get.off(() => const HomeScreen());
+              Navigator.of(context).pop();
+              showToastMessage('신고가 완료되었습니다.');
+            },
+            child: const Text('확인'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('취소'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void showDeleteConfirmationDialog(BuildContext context, String object) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          '${object.substring(0, object.length - 1)} 삭제 확인',
+          style: const TextStyle(
+            fontSize: 18.0,
+          ),
+        ),
+        content: Text(
+          '이 $object 삭제하시겠습니까?',
+          style: const TextStyle(
+            fontSize: 16.0,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
               Navigator.of(context).pop();
             },
             child: const Text('확인'),
