@@ -1,27 +1,19 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:http_parser/http_parser.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:unibond/model/member_request.dart';
-import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
-import 'package:unibond/view/screens/user/profile_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/screens/user/search_screen.dart';
 import 'package:unibond/view/widgets/next_button.dart';
 import 'package:unibond/view/widgets/selected_button.dart';
 import 'package:unibond/view/widgets/my_custom_text_form_field.dart';
-
-import 'package:dio/dio.dart' as dio;
-import 'package:url_launcher/url_launcher.dart'; // Get Package와의 충돌 방지
+// import 'package:dio/dio.dart' as dio; // Get Package와의 충돌 방지
+import 'package:url_launcher/url_launcher.dart';
 
 class JoinScreen extends StatefulWidget {
   const JoinScreen({super.key});
@@ -33,6 +25,7 @@ class JoinScreen extends StatefulWidget {
 class _JoinScreenState extends State<JoinScreen> {
   // String? _imageUrl; // 서버에서 받은 프로필 이미지 url 저장 변수
   TextEditingController nicknameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   TextEditingController searchController = TextEditingController();
   TextEditingController diseaseIdController = TextEditingController();
@@ -46,10 +39,41 @@ class _JoinScreenState extends State<JoinScreen> {
   DateTime selectedDate = DateTime.now();
   bool isPrivacyPolicyChecked = false;
   bool isTermsPolicyChecked = false;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
+    passwordController.addListener(_validateForm);
+  }
+
+  @override
+  void dispose() {
+    passwordController.removeListener(_validateForm);
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void _validateForm() {
+    setState(() {
+      _formKey.currentState?.validate();
+    });
+  }
+
+  // 임시 비밀번호 유효성 검사 함수
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return "값을 입력해주세요.";
+    } else if (value.length < 6) {
+      return "비밀번호의 최소 길이는 6자입니다.";
+    } else if (value.length > 12) {
+      return "비밀번호는 12자 이하로 입력해주세요.";
+    } else if (!RegExp(r'(?=.*?[0-9])').hasMatch(value)) {
+      return "적어도 하나의 숫자를 포함해야 합니다.";
+    } else if (!RegExp(r'(?=.*?[!@#$%^&*(),.?":{}|<>])').hasMatch(value)) {
+      return "적어도 하나의 특수문자를 포함해야 합니다.";
+    }
+    return null;
   }
 
   // 질환 진단 시기 선택
@@ -110,8 +134,8 @@ class _JoinScreenState extends State<JoinScreen> {
 
         // result 값을 Auth key로 저장하기
         // 임시 주석처리;
-        await AuthStorage.saveAuthToken(response.result.toString());
-        // await AuthStorage.saveAuthToken("29");
+        // await AuthStorage.saveAuthToken(response.result.toString());
+        await AuthStorage.saveAuthToken("29");
         Get.off(() => const RootTab());
       } else {
         if (response.code == 2502) {
@@ -267,7 +291,7 @@ class _JoinScreenState extends State<JoinScreen> {
         },
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -296,6 +320,22 @@ class _JoinScreenState extends State<JoinScreen> {
                               onChanged: (value) {},
                               controller: nicknameController,
                               hintText: '나만의 멋진 닉네임을 지어주세요',
+                            ),
+                            const Text(
+                              '비밀번호',
+                              style: askTextStyle,
+                            ),
+                            Form(
+                              key: _formKey,
+                              child: MyCustomTextFormField(
+                                validator: _validatePassword,
+                                controller: passwordController,
+                                onChanged: (value) {},
+                                maxLength: 12,
+                                maxLines: 1,
+                                obscureText: true,
+                                hintText: '비밀번호를 입력해주세요',
+                              ),
                             ),
                             const Text(
                               '한줄 소개',
@@ -617,14 +657,14 @@ class _JoinScreenState extends State<JoinScreen> {
                                     }
                                   },
                                 ),
-                                Expanded(
+                                const Expanded(
                                   child: Text(
                                     '개인정보 수집 및 이용동의(필수)',
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: _launchPrivacyPolicy,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.black,
                                   ),
@@ -648,14 +688,14 @@ class _JoinScreenState extends State<JoinScreen> {
                                     }
                                   },
                                 ),
-                                Expanded(
+                                const Expanded(
                                   child: Text(
                                     '이용약관 동의(필수)',
                                   ),
                                 ),
                                 GestureDetector(
                                   onTap: _launchTermsPolicy,
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.arrow_forward_ios,
                                     color: Colors.black,
                                   ),
@@ -700,11 +740,13 @@ class _JoinScreenState extends State<JoinScreen> {
         Expanded(
           flex: 8,
           child: TextFormField(
+            readOnly: true,
             minLines: 1,
             maxLines: 1,
             onChanged: (value) => {},
             controller: searchController,
             decoration: InputDecoration(
+              hintText: "오른쪽 돋보기 아이콘을 터치해주세요.",
               fillColor: Colors.grey[100],
               filled: true,
               contentPadding:
