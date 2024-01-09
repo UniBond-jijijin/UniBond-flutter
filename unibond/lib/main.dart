@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/letter/letter_success_screen.dart';
 import 'package:unibond/view/screens/splash_screen.dart';
 
 void main() {
@@ -12,9 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      theme: ThemeData(fontFamily: 'Pretendard'),
     );
   }
 }

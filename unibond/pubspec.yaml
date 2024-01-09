@@ -108,6 +108,27 @@ flutter:
     - family: MapoGoldenPier
       fonts:
         - asset: assets/font/MapoGoldenPier.ttf
+
+    - family: Pretendard
+      fonts:
+        - asset: assets/font/Pretendard-Thin.ttf
+          weight: 100
+        - asset: assets/font/Pretendard-ExtraLight.ttf
+          weight: 200
+        - asset: assets/font/Pretendard-Light.ttf
+          weight: 300
+        - asset: assets/font/Pretendard-Regular.ttf
+          weight: 400
+        - asset: assets/font/Pretendard-Medium.ttf
+          weight: 500
+        - asset: assets/font/Pretendard-SemiBold.ttf
+          weight: 600
+        - asset: assets/font/Pretendard-Bold.ttf
+          weight: 700
+        - asset: assets/font/Pretendard-ExtraBold.ttf
+          weight: 800
+        - asset: assets/font/Pretendard-Black.ttf
+          weight: 900
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
