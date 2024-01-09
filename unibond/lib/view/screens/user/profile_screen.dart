@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/model/post/withdraw_dto.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
@@ -451,7 +452,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
               child: TextButton(
                 onPressed: () {
-                  // 여기에 버튼이 눌렸을 때 실행할 코드를 작성하세요
+                  showWithdrawConfirmationDialog();
                 },
                 child: const Text(
                   '회원 탈퇴',
@@ -464,5 +465,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
         )
       ],
     );
+  }
+
+  void showWithdrawConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('회원 탈퇴'),
+          content: const Text('정말로 회원을 탈퇴하시겠습니까?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('취소'),
+            ),
+            TextButton(
+              onPressed: () {
+                withdrawUser();
+                Navigator.of(context).pop();
+              },
+              child: const Text('확인'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void withdrawUser() async {
+    AuthStorage.getAuthToken().then((String? authToken) {
+      if (authToken != null) {
+        final userId = authToken; // Replace with the actual user ID
+        WithdrawRepository().withdrawUser(userId).then((WithdrawDto dto) {
+          if (dto.isSuccess) {
+            showToastMessage("회원탈퇴 완료");
+          } else {
+            // Handle unsuccessful withdrawal
+            showToastMessage(dto.message);
+          }
+        }).catchError((error) {
+          // Handle Dio errors or other exceptions
+          showToastMessage("회원 탈퇴 중 오류가 발생했습니다.");
+        });
+      }
+    });
   }
 }

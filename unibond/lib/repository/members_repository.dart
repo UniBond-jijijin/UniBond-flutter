@@ -3,6 +3,7 @@ import 'package:unibond/controller/dto/code_msg_res_dto.dart';
 import 'package:unibond/model/member_request.dart';
 import 'package:unibond/model/member_update_request.dart';
 import 'package:unibond/model/other_user_profile.dart';
+import 'package:unibond/model/post/withdraw_dto.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/util/auth_storage.dart';
 
@@ -86,4 +87,23 @@ Future<CodeMsgResDto> createMember(MemberRequest createRequest) async {
     data: createRequest.toJson(),
   );
   return CodeMsgResDto.fromJson(response.data);
+}
+
+// 회원탈퇴
+
+class WithdrawRepository {
+  final Dio _dio = Dio();
+
+  Future<WithdrawDto> withdrawUser(String userId) async {
+    try {
+      final response = await _dio.delete(
+        'http://3.35.110.214/api/v1/members',
+        options: Options(headers: {'Authorization': userId}),
+      );
+
+      return WithdrawDto.fromJson(response.data);
+    } catch (error) {
+      throw Exception('Error withdraw: $error');
+    }
+  }
 }
