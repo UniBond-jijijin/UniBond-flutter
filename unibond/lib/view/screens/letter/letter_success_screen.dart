@@ -41,7 +41,7 @@ class LetterSuccessScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     const Text(
-                      '보내신 편지는 1시간 후에 도착합니다.',
+                      '전송된 편지는 1시간 후에 도착합니다.',
                       style: TextStyle(
                         fontSize: 18,
                         color: Color(0xFF5A5A5A),

@@ -52,7 +52,6 @@ dependencies:
   timeago_flutter: ^3.6.0
   intl: ^0.18.1
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -105,8 +104,8 @@ flutter:
     - family: Pinyon_Script
       fonts:
         - asset: assets/font/PinyonScript-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
     - family: MapoGoldenPier
       fonts:
         - asset: assets/font/MapoGoldenPier.ttf

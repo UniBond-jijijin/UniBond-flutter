@@ -90,7 +90,6 @@ Future<CodeMsgResDto> createMember(MemberRequest createRequest) async {
 }
 
 // 회원탈퇴
-
 class WithdrawRepository {
   final Dio _dio = Dio();
 

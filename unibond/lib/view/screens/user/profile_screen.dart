@@ -473,8 +473,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('회원 탈퇴'),
-          content: const Text('정말로 회원을 탈퇴하시겠습니까?'),
+          title: const Text(
+            '회원 탈퇴 확인',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          content: const Text(
+            '정말로 회원을 탈퇴하시겠습니까?',
+            style: TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () {

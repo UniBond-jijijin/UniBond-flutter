@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/community/post_time.dart';
 import 'package:unibond/view/screens/splash_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unibond/view/screens/user/login_screen.dart';
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: const SplashScreen(),
       theme: ThemeData(fontFamily: 'Pretendard'),
     );
   }

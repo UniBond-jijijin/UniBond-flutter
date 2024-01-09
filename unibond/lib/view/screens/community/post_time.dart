@@ -14,25 +14,25 @@ class PostTime implements LookupMessages {
   @override
   String lessThanOneMinute(int seconds) => '방금 전';
   @override
-  String aboutAMinute(int minutes) => '${minutes}분 전';
+  String aboutAMinute(int minutes) => '$minutes분 전';
   @override
-  String minutes(int minutes) => '${minutes}분 전';
+  String minutes(int minutes) => '$minutes분 전';
   @override
-  String aboutAnHour(int minutes) => '${minutes}분 전';
+  String aboutAnHour(int minutes) => '$minutes분 전';
   @override
-  String hours(int hours) => '${hours}시간 전';
+  String hours(int hours) => '$hours시간 전';
   @override
-  String aDay(int hours) => '${hours}시간 전';
+  String aDay(int hours) => '$hours시간 전';
   @override
-  String days(int days) => '${days}일 전';
+  String days(int days) => '$days일 전';
   @override
-  String aboutAMonth(int days) => '${days}일 전';
+  String aboutAMonth(int days) => '$days일 전';
   @override
-  String months(int months) => '${months}개월 전';
+  String months(int months) => '$months개월 전';
   @override
-  String aboutAYear(int year) => '${year}년 전';
+  String aboutAYear(int year) => '$year년 전';
   @override
-  String years(int years) => '${years}년 전';
+  String years(int years) => '$years년 전';
   @override
   String wordSeparator() => ' ';
 }

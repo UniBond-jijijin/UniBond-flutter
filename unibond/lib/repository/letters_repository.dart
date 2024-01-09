@@ -16,9 +16,6 @@ Future<LetterBoxRequest> getMyLetterBox() async {
   final dio = Dio();
 
   String? authToken = await AuthStorage.getAuthToken();
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true, // 응답 본문을 찍을지 여부
-  ));
 
   final response = await dio.get(
     'http://3.35.110.214/api/v1/letter-rooms',
@@ -34,9 +31,6 @@ Future<AllLettersRequest> getAllLettersRequest(String letterRoomId) async {
   final dio = Dio();
 
   String? authToken = await AuthStorage.getAuthToken();
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true,
-  ));
 
   final response = await dio.get(
     'http://3.35.110.214/api/v1/letter-rooms/$letterRoomId',
@@ -51,9 +45,6 @@ Future<ReceivedLetterDetail> getReceivedLetterDetail(String letterId) async {
   final dio = Dio();
 
   String? authToken = await AuthStorage.getAuthToken();
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true,
-  ));
 
   final response = await dio.get(
     'http://3.35.110.214/api/v1/letters/$letterId',
