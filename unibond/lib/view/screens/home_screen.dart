@@ -8,6 +8,7 @@ import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/view/screens/community/exppost_write_screen.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/qnapost_write_screen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -352,7 +353,6 @@ class ExpPostsListView extends StatelessWidget {
 
 Widget qnaCustomListItem(QnaPostController p, int index) {
   var postDate = p.posts[index].createdDate;
-  int daysDifference = calculatePassedDays(postDate!);
 
   return Column(
     children: [
@@ -380,7 +380,7 @@ Widget qnaCustomListItem(QnaPostController p, int index) {
             ),
             const SizedBox(width: 12),
             Text(
-              '$daysDifference일 전',
+              timeago.format(postDate as DateTime, locale: "ko"),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
             ),
           ],
@@ -434,7 +434,7 @@ Widget expCustomListItem(ExpPostController p, int index) {
             ),
             const SizedBox(width: 12),
             Text(
-              '$daysDifference일 전',
+              timeago.format(postDate as DateTime, locale: "ko"),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
             ),
           ],

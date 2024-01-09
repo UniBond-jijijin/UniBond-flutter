@@ -49,6 +49,7 @@ dependencies:
   fluttertoast: ^8.2.4
   file_picker: ^6.1.1
   flutter_image_compress: ^2.1.0
+  timeago_flutter: ^3.6.0
 
 
 dev_dependencies:

@@ -8,7 +8,12 @@ import 'package:unibond/repository/posts_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
+import 'package:unibond/view/screens/community/post_time.dart';
+
 import 'package:unibond/view/screens/user/other_profile_screen.dart';
+import 'package:timeago/timeago.dart' as timeago;
+
+import 'post_time.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id;
@@ -222,7 +227,6 @@ class _DetailScreenState extends State<DetailScreen> {
       BuildContext context, QnaPostDetail qnaPostDetail, String myToken) {
     DateTime converToDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
         .parse(qnaPostDetail.result.createdDate);
-    int passedDays = calculatePassedDays(converToDateTime);
 
     return GestureDetector(
       onTap: () {
@@ -270,7 +274,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         padding: const EdgeInsets.only(left: 6),
                         child: Center(
                           child: Text(
-                            "$passedDays일 전",
+                            timeago.format(converToDateTime, locale: "ko"),
                             style: const TextStyle(
                                 color: Color.fromARGB(255, 25, 25, 25),
                                 fontSize: 13.0,
@@ -342,7 +346,6 @@ class _DetailScreenState extends State<DetailScreen> {
                 DateTime converToDateTime =
                     DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
                         .parse(comment.createdDate);
-                int passedDays = calculatePassedDays(converToDateTime);
 
                 return ListTile(
                   leading: GestureDetector(
@@ -390,14 +393,13 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                       ),
                       const SizedBox(width: 12),
-                      // 패키지 사용해서 시간 단위로 표시하기
-                      // Text(
-                      //   '$passedDays일 전',
-                      //   style: const TextStyle(
-                      //       color: Color.fromARGB(255, 25, 25, 25),
-                      //       fontSize: 13.0,
-                      //       fontWeight: FontWeight.w400),
-                      // ),
+                      Text(
+                        timeago.format(converToDateTime, locale: "ko"),
+                        style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ],
                   ),
                   subtitle: Text(comment.content),
