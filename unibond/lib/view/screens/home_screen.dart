@@ -23,6 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    QnaPostController qp = Get.put(QnaPostController());
+    ExpPostController ep = Get.put(ExpPostController());
+    qp.getQnaPostsList();
+    ep.getExpPostsList();
   }
 
   Widget qnaMenu() {
