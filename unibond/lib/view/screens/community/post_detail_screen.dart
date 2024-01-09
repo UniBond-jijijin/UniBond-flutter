@@ -307,8 +307,7 @@ class _DetailScreenState extends State<DetailScreen> {
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 18),
       child: SizedBox(
         width: double.infinity,
-        child:
-            Text(qnaPostDetail.result.content, style: letterContentTextStyle),
+        child: Text(qnaPostDetail.result.content, style: contentTextStyle),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/controller/exppost_controller.dart';
+import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/widgets/custom_textarea.dart';
@@ -59,18 +60,10 @@ class ExpWriteScreen extends StatelessWidget {
                         var isSuccess =
                             await p.uploadExpPost(_content.text.trim());
                         if (isSuccess == true) {
-                          Get.snackbar(
-                            "알림",
-                            "업로드 성공",
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
+                          showToastMessage("게시물 업로드 성공");
                           Get.off(() => const RootTab());
                         } else {
-                          Get.snackbar(
-                            "알림",
-                            "업로드 실패",
-                            snackPosition: SnackPosition.BOTTOM,
-                          );
+                          showToastMessage("게시물 업로드 실패");
                         }
                       }
                     },
