@@ -41,7 +41,8 @@ void showBlockBottomSheet(
   );
 }
 
-void showDeleteBottomSheet(BuildContext context) {
+void showDeleteBottomSheet(BuildContext context, String postId,
+    String commentId, Function(String, String) onDeleteTap) {
   showModalBottomSheet(
     context: context,
     builder: (BuildContext context) {
@@ -53,8 +54,9 @@ void showDeleteBottomSheet(BuildContext context) {
               leading: const Icon(Icons.delete),
               title: const Text('삭제하기'),
               onTap: () {
-                // 삭제 로직 구현
+                onDeleteTap(postId, commentId);
                 Navigator.of(context).pop();
+                showToastMessage('삭제가 완료되었습니다.');
               },
             ),
             ListTile(

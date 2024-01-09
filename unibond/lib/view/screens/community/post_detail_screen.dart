@@ -3,21 +3,17 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:unibond/model/block_model.dart';
 import 'package:unibond/model/post/comment_post.dart';
+import 'package:unibond/model/post/del_model.dart';
 import 'package:unibond/model/post/qnapost_request.dart';
 import 'package:unibond/repository/blocking_repository.dart';
 import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/repository/posts_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/resources/calculateDays.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
-import 'package:unibond/view/screens/community/post_time.dart';
 
 import 'package:unibond/resources/modal_bottom_sheet.dart';
-import 'package:unibond/resources/toast.dart';
 import 'package:unibond/view/screens/user/other_profile_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
-
-import 'post_time.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -227,8 +223,8 @@ class _DetailScreenState extends State<DetailScreen> {
             : PopupMenuButton<String>(
                 onSelected: (value) async {
                   if (value == 'delete') {
-                    showDeleteConfirmationDialog(context, '게시물을');
-                    // TODO: 내 게시물 삭제 API 연동
+                    showDeleteConfirmationDialog(
+                        context, '게시물을', widget.id, _handleDeletePost);
                   }
                 },
                 itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -413,7 +409,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       const SizedBox(width: 12),
                       Text(
                         timeago.format(converToDateTime, locale: "ko"),
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Colors.grey,
                             fontSize: 12.0,
                             fontWeight: FontWeight.w400),
@@ -433,7 +429,11 @@ class _DetailScreenState extends State<DetailScreen> {
                       : IconButton(
                           icon: const Icon(Icons.more_vert),
                           onPressed: () {
-                            showDeleteBottomSheet(context);
+                            showDeleteBottomSheet(
+                                context,
+                                comment.commentUserId.toString(),
+                                comment.commentId.toString(),
+                                _handleDeleteComment);
                           },
                         ),
                 );
@@ -445,6 +445,12 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+  // 게시물 차단시 실행되는 함수
+  void _handleBlockPost(int postId) {
+    BlockingPost blockingPost = BlockingPost(blockedPostId: postId);
+    blockPost(blockingPost).then((value) => Get.off(() => const RootTab()));
+  }
+
   // 댓글 차단시 실행되는 함수
   void _handleBlockComment(int commentId) {
     BlockingComment blockingComment =
@@ -454,9 +460,15 @@ class _DetailScreenState extends State<DetailScreen> {
         }));
   }
 
-  // 게시물 차단시 실행되는 함수
-  void _handleBlockPost(int postId) {
-    BlockingPost blockingPost = BlockingPost(blockedPostId: postId);
-    blockPost(blockingPost).then((value) => Get.off(() => const RootTab()));
+  // 게시물 삭제시 실행되는 함수
+  void _handleDeletePost(String postId) {
+    delPost(postId).then((value) => Get.off(() => const RootTab()));
+  }
+
+  // 댓글 삭제시 실행되는 함수
+  void _handleDeleteComment(String postId, String commentId) {
+    delComment(postId, commentId).then((value) => setState(() {
+          qnaPostDetail = getQnaPostDetail(widget.id);
+        }));
   }
 }

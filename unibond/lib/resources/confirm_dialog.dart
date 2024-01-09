@@ -79,7 +79,8 @@ void showReportConfirmationDialog(BuildContext context, String object) {
   );
 }
 
-void showDeleteConfirmationDialog(BuildContext context, String object) {
+void showDeleteConfirmationDialog(BuildContext context, String object,
+    String id, Function(String) onDeletePressed) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -100,7 +101,9 @@ void showDeleteConfirmationDialog(BuildContext context, String object) {
         actions: [
           TextButton(
             onPressed: () {
+              onDeletePressed(id);
               Navigator.of(context).pop();
+              showToastMessage('삭제가 완료되었습니다.');
             },
             child: const Text('확인'),
           ),

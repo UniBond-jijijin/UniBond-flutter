@@ -48,7 +48,11 @@ Future<CodeMsgDto> delPost(String postId) async {
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 
-  final response = await dio.get(
+  dio.interceptors.add(LogInterceptor(
+    responseBody: true,
+  ));
+
+  final response = await dio.delete(
     'http://3.35.110.214/api/v1/community/$postId',
     options: Options(headers: {'Authorization': authToken}),
   );
@@ -60,8 +64,8 @@ Future<CodeMsgDto> delComment(String postId, String commentId) async {
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 
-  final response = await dio.get(
-    'http://3.35.110.214/api/v1/community/experience/$postId/$commentId',
+  final response = await dio.delete(
+    'http://3.35.110.214/api/v1/community/$postId/$commentId',
     options: Options(headers: {'Authorization': authToken}),
   );
   return CodeMsgDto.fromJson(response.data);
