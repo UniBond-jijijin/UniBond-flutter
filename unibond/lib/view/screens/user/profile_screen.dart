@@ -375,7 +375,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ListTile(
           title: const Text(
             '이용약관 및 정책',
-            style: titleTextStyle,
+            style: titleTextStyle16,
           ),
           onTap: () async {
             if (await canLaunchUrl(terms)) {
@@ -388,14 +388,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ListTile(
           title: const Text(
             '서비스 이용방법',
-            style: titleTextStyle,
+            style: titleTextStyle16,
           ),
           onTap: () {},
         ),
         ListTile(
           title: const Text(
             '개인정보 처리방침',
-            style: titleTextStyle,
+            style: titleTextStyle16,
           ),
           onTap: () async {
             if (await canLaunchUrl(privacy)) {
@@ -419,7 +419,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Text(
                 '고객센터',
-                style: titleTextStyle,
+                style: titleTextStyle16,
               ),
               Text(
                 'unibond34@gmail.com',
@@ -435,7 +435,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Text(
                 '버전 정보',
-                style: titleTextStyle,
+                style: titleTextStyle16,
               ),
               Text(
                 '1.0.0',

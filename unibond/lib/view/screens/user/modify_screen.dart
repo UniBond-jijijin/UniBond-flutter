@@ -666,11 +666,13 @@ class _ModifyScreenState extends State<ModifyScreen> {
         Expanded(
           flex: 8,
           child: TextFormField(
+            readOnly: true,
             minLines: 1,
             maxLines: 1,
             onChanged: (value) => {},
             controller: searchController,
             decoration: InputDecoration(
+              hintText: "오른쪽 돋보기 아이콘을 터치해주세요.",
               fillColor: Colors.grey[100],
               filled: true,
               contentPadding:

@@ -36,7 +36,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
@@ -88,7 +88,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                     ],
                   ));
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('편지리스트 스냅샷에러: ${snapshot.error}'));
+                  return const Center(child: Text('편지 목록을 불러오지 못했습니다.'));
                 } else if (snapshot.hasData) {
                   ReceivedLetterDetail receivedLetterDetail = snapshot.data!;
                   final result = receivedLetterDetail.result;
@@ -113,6 +113,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const SizedBox(height: 60),
                                     Row(
                                       children: [
                                         Image.asset(
@@ -125,7 +126,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                                         ),
                                         const Text(
                                           '도착 시간.',
-                                          style: letterTextStyle,
+                                          style: letterInfoTextStyle,
                                         ),
                                       ],
                                     ),
@@ -138,12 +139,8 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                                               const EdgeInsets.only(left: 36.0),
                                           child: Text(
                                             '$arrivalDate   ${arrivalTime[0]}:${arrivalTime[1]}',
-                                            style: letterTextStyle,
+                                            style: letterInfoTextStyle,
                                           ),
-                                        ),
-                                        Text(
-                                          'from. $senderName',
-                                          style: letterTextStyle,
                                         ),
                                       ],
                                     ),
@@ -155,17 +152,22 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                                 const SizedBox(height: 12),
                                 Text(
                                   title!,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: letterReadTitleTextStyle,
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 10),
                                 Text(
                                   content!,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: letterContentTextStyle,
+                                ),
+                                const SizedBox(height: 50),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      'from. $senderName',
+                                      style: letterInfoTextStyle,
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

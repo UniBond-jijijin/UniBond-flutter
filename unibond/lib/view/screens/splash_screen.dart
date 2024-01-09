@@ -23,6 +23,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void _checkAuthAndNavigate() async {
     String? memberId = await AuthStorage.getAuthToken();
 
+    // SecureStorage 초기화를 위한 임시 코드
+    // memberId = null;
+
     if (memberId != null) {
       // 인증된 사용자면
       try {
@@ -49,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => JoinScreen(),
+        builder: (context) => const JoinScreen(),
       ),
     );
   }

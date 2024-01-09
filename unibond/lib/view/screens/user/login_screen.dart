@@ -96,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.to(() => JoinScreen());
+                    Get.to(() => const JoinScreen());
                   },
                   child: const Text("회원가입"),
                 ),

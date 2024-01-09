@@ -62,7 +62,6 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
                 // 좋아함 기능 미구현으로 인한 주석처리
                 // GestureDetector(
                 //   onTap: () {
@@ -84,10 +83,9 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
               ],
             ),
           ),
-
           // Letter Papers
           Positioned.fill(
-            top: 80,
+            top: 100,
             child: buildLetterBoxBody(context),
           ),
         ],
@@ -111,8 +109,7 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
             ],
           ));
         } else if (snapshot.hasError) {
-          print(snapshot.error);
-          return Center(child: Text('편지함 에러: ${snapshot.error}'));
+          return const Center(child: Text('편지함에서 데이터를 가져올 수 없습니다.'));
         } else if (snapshot.hasData) {
           LetterBoxRequest myLetterBox = snapshot.data!;
           return Expanded(
@@ -156,7 +153,7 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.all(16.0),
+                    margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
                     padding: EdgeInsets.zero,
                     height: 200,
                     decoration: BoxDecoration(
@@ -247,35 +244,32 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Container(
-                                margin: const EdgeInsets.only(right: 20),
+                                margin: const EdgeInsets.only(right: 24),
                                 child: Text(
                                   recentLetterSentDate,
-                                  style: letterTextStyle,
+                                  style: letterBoxTextStyle,
                                 ),
                               ),
-                              // const SizedBox(height: 2),
                               Container(
-                                margin: const EdgeInsets.only(right: 20),
+                                margin: const EdgeInsets.only(right: 24),
                                 child: Text(
-                                  'from. ${letterBox.senderNick}',
-                                  style: letterTextStyle,
+                                  letterBox.senderNick,
+                                  style: letterBoxTextStyle,
                                 ),
                               ),
                             ],
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Positioned(
+                        const Positioned(
                           bottom: 26,
                           left: 30,
-                          child: Container(
-                            child: const Text(
-                              'UniBond',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontFamily: 'Pinyon_Script',
-                              ),
+                          child: Text(
+                            'UniBond',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.white,
+                              fontFamily: 'Pinyon_Script',
                             ),
                           ),
                         ),

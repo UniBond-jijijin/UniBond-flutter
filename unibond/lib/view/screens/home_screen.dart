@@ -354,8 +354,6 @@ Widget qnaCustomListItem(QnaPostController p, int index) {
   var postDate = p.posts[index].createdDate;
   int daysDifference = calculatePassedDays(postDate!);
 
-  print(p.posts[index].postId);
-
   return Column(
     children: [
       ListTile(

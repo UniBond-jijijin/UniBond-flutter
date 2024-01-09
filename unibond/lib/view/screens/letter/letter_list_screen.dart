@@ -107,7 +107,7 @@ class _LetterListState extends State<LetterList> {
     var receiverId = allLettersRequest.result.receiverId;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 8, 0, 20),
+      padding: const EdgeInsets.fromLTRB(28, 8, 0, 20),
       child: GestureDetector(
         onTap: () {
           // 다른 사람 프로필 조회
@@ -141,13 +141,16 @@ class _LetterListState extends State<LetterList> {
                     style: const TextStyle(
                         fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Text(
-                    receiverDiseaseName,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      color: primaryColor,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                  SizedBox(
+                    width: 280,
+                    child: Text(
+                      receiverDiseaseName,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: primaryColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -169,58 +172,13 @@ class _LetterListState extends State<LetterList> {
           Get.back();
         },
       ),
-      // title: Padding(
-      //   padding: const EdgeInsets.only(left: 0),
-      //   child: Row(
-      //     mainAxisAlignment: MainAxisAlignment.start, // 좌측 정렬
-      //     children: [
-      //       ClipOval(
-      //         child: receiverProfileImg.isNotEmpty
-      //             ? Image.network(
-      //                 receiverProfileImg,
-      //                 width: 50,
-      //                 height: 50,
-      //                 fit: BoxFit.cover,
-      //               )
-      //             : Image.asset(
-      //                 'assets/images/user_image.jpg',
-      //                 width: 50,
-      //                 height: 50,
-      //               ),
-      //       ),
-      //       Padding(
-      //         padding: const EdgeInsets.fromLTRB(12, 0, 0, 10),
-      //         child: Column(
-      //           crossAxisAlignment: CrossAxisAlignment.start,
-      //           mainAxisSize: MainAxisSize.min, // Column의 크기를 최소화
-      //           children: [
-      //             Text(
-      //               receiverName,
-      //               style: const TextStyle(
-      //                   fontSize: 16, fontWeight: FontWeight.bold),
-      //             ),
-      //             Text(
-      //               receiverDiseaseName,
-      //               overflow: TextOverflow.ellipsis,
-      //               style: const TextStyle(
-      //                 color: primaryColor,
-      //                 fontSize: 14,
-      //                 fontWeight: FontWeight.w600,
-      //               ),
-      //             ),
-      //           ],
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
     );
   }
 
   Widget buildLetterList(AllLettersRequest allLettersRequest, String myToken) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+        padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
         child: ListView.builder(
           shrinkWrap: true,
           itemCount: allLettersRequest.result.letterList.length,
@@ -256,7 +214,7 @@ class _LetterListState extends State<LetterList> {
                   elevation: 7.0, // 카드 그림자 깊이
                   child: Container(
                     padding: const EdgeInsets.all(18.0),
-                    width: 300,
+                    width: 250,
                     height: 200,
                     decoration: BoxDecoration(
                       color: backgroundColor,
@@ -265,25 +223,14 @@ class _LetterListState extends State<LetterList> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          sentDate,
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          letter.letterTitle,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text(sentDate, style: letterInfoTextStyle),
+                        Text(letter.letterTitle,
+                            style: letterListTitleTextStyle),
                         Align(
                           alignment: Alignment.bottomRight,
                           child: Text(
                             "From. ${letter.senderName}",
-                            style: const TextStyle(fontSize: 18),
+                            style: letterInfoTextStyle,
                           ),
                         ),
                       ],

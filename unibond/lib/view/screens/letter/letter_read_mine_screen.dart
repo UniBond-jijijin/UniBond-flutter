@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:unibond/model/letter/sent_letter_detail.dart';
 import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/view/widgets/custom_elevated_button.dart';
 
 class MyLetterReadScreen extends StatefulWidget {
   // final ReceivedLetterDetail receivedLetterDetail;
@@ -28,7 +27,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
@@ -64,7 +63,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                     ],
                   ));
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('편지리스트 스냅샷에러: ${snapshot.error}'));
+                  return const Center(child: Text('편지 목록을 불러오지 못했습니다.'));
                 } else if (snapshot.hasData) {
                   SentLetterDetail receivedLetterDetail = snapshot.data!;
                   final result = receivedLetterDetail.result;
@@ -77,7 +76,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                   var content = result.content;
 
                   return Padding(
-                    padding: const EdgeInsets.fromLTRB(28, 40, 28, 16),
+                    padding: const EdgeInsets.fromLTRB(30, 40, 30, 16),
                     child: Column(
                       children: [
                         Expanded(
@@ -88,6 +87,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const SizedBox(height: 60),
                                     Row(
                                       children: [
                                         Image.asset(
@@ -100,7 +100,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                                         ),
                                         const Text(
                                           '보낸 시간.',
-                                          style: letterTextStyle,
+                                          style: letterInfoTextStyle,
                                         ),
                                       ],
                                     ),
@@ -114,7 +114,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                                           child: Text(
                                             '$sendDate   ${arrivalTime[0]}:${arrivalTime[1]}',
                                             // '$sendDate   ${(int.parse(arrivalTime[0]) + 1).toString().padLeft(2, '0')}:${arrivalTime[1]}', // 열심히 1시간 더한 흔적..무의미했다고 한다..
-                                            style: letterTextStyle,
+                                            style: letterInfoTextStyle,
                                           ),
                                         ),
                                       ],
@@ -124,20 +124,15 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
                                 const SizedBox(height: 8),
                                 const Divider(
                                     color: Colors.grey, thickness: 1.0),
-                                const SizedBox(height: 20),
+                                const SizedBox(height: 12),
                                 Text(
                                   title!,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: letterReadTitleTextStyle,
                                 ),
-                                const SizedBox(height: 16),
+                                const SizedBox(height: 12),
                                 Text(
                                   content!,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: letterContentTextStyle,
                                 ),
                               ],
                             ),

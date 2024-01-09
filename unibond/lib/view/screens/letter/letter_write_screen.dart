@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/model/letter/send_letter.dart';
 import 'package:unibond/repository/letters_repository.dart';
+import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/letter/letter_success_screen.dart';
 import 'package:unibond/view/widgets/custom_elevated_button.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LetterWriteScreen extends StatelessWidget {
   final String receiverId;
@@ -51,13 +51,13 @@ class LetterWriteScreen extends StatelessWidget {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextField(
                       controller: _titleController,
                       decoration: const InputDecoration(
-                        labelText: "편지 제목을 입력해주세요.",
-                        border: OutlineInputBorder(),
+                        hintText: "편지 제목을 입력해주세요.",
+                        hintStyle: letterInfoTextStyle,
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -68,7 +68,8 @@ class LetterWriteScreen extends StatelessWidget {
                         expands: true,
                         decoration: const InputDecoration(
                           hintText: "오늘은 어떤 이야기를 하고 싶으신가요?",
-                          border: OutlineInputBorder(),
+                          hintStyle: letterContentTextStyle,
+                          border: InputBorder.none,
                         ),
                       ),
                     ),

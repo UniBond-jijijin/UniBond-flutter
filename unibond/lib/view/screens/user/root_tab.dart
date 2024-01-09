@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/tab_item.dart';
-import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_box_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';

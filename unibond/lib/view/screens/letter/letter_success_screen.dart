@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/domain/letter/letter.dart';
-import 'package:unibond/view/screens/letter/letter_box_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/widgets/custom_elevated_button.dart';
 
@@ -26,24 +24,24 @@ class LetterSuccessScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
+                      height: MediaQuery.of(context).size.height * 0.20,
                     ),
                     Image.asset(
                       'assets/images/send.png',
                       width: 100,
                       height: 100,
                     ),
-                    const SizedBox(height: 60),
-                    Text(
-                      '전송이 완료되었습니다',
+                    const SizedBox(height: 20),
+                    const Text(
+                      '전송이 완료되었습니다.',
                       style: TextStyle(
                         fontFamily: 'MapoGoldenPier',
-                        fontSize: 24,
+                        fontSize: 22,
                       ),
                     ),
-                    const SizedBox(height: 15),
-                    Text(
-                      '전송된 편지는 1시간 뒤에 도착합니다',
+                    const SizedBox(height: 10),
+                    const Text(
+                      '보내신 편지는 1시간 후에 도착합니다.',
                       style: TextStyle(
                         fontSize: 18,
                         color: Color(0xFF5A5A5A),

@@ -8,7 +8,7 @@ const cursorColor = Color(0xFF241E17);
 // 임시: 텍스트 스타일 위젯도 모아둠
 const homeMenuTextStyle = TextStyle(
   color: Colors.white,
-  fontWeight: FontWeight.w700,
+  fontWeight: FontWeight.w600,
   fontSize: 20,
 );
 
@@ -18,15 +18,28 @@ const coloredButtonTextStyle = TextStyle(
   fontSize: 16,
 );
 
-const titleTextStyle = TextStyle(
+const titleTextStyle16 = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w500,
   fontSize: 16,
 );
+
+const titleTextStyle20 = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 20,
+);
+
 const greyTitleTextStyle = TextStyle(
   color: Color.fromARGB(255, 100, 100, 100),
   fontWeight: FontWeight.w500,
   fontSize: 16,
+);
+
+const primaryColorTextStyle20 = TextStyle(
+  color: primaryColor,
+  fontWeight: FontWeight.w600,
+  fontSize: 20,
 );
 
 const contentTextStyle = TextStyle(
@@ -48,10 +61,41 @@ const notifyTextStyle = TextStyle(
   fontSize: 18,
 );
 
-const letterTextStyle = TextStyle(
+const letterListTitleTextStyle = TextStyle(
   color: Colors.black,
-  fontWeight: FontWeight.w200,
+  fontWeight: FontWeight.w500,
+  fontSize: 22,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterReadTitleTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 20,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterInfoTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w300,
+  fontSize: 18,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterContentTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
   fontSize: 16,
+  height: 1.6,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterBoxTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+  height: 1.6,
+  fontFamily: 'MapoGoldenPier',
 );
 
 class AppColors {

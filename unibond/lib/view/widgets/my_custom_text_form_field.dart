@@ -20,6 +20,7 @@ class MyCustomTextFormField extends StatefulWidget {
   final bool? showClearIcon;
   final bool? onlyNumber;
   final int? maxLength;
+  final dynamic validator;
 
   const MyCustomTextFormField({
     this.onlyNumber = false,
@@ -38,6 +39,7 @@ class MyCustomTextFormField extends StatefulWidget {
     this.maxLines,
     this.expands,
     this.maxLength,
+    this.validator,
     super.key,
   });
 
@@ -61,6 +63,7 @@ class _CustomTextFormFieldState extends State<MyCustomTextFormField> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
       child: TextFormField(
+        validator: widget.validator,
         maxLength: widget.maxLength ?? 5,
         keyboardType:
             widget.onlyNumber! ? TextInputType.number : null, // 숫자 키보드 표시
@@ -207,6 +210,7 @@ class _MyCustomTextFormFieldWithoutMaxLengthState
           contentPadding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
           hintText: widget.hintText,
           errorText: widget.errorText,
+          errorStyle: const TextStyle(color: primaryColor),
           hintStyle: TextStyle(
             fontWeight: FontWeight.w300,
             fontSize: 14.0,
