@@ -73,6 +73,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   buildProfileHeader(context, profile, myToken),
+                  const SizedBox(height: 8),
                   Center(child: buildLetterSendButton(context)),
                   const Padding(
                     padding: EdgeInsets.fromLTRB(20, 4, 0, 4),

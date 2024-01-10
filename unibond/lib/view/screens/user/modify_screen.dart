@@ -285,6 +285,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                     'assets/images/user_image.jpg', // 기본 이미지
                                     width: 100,
                                     height: 100,
+                                    fit: BoxFit.cover,
                                   )),
                       ),
                       // 사진 수정 기능 제외로 인한 주석처리

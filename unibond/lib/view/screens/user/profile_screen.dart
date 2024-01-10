@@ -172,6 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   'assets/images/user_image.jpg',
                   width: 70,
                   height: 70,
+                  fit: BoxFit.cover,
                 ),
         ),
         // 닉네임 및 성별 정보

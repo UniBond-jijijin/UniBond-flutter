@@ -50,7 +50,7 @@ class _SearchScreenState extends State<SearchScreen> {
           });
         }
       } catch (err) {
-        print(err);
+        rethrow;
       }
     });
   }

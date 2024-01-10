@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/splash_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unibond/view/screens/user/root_tab.dart';

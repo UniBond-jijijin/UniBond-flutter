@@ -71,7 +71,6 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            print(_currentIndex);
             _tabController.animateTo(index);
           });
         },

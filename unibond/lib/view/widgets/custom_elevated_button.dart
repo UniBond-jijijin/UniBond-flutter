@@ -3,7 +3,7 @@ import 'package:unibond/resources/app_colors.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
-  final screenRoute;
+  final dynamic screenRoute;
 
   const CustomElevatedButton(
       {super.key, required this.text, required this.screenRoute});
