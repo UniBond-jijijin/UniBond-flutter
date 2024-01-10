@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const RootTab()));
         } else {
-          // 프로필 조회 실패
+          // 프로필 조회 실패 눈송해피
           _navigateToRegister();
         }
       } catch (e) {

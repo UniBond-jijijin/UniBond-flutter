@@ -146,8 +146,8 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                   onTap: () {
                     Get.to(
                       () => LetterList(
-                        backgroundColor1: colorSet[0],
-                        backgroundColor2: colorSet[1],
+                        backgroundColor1: Color(0xFFFFACC6),
+                        backgroundColor2: Color(0xFFFFE9CC),
                         letterRoomId: letterBox.letterRoomId.toString(),
                       ),
                     );
