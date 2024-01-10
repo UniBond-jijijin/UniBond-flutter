@@ -32,8 +32,6 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
     );
     _tabController.addListener(tabListener);
     super.initState();
-
-    // AuthStorage.delAuthToken();
   }
 
   void tabListener() {

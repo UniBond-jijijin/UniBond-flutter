@@ -38,6 +38,8 @@ class PostRepository {
       Response response =
           await _postProvider.uploadQnaPost(postUploadReqDto.toJson());
       // 테스트
+      print('콘텐츠내용테스트');
+      print(postUploadReqDto.content);
       print(response.body);
       print(response.body["isSuccess"]);
 

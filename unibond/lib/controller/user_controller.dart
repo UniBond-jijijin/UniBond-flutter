@@ -18,10 +18,6 @@ class UserController extends GetxController {
   ) async {
     JoinReqDto joinReqDto = JoinReqDto(userId, password, diseaseId,
         diseaseTiming, gender, nickname, bio, interestList);
-
-    print(joinReqDto.userId);
-    print(joinReqDto.password);
-    print(joinReqDto.nickname);
     var userIdNum = await _userRepository.join(joinReqDto);
     return userIdNum;
   }
@@ -32,7 +28,6 @@ class UserController extends GetxController {
 
     if (token != "-1") {
       jwtToken = token;
-      print("jwtToken : $jwtToken");
     }
 
     return token;

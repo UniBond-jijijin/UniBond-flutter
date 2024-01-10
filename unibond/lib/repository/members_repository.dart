@@ -50,6 +50,11 @@ Future<CodeMsgResDto> updateMember(
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 
+  dio.interceptors.add(LogInterceptor(
+    requestBody: true,
+    responseBody: true, // 응답 본문을 찍을지 여부
+  ));
+
   final response = await dio.patch(
     'http://3.35.110.214/api/v1/members/$memberId',
     data: updateRequest.toJson(),

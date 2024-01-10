@@ -216,8 +216,8 @@ class _LetterListState extends State<LetterList> {
                 letter.sentDate.split("T")[0].split("-").join(". ");
 
             Color backgroundColor = letter.senderId.toString() == myToken
-                ? Color.lerp(widget.backgroundColor1, Colors.white, 0)!
-                : Color.lerp(widget.backgroundColor2, Colors.white, 0)!;
+                ? Color.lerp(widget.backgroundColor1, Colors.white, 0.2)!
+                : Color.lerp(widget.backgroundColor2, Colors.white, 0.2)!;
 
             return GestureDetector(
               onTap: () async {
@@ -246,10 +246,10 @@ class _LetterListState extends State<LetterList> {
                     width: 250,
                     height: 200,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/lettertexture.png'),
-                        fit: BoxFit.cover,
-                      ),
+                      // image: const DecorationImage(
+                      //   image: AssetImage('assets/images/lettertexture.png'),
+                      //   fit: BoxFit.cover,
+                      // ),
                       color: backgroundColor,
                     ),
                     child: Column(

@@ -51,39 +51,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-            child: FutureBuilder(
-          future: userProfile,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.50,
-                  ),
-                  const CircularProgressIndicator(),
-                ],
-              ));
-            } else if (snapshot.hasError) {
-              print(snapshot.error);
-              return Center(child: Text('내 프로필 스냅샷 Error: ${snapshot.error}'));
-            } else if (snapshot.hasData) {
-              UserProfile profile = snapshot.data!;
-              return Column(
-                children: [
-                  buildProfileHeader(context, profile),
-                  buildProfileBody(context, profile),
-                ],
-              );
-            } else {
-              return const Center(child: Text("No data"));
-            }
-          },
-        )),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: FutureBuilder(
+        future: userProfile,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.50,
+                ),
+                const CircularProgressIndicator(),
+              ],
+            ));
+          } else if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(child: Text('내 프로필 스냅샷 Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            UserProfile profile = snapshot.data!;
+            return Column(
+              children: [
+                buildProfileHeader(context, profile),
+                buildActivityOptions(context),
+              ],
+            );
+          } else {
+            return const Center(child: Text("No data"));
+          }
+        },
       ),
     );
   }
@@ -106,6 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+
         // 프로필 정보 섹션
         Column(
           children: [
@@ -266,15 +265,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget buildProfileBody(BuildContext context, UserProfile profile) {
-    return Column(
-      children: [
-        // 활동 관리 및 기타 옵션들
-        buildActivityOptions(context),
-      ],
-    );
-  }
-
   Widget buildDiseaseInfo(BuildContext context, UserProfile profile) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -338,133 +328,134 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final Uri privacy = Uri.parse(
       'https://doc-hosting.flycricket.io/unibond-privacy-policy/f88dd207-dad1-4425-b2f2-d64c8070b93b/privacy',
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // const Padding(
-        //   padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
-        //   child: Text(
-        //     '활동 관리',
-        //     style: TextStyle(color: borderColor),
-        //   ),
-        // ),
-        // ListTile(
-        //   title: const Text('내가 올린 게시글'),
-        //   onTap: () {
-        //     showToastMessage("업데이트 준비중인 기능입니다.");
-        //   },
-        // ),
-        // ListTile(
-        //   title: const Text('댓글 단 게시글'),
-        //   onTap: () {
-        //     showToastMessage("업데이트 준비중인 기능입니다.");
-        //   },
-        // ),
-        // ListTile(
-        //   title: const Text('즐겨찾는 편지'),
-        //   onTap: () {
-        //     showToastMessage("업데이트 준비중인 기능입니다.");
-        //   },
-        // ),
-        // Divider(color: Colors.grey[200], thickness: 4.0),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 16, 0, 8),
-          child: Text(
-            '서비스 정보',
-            style: TextStyle(color: borderColor),
+    return Expanded(
+      child: ListView(
+        children: [
+          // const Padding(
+          //   padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
+          //   child: Text(
+          //     '활동 관리',
+          //     style: TextStyle(color: borderColor),
+          //   ),
+          // ),
+          // ListTile(
+          //   title: const Text('내가 올린 게시글'),
+          //   onTap: () {
+          //     showToastMessage("업데이트 준비중인 기능입니다.");
+          //   },
+          // ),
+          // ListTile(
+          //   title: const Text('댓글 단 게시글'),
+          //   onTap: () {
+          //     showToastMessage("업데이트 준비중인 기능입니다.");
+          //   },
+          // ),
+          // ListTile(
+          //   title: const Text('즐겨찾는 편지'),
+          //   onTap: () {
+          //     showToastMessage("업데이트 준비중인 기능입니다.");
+          //   },
+          // ),
+          // Divider(color: Colors.grey[200], thickness: 4.0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
+            child: Text(
+              '서비스 정보',
+              style: TextStyle(color: borderColor),
+            ),
           ),
-        ),
-        ListTile(
-          title: const Text(
-            '이용약관 및 정책',
-            style: titleTextStyle16,
+          ListTile(
+            title: const Text(
+              '이용약관 및 정책',
+              style: titleTextStyle16,
+            ),
+            onTap: () async {
+              if (await canLaunchUrl(terms)) {
+                launchUrl(terms);
+              } else {
+                print("Can't launch $terms");
+              }
+            },
           ),
-          onTap: () async {
-            if (await canLaunchUrl(terms)) {
-              launchUrl(terms);
-            } else {
-              print("Can't launch $terms");
-            }
-          },
-        ),
-        ListTile(
-          title: const Text(
-            '서비스 이용방법',
-            style: titleTextStyle16,
+          ListTile(
+            title: const Text(
+              '서비스 이용방법',
+              style: titleTextStyle16,
+            ),
+            onTap: () {},
           ),
-          onTap: () {},
-        ),
-        ListTile(
-          title: const Text(
-            '개인정보 처리방침',
-            style: titleTextStyle16,
+          ListTile(
+            title: const Text(
+              '개인정보 처리방침',
+              style: titleTextStyle16,
+            ),
+            onTap: () async {
+              if (await canLaunchUrl(privacy)) {
+                launchUrl(privacy);
+              } else {
+                print("Can't launch $privacy");
+              }
+            },
           ),
-          onTap: () async {
-            if (await canLaunchUrl(privacy)) {
-              launchUrl(privacy);
-            } else {
-              print("Can't launch $privacy");
-            }
-          },
-        ),
-        Divider(color: Colors.grey[200], thickness: 4.0),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(16, 16, 0, 8),
-          child: Text(
-            '도움말 및 기타',
-            style: TextStyle(color: borderColor),
+          Divider(color: Colors.grey[200], thickness: 4.0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 16, 0, 8),
+            child: Text(
+              '도움말 및 기타',
+              style: TextStyle(color: borderColor),
+            ),
           ),
-        ),
-        ListTile(
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '고객센터',
-                style: titleTextStyle16,
-              ),
-              Text(
-                'unibond34@gmail.com',
-                style: greyTitleTextStyle,
-              ),
-            ],
-          ),
-          onTap: () {},
-        ),
-        ListTile(
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '버전 정보',
-                style: titleTextStyle16,
-              ),
-              Text(
-                '1.0.0',
-                style: greyTitleTextStyle,
-              ),
-            ],
-          ),
-          onTap: () {},
-        ),
-        Divider(color: Colors.grey[200], thickness: 4.0),
-        Center(
-          child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
-              child: TextButton(
-                onPressed: () {
-                  showWithdrawConfirmationDialog();
-                },
-                child: const Text(
-                  '회원 탈퇴',
-                  style: TextStyle(color: borderColor),
+          ListTile(
+            title: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '고객센터',
+                  style: titleTextStyle16,
                 ),
-              )),
-        ),
-        const SizedBox(
-          height: 20,
-        )
-      ],
+                Text(
+                  'unibond34@gmail.com',
+                  style: greyTitleTextStyle,
+                ),
+              ],
+            ),
+            onTap: () {},
+          ),
+          ListTile(
+            title: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '버전 정보',
+                  style: titleTextStyle16,
+                ),
+                Text(
+                  '1.0.0',
+                  style: greyTitleTextStyle,
+                ),
+              ],
+            ),
+            onTap: () {},
+          ),
+          Divider(color: Colors.grey[200], thickness: 4.0),
+          Center(
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
+                child: TextButton(
+                  onPressed: () {
+                    showWithdrawConfirmationDialog();
+                  },
+                  child: const Text(
+                    '회원 탈퇴',
+                    style: TextStyle(color: borderColor),
+                  ),
+                )),
+          ),
+          const SizedBox(
+            height: 20,
+          )
+        ],
+      ),
     );
   }
 

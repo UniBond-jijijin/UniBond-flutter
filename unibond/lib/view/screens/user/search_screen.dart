@@ -111,6 +111,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: searchResults.length,

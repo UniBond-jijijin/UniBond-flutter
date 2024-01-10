@@ -4,7 +4,7 @@ import 'package:unibond/controller/exppost_controller.dart';
 import 'package:unibond/controller/qnapost_controller.dart';
 import 'package:unibond/model/post/exppost_prev.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/resources/calculateDays.dart';
+import 'package:unibond/resources/calculate_days.dart';
 import 'package:unibond/view/screens/community/exppost_write_screen.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/qnapost_write_screen.dart';
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "        유니본드 친구들이 대답해줄 거예요.💬",
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         color: Color.fromARGB(255, 85, 85, 85),
                         fontWeight: FontWeight.w200),
                   ),
@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     "        생각지도 못한 꿀팁을 얻을수도 있잖아요👀",
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         color: Color.fromARGB(255, 85, 85, 85),
                         fontWeight: FontWeight.w200),
                   ),
@@ -438,7 +438,7 @@ Widget expCustomListItem(ExpPostController p, int index) {
             ),
             const SizedBox(width: 12),
             Text(
-              timeago.format(postDate as DateTime, locale: "ko"),
+              timeago.format(postDate, locale: "ko"),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
             ),
           ],

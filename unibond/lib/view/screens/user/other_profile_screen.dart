@@ -6,7 +6,7 @@ import 'package:unibond/repository/blocking_repository.dart';
 import 'package:unibond/repository/letters_repository.dart';
 import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/resources/calculateDays.dart';
+import 'package:unibond/resources/calculate_days.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/letter/letter_write_screen.dart';
