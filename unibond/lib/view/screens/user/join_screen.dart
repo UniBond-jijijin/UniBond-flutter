@@ -12,7 +12,6 @@ import 'package:unibond/view/screens/user/search_screen.dart';
 import 'package:unibond/view/widgets/next_button.dart';
 import 'package:unibond/view/widgets/selected_button.dart';
 import 'package:unibond/view/widgets/my_custom_text_form_field.dart';
-// import 'package:dio/dio.dart' as dio; // Get Package와의 충돌 방지
 import 'package:url_launcher/url_launcher.dart';
 
 class JoinScreen extends StatefulWidget {
@@ -131,9 +130,9 @@ class _JoinScreenState extends State<JoinScreen> {
 
       if (response.code == 1000) {
         // result 값을 Auth key로 저장하기
-        // 임시 주석처리;
-        // await AuthStorage.saveAuthToken(response.result.toString());
-        await AuthStorage.saveAuthToken("29");
+        // 임시 주석처리
+        // await AuthStorage.saveAuthToken(response.result.toString()); // 올바른 코드
+        await AuthStorage.saveAuthToken("29"); // 화면 캡쳐용 코드
         Get.off(() => const RootTab());
       } else if (_formKey.currentState!.validate() == false) {
         showToastMessage('비밀번호를 확인해주세요');
@@ -141,7 +140,7 @@ class _JoinScreenState extends State<JoinScreen> {
         showToastMessage(response.msg!);
       }
     } catch (e) {
-      print("회원가입 Exception caught: $e");
+      Text("회원가입 Exception caught: $e");
     }
   }
 

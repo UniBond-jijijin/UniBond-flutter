@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/resources/toast.dart';
+import 'package:unibond/util/auth_storage.dart';
 import 'package:unibond/view/screens/user/join_screen.dart';
+import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/widgets/my_custom_text_form_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController nicknameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +78,7 @@ class LoginScreen extends StatelessWidget {
                           child: MyCustomTextFormField(
                             onChanged: (value) {},
                             hintText: '닉네임을 입력하세요',
+                            controller: nicknameController,
                           ),
                         ),
                         Container(
@@ -78,6 +91,7 @@ class LoginScreen extends StatelessWidget {
                             maxLines: 1,
                             obscureText: true,
                             hintText: '비밀번호를 입력하세요',
+                            controller: passwordController,
                           ),
                         ),
                         Container(
@@ -90,7 +104,11 @@ class LoginScreen extends StatelessWidget {
                               SizedBox(
                                 height: 55,
                                 child: ElevatedButton(
-                                  onPressed: () {}, // TODO: 구글만을 위한 로그인 값 전달
+                                  onPressed: () async {
+                                    await isGoogle(
+                                        nicknameController.text.trim(),
+                                        passwordController.text.trim());
+                                  },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: primaryColor,
                                     shape: RoundedRectangleBorder(
@@ -120,7 +138,7 @@ class LoginScreen extends StatelessWidget {
                               style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 color: Color(0xFF5A5A5A),
-                                fontSize: 14,
+                                fontSize: 16,
                               ),
                             ),
                           ),
@@ -135,5 +153,16 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // 구글 심사용 계정인지 확인하는 함수
+  Future<void> isGoogle(String id, String pw) async {
+    await dotenv.load();
+    if (id == dotenv.get('MASTER_ID') && pw == dotenv.get('MASTER_PW')) {
+      await AuthStorage.saveAuthToken("29");
+      Get.off(() => const RootTab());
+    } else {
+      showToastMessage('로그인 오류가 발생했습니다. \n관리자에게 문의 부탁드립니다.');
+    }
   }
 }
