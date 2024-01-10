@@ -130,31 +130,14 @@ class _JoinScreenState extends State<JoinScreen> {
       var response = await createMember(request);
 
       if (response.code == 1000) {
-        print("Profile created successfully.");
-
         // result 값을 Auth key로 저장하기
         // 임시 주석처리;
         // await AuthStorage.saveAuthToken(response.result.toString());
         await AuthStorage.saveAuthToken("29");
         Get.off(() => const RootTab());
+      } else if (_formKey.currentState!.validate() == false) {
+        showToastMessage('비밀번호를 확인해주세요');
       } else {
-        if (response.code == 2502) {
-          if (!mounted) return;
-          // 중복입니다 다이얼로그
-          showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text('알림'),
-              content: const Text('이미 사용중인 닉네임입니다. \n닉네임을 변경해주세요.'),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('확인'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-          );
-        }
         showToastMessage(response.msg!);
       }
     } catch (e) {
@@ -205,12 +188,22 @@ class _JoinScreenState extends State<JoinScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('주의'),
-          content: const Text('개인정보 수집 및 이용에 동의하세요'),
+          title: const Text(
+            '알림',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          content: const Text(
+            '개인정보 처리방침에 동의해주세요',
+            style: TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
-                // Get.off(() => const HomeScreen());
                 Navigator.of(context).pop();
               },
               child: const Text('확인'),
@@ -226,8 +219,19 @@ class _JoinScreenState extends State<JoinScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('주의'),
-          content: const Text('이용약관에 동의하세요'),
+          title: const Text(
+            '알림',
+            style: TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          content: const Text(
+            '이용약관 및 정책에 동의해주세요',
+            style: TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -659,7 +663,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 ),
                                 const Expanded(
                                   child: Text(
-                                    '개인정보 수집 및 이용동의(필수)',
+                                    '개인정보 처리방침 동의 (필수)',
                                   ),
                                 ),
                                 GestureDetector(
@@ -690,7 +694,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 ),
                                 const Expanded(
                                   child: Text(
-                                    '이용약관 동의(필수)',
+                                    '이용약관 및 정책 동의 (필수)',
                                   ),
                                 ),
                                 GestureDetector(
@@ -746,7 +750,7 @@ class _JoinScreenState extends State<JoinScreen> {
             onChanged: (value) => {},
             controller: searchController,
             decoration: InputDecoration(
-              hintText: "오른쪽 돋보기 아이콘을 터치해주세요.",
+              hintText: "오른쪽 돋보기 아이콘을 터치해주세요",
               fillColor: Colors.grey[100],
               filled: true,
               contentPadding:

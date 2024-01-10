@@ -61,10 +61,10 @@ class _CustomTextFormFieldState extends State<MyCustomTextFormField> {
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
+      padding: const EdgeInsets.fromLTRB(0, 6, 0, 6),
       child: TextFormField(
         validator: widget.validator,
-        maxLength: widget.maxLength ?? 5,
+        maxLength: widget.maxLength ?? 8,
         keyboardType:
             widget.onlyNumber! ? TextInputType.number : null, // 숫자 키보드 표시
         textAlign: widget.textAlign,
@@ -287,8 +287,9 @@ class _MyCustomTextFormFieldWithNicknameState
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
+      padding: const EdgeInsets.fromLTRB(0, 4, 0, 6),
       child: TextFormField(
+        maxLength: 8,
         keyboardType:
             widget.onlyNumber! ? TextInputType.number : null, // 숫자 키보드만 표시
         textAlign: widget.textAlign,
@@ -338,8 +339,19 @@ class _MyCustomTextFormFieldWithNicknameState
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text('알림'),
-                        content: const Text('이미 사용중인 닉네임입니다. \n닉네임을 변경해주세요.'),
+                        title: const Text(
+                          '알림',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        content: const Text(
+                          '이미 사용중인 닉네임입니다. \n닉네임을 변경해주세요.',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('확인'),
@@ -353,8 +365,19 @@ class _MyCustomTextFormFieldWithNicknameState
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text('알림'),
-                        content: const Text('사용 가능한 닉네임입니다!'),
+                        title: const Text(
+                          '알림',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        content: const Text(
+                          '사용 가능한 닉네임입니다!',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
                         actions: <Widget>[
                           TextButton(
                             child: const Text('확인'),
@@ -365,13 +388,11 @@ class _MyCustomTextFormFieldWithNicknameState
                     );
                   }
                 } else {
-                  print(7);
-                  print(
+                  const Text(
                       'Failed to send nickname verification or unexpected response format.');
                 }
               } catch (e) {
-                print(8);
-                print('Error: $e');
+                Text('Nickname verification error: $e');
               }
             },
           ),

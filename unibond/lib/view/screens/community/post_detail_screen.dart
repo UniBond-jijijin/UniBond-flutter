@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:unibond/model/block_model.dart';
 import 'package:unibond/model/post/comment_post.dart';
-import 'package:unibond/model/post/del_model.dart';
 import 'package:unibond/model/post/qnapost_request.dart';
 import 'package:unibond/repository/blocking_repository.dart';
 import 'package:unibond/repository/letters_repository.dart';
