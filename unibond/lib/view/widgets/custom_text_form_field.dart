@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String hint;
-  final funvalidator;
+  final dynamic funvalidator;
   final String? value;
-  final controller;
+  final dynamic controller;
 
   const CustomTextFormField({
     super.key,

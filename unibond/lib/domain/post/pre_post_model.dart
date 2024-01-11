@@ -8,6 +8,7 @@ class PrevPost {
   final String? contentPreview;
   final String? boardType;
   final bool? isEnd;
+  final String postId;
 
   PrevPost({
     this.createdDate,
@@ -17,14 +18,17 @@ class PrevPost {
     this.contentPreview,
     this.boardType,
     this.isEnd,
+    required this.postId,
   });
 
   PrevPost.fromJson(Map<String, dynamic> json)
-      : createdDate = DateFormat("yyyy-mm-dd").parse(json["createdDate"]),
+      : createdDate =
+            DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(json["createdDate"]),
         ownerProfileImg = json["ownerProfileImg"],
         ownerNick = json["ownerNick"],
         disease = json["disease"],
         contentPreview = json["contentPreview"],
         boardType = json["boardType"],
-        isEnd = json["isEnd"];
+        isEnd = json["isEnd"],
+        postId = json["postId"].toString();
 }

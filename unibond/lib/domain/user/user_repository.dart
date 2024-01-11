@@ -14,11 +14,9 @@ class UserRepository {
       if (response.body["isSuccess"] == false) {
         throw Exception("Failed to send user data");
       } else {
-        print("user data sent successfully");
         return userIdNum;
       }
     } catch (err) {
-      print("Failed to send user data: $err");
       rethrow;
     }
   }

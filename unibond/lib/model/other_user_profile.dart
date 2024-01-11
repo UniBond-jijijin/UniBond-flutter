@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'other_user_profile.g.dart';
 
+// 남의 프로필 GET을 위한 모델
 @JsonSerializable()
 class OtherUserProfile {
   final bool isSuccess;
@@ -31,11 +32,8 @@ class OtherUserProfileResult {
   final String diagnosisTiming;
   final String bio;
   final List<String>? interestList;
+  final OtherUserProfilePageInfo? otherUserProfilePageInfo;
   final List<PostPreview>? postPreviewList;
-  final bool lastPage;
-  final int totalPages;
-  final int totalElements;
-  final int size;
 
   OtherUserProfileResult({
     required this.profileImage,
@@ -45,11 +43,8 @@ class OtherUserProfileResult {
     required this.diagnosisTiming,
     required this.bio,
     this.interestList,
+    this.otherUserProfilePageInfo,
     this.postPreviewList,
-    required this.lastPage,
-    required this.totalPages,
-    required this.totalElements,
-    required this.size,
   });
 
   factory OtherUserProfileResult.fromJson(Map<String, dynamic> json) =>
@@ -59,20 +54,48 @@ class OtherUserProfileResult {
 }
 
 @JsonSerializable()
+class OtherUserProfilePageInfo {
+  final int numberOfElements;
+  final bool lastPage;
+  final int totalPages;
+  final int totalElements;
+  final int size;
+
+  OtherUserProfilePageInfo({
+    required this.numberOfElements,
+    required this.lastPage,
+    required this.totalPages,
+    required this.totalElements,
+    required this.size,
+  });
+
+  factory OtherUserProfilePageInfo.fromJson(Map<String, dynamic> json) =>
+      _$OtherUserProfilePageInfoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OtherUserProfilePageInfoToJson(this);
+}
+
+@JsonSerializable()
 class PostPreview {
   final String createdDate;
+  final int ownerId;
   final String ownerProfileImg;
   final String ownerNick;
   final String disease;
+  final int postId;
+  final String? postImg;
   final String contentPreview;
   final String boardType;
   final bool isEnd;
 
   PostPreview({
     required this.createdDate,
+    required this.ownerId,
     required this.ownerProfileImg,
     required this.ownerNick,
     required this.disease,
+    required this.postId,
+    this.postImg,
     required this.contentPreview,
     required this.boardType,
     required this.isEnd,

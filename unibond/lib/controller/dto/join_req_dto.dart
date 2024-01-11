@@ -1,11 +1,9 @@
 class JoinReqDto {
   final String? diseaseId;
-  // TODO: 자료형 나중에 반영
   final String? diseaseTiming;
   final String? gender;
   final String? nickname;
   final String? bio;
-  // TODO: 자료형 나중에 반영
   final String? interestList;
   // 일단 api 문서에 없어서 주석처리
   // final String? email;
@@ -24,7 +22,6 @@ class JoinReqDto {
     this.interestList,
   );
 
-  // TODO: timing, list 자료형 처리 필요, 임시 값 수정 필요
   Map<String, dynamic> toJson() => {
         // "userId": userId,
         // "password": password,

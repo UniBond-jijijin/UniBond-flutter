@@ -18,13 +18,13 @@ class CustomLetterElevatedButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color(0xFF9359CD),
         foregroundColor: Colors.white,
       ),
       onPressed: () async {
         await funPageRoute();
       },
-      child: Text("$text"),
+      child: Text(text),
     );
   }
 }

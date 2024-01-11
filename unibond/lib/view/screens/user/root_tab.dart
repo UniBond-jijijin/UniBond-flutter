@@ -3,25 +3,28 @@ import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/tab_item.dart';
 import 'package:unibond/view/screens/home_screen.dart';
 import 'package:unibond/view/screens/letter/letter_box_screen.dart';
-import 'package:unibond/view/screens/user/other_profile_screen.dart';
 import 'package:unibond/view/screens/user/profile_screen.dart';
 
 class RootTab extends StatefulWidget {
+  final int initialIndex;
+
   static String get routeName => '/';
   const RootTab({
     Key? key,
+    this.initialIndex = 0,
   }) : super(key: key);
 
   @override
-  _RootTabState createState() => _RootTabState();
+  State<RootTab> createState() => _RootTabState();
 }
 
 class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _currentIndex = 0;
+  late int _currentIndex;
 
   @override
   void initState() {
+    _currentIndex = widget.initialIndex;
     _tabController = TabController(
       length: tabItems.length,
       vsync: this,
@@ -51,16 +54,11 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
-        children: <Widget>[
-          const HomeScreen(),
-          LetterBoxScreen(
-            fakeEnvelopes: [
-              LetterEnvelope(date: '2023-10-15', sender: '지지진'),
-              LetterEnvelope(date: '2023-10-14', sender: '진지지'),
-            ],
-          ),
-          // const ProfileScreen(),
-          const OtherProfileScreen(),
+        children: const <Widget>[
+          HomeScreen(),
+          LetterBoxScreen(),
+          ProfileScreen(),
+          // const OtherProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -73,7 +71,6 @@ class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {
         onTap: (index) {
           setState(() {
             _currentIndex = index;
-            print(_currentIndex);
             _tabController.animateTo(index);
           });
         },

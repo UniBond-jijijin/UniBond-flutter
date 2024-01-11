@@ -1,32 +1,219 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:unibond/controller/post_controller.dart';
+import 'package:unibond/controller/exppost_controller.dart';
+import 'package:unibond/controller/qnapost_controller.dart';
+import 'package:unibond/model/post/exppost_prev.dart';
 import 'package:unibond/resources/app_colors.dart';
+import 'package:unibond/view/screens/community/exppost_write_screen.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
-import 'package:unibond/view/screens/community/post_write_screen.dart';
+import 'package:unibond/view/screens/community/qnapost_write_screen.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int selectedMenuIndex = 0;
+  Future<ExpPostPrevRequest>? expPostPrevRequest;
+
+  @override
+  void initState() {
+    super.initState();
+    QnaPostController qp = Get.put(QnaPostController());
+    ExpPostController ep = Get.put(ExpPostController());
+    qp.getQnaPostsList();
+    ep.getExpPostsList();
+  }
+
+  Widget qnaMenu() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedMenuIndex = 0;
+        });
+      },
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        height: 120,
+        width: 170,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          border: Border.all(
+            width: selectedMenuIndex == 0 ? 5 : 0,
+            color: Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Stack(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text("Q & A", style: homeMenuTextStyle),
+            ),
+            Align(
+              alignment: const Alignment(1.4, 1.4),
+              child: Image.asset(
+                'assets/images/qna_community.png',
+                width: 135,
+                // 이미지의 다른 속성들 설정
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget expMenu() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedMenuIndex = 1;
+        });
+      },
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        height: 120,
+        width: 170,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          border: Border.all(
+            width: selectedMenuIndex == 1 ? 5 : 0,
+            color: Colors.white,
+          ),
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: Stack(
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text("경험 공유", style: homeMenuTextStyle),
+            ),
+            Align(
+              alignment: const Alignment(1.0, 1.0),
+              child: Image.asset(
+                'assets/images/exp_community.png',
+                width: 125,
+                // 이미지의 다른 속성들 설정
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildPostContent() {
+    if (selectedMenuIndex == 0) {
+      return Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 20, 0, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "❓ 궁금한 것을 물어보세요!",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "        유니본드 친구들이 대답해줄 거예요 💬",
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 85, 85, 85),
+                        fontWeight: FontWeight.w200),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: QnaPostsListView()),
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        color: Colors.white,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(16, 20, 0, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "🔗 서로의 경험을 공유해봐요",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    "        생각지도 못한 꿀팁을 얻을수도 있잖아요 👀",
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Color.fromARGB(255, 85, 85, 85),
+                        fontWeight: FontWeight.w200),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: ExpPostsListView()),
+          ],
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        forceMaterialTransparency: true,
-        title: const Text("UniBond"),
         automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(4, 8, 0, 0),
+            child: Text(
+              'UniBond',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Expanded(
-            flex: 4,
+            flex: 3,
             child: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
                   colors: [Color(0xFFCFDEFF), Color(0xFFE5C1FF)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
+                ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
               ),
               child: SingleChildScrollView(
@@ -35,62 +222,13 @@ class HomeScreen extends StatelessWidget {
                   children: [
                     const SizedBox(height: 100),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            height: 120,
-                            width: 170,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF7A34AC), Color(0xFF87ADFF)],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              border: Border.all(
-                                width: 5,
-                                color: Colors.white,
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Text(
-                                "질문",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ),
+                        children: <Widget>[
+                          qnaMenu(),
                           const SizedBox(width: 20),
-                          Container(
-                            height: 120,
-                            width: 170,
-                            decoration: BoxDecoration(
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFFFF6292), Color(0xFFFFF1DF)],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              // border: Border.all(
-                              //   width: 0,
-                              // ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: const Padding(
-                              padding: EdgeInsets.all(12.0),
-                              child: Text(
-                                "경험기록",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ),
+                          expMenu(),
                         ],
                       ),
                     ),
@@ -101,142 +239,231 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             flex: 6,
-            child: Container(
-              color: Colors.white,
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 12.0),
-                    child: Text(
-                      "질문 게시판",
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                  Expanded(child: PostsListView()),
-                ],
-              ),
-            ),
+            child: buildPostContent(),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Get.to(() => WriteScreen());
-        },
-        elevation: 4,
-        label: const Text('글쓰기'),
-        icon: const Icon(Icons.mode_edit_outlined),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        foregroundColor: Colors.white,
-        backgroundColor: AppColors.contentColorPink,
-      ),
+          onPressed: () {
+            if (selectedMenuIndex == 0) {
+              Get.to(() => QnaWriteScreen());
+            } else {
+              Get.to(() => ExpWriteScreen());
+            }
+          },
+          elevation: 4,
+          label: const Text('글쓰기'),
+          icon: const Icon(Icons.mode_edit_outlined),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          foregroundColor: Colors.white,
+          backgroundColor: AppColors.contentColorPink),
     );
   }
 }
 
-class PostsListView extends StatelessWidget {
-  const PostsListView({super.key});
+class QnaPostsListView extends StatelessWidget {
+  QnaPostsListView({super.key});
+  final refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
-    PostController p = Get.put(PostController());
+    QnaPostController p = Get.put(QnaPostController());
 
     return Obx(
-      () => ListView.builder(
-        padding: EdgeInsets.zero,
-        itemCount: p.posts.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 12),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Colors.black,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: TextButton(
-                onPressed: () {
-                  Get.to(() => DetailScreen(id: index));
-                },
-                // TODO: CustomListitem 위젯으로 변경
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: const CircleAvatar(child: Text('오지')),
-                      title: Row(
-                        children: [
-                          Text(p.posts[index].ownerNick!),
-                          const SizedBox(width: 3),
-                          // TODO: 날짜계산 필요
-                          const Text('1일 전'),
-                        ],
-                      ),
-                      subtitle: Text(p.posts[index].disease!),
-                      isThreeLine: true,
-                    ),
-                    const SizedBox(height: 0),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      // child: ,
-                      // 테스트
-                      child: Text(
-                        p.posts[index].contentPreview!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
+      () => RefreshIndicator(
+        key: refreshKey,
+        onRefresh: () async {
+          await p.getQnaPostsList();
+        },
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: p.posts.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
+                child: TextButton(
+                  onPressed: () {
+                    Get.to(() => DetailScreen(id: p.posts[index].postId));
+                  },
+                  child: qnaCustomListItem(p, index),
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-class CustomListitem extends StatelessWidget {
-  const CustomListitem({super.key});
+class ExpPostsListView extends StatelessWidget {
+  ExpPostsListView({super.key});
+  final refreshKey = GlobalKey<RefreshIndicatorState>();
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Get.put() 싱글턴 확인
-    // PostController p = Get.put(PostController());
+    ExpPostController p = Get.put(ExpPostController());
 
-    return const Column(
-      children: [
-        ListTile(
-          leading: CircleAvatar(child: Text('오지')),
-          title: Row(
-            children: [
-              Text('지지진'),
-              SizedBox(width: 3),
-              Text('1일 전'),
-            ],
-          ),
-          subtitle: Text("망막생소변성증"),
-          isThreeLine: true,
+    // getExpPostsList()에서 await 이후, 변수 posts에 저장이 되면, 그 변화를 감지해서 화면을 다시 그리기 위해 Obx로 ListView를 감싸줌
+    return Obx(
+      () => RefreshIndicator(
+        key: refreshKey,
+        onRefresh: () async {
+          await p.getExpPostsList();
+        },
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          itemCount: p.posts.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.4),
+                      spreadRadius: 2,
+                      blurRadius: 4,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    Get.to(() => DetailScreen(id: p.posts[index].postId));
+                  },
+                  child: expCustomListItem(p, index),
+                ),
+              ),
+            );
+          },
         ),
-        SizedBox(height: 0),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0),
-          // child: ,
-          // 테스트
-          child: Text(
-            "이것은 게시물의 내용입니다... 과연 어떤 게시물들이 올라올까요..기대가됩니다...",
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
+      ),
     );
   }
+}
+
+Widget qnaCustomListItem(QnaPostController p, int index) {
+  var postDate = p.posts[index].createdDate;
+
+  return Column(
+    children: [
+      ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: ClipOval(
+          child: p.posts[index].ownerProfileImg!.isNotEmpty
+              ? Image.network(
+                  p.posts[index].ownerProfileImg!,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  'assets/images/user_image.jpg',
+                  width: 50,
+                  height: 50,
+                ),
+        ),
+        title: Row(
+          children: [
+            Text(
+              p.posts[index].ownerNick!,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              timeago.format(postDate as DateTime, locale: "ko"),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
+        subtitle: Text(
+          p.posts[index].disease!,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 14),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(10, 2, 10, 6),
+        child: Text(
+          p.posts[index].contentPreview!,
+          style: const TextStyle(
+            color: Colors.black,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget expCustomListItem(ExpPostController p, int index) {
+  var postDate = p.posts[index].createdDate;
+  return Column(
+    children: [
+      ListTile(
+        contentPadding: EdgeInsets.zero,
+        leading: ClipOval(
+          child: p.posts[index].ownerProfileImg!.isNotEmpty
+              ? Image.network(
+                  p.posts[index].ownerProfileImg!,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                )
+              : Image.asset(
+                  'assets/images/user_image.jpg',
+                  width: 50,
+                  height: 50,
+                ),
+        ),
+        title: Row(
+          children: [
+            Text(
+              p.posts[index].ownerNick!,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              timeago.format(postDate!, locale: "ko"),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+            ),
+          ],
+        ),
+        subtitle: Text(
+          p.posts[index].disease!,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: 14),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(10, 2, 10, 6),
+        child: Text(
+          p.posts[index].contentPreview!,
+          style: const TextStyle(
+            color: Colors.black,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
+    ],
+  );
 }

@@ -9,7 +9,7 @@ part of 'member_update_request.dart';
 MemberUpdateRequest _$MemberUpdateRequestFromJson(Map<String, dynamic> json) =>
     MemberUpdateRequest(
       diseaseId: json['diseaseId'] as int?,
-      diseaseTiming: json['diseaseTiming'] as String?,
+      diagnosisTiming: json['diagnosisTiming'] as String?,
       gender: json['gender'] as String?,
       nickname: json['nickname'] as String?,
       bio: json['bio'] as String?,
@@ -22,7 +22,7 @@ Map<String, dynamic> _$MemberUpdateRequestToJson(
         MemberUpdateRequest instance) =>
     <String, dynamic>{
       'diseaseId': instance.diseaseId,
-      'diseaseTiming': instance.diseaseTiming,
+      'diagnosisTiming': instance.diagnosisTiming,
       'gender': instance.gender,
       'nickname': instance.nickname,
       'bio': instance.bio,

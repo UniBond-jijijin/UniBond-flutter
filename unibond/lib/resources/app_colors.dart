@@ -1,19 +1,108 @@
 import 'package:flutter/material.dart';
 
 const primaryColor = Color(0xFF9359CD);
+const secondaryColor = Color(0xFF1F65FF);
 const borderColor = Color(0xFF575757);
 const cursorColor = Color(0xFF241E17);
 
 // 임시: 텍스트 스타일 위젯도 모아둠
-const titleTextStyle = TextStyle(
+const homeMenuTextStyle = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w600,
+  fontSize: 20,
+);
+
+const coloredButtonTextStyle = TextStyle(
+  color: Colors.white,
+  fontWeight: FontWeight.w700,
+  fontSize: 16,
+);
+
+const titleTextStyle16 = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w500,
   fontSize: 16,
 );
-const AskTextStyle = TextStyle(
+
+const titleTextStyle20 = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 20,
+);
+
+const greyTitleTextStyle = TextStyle(
+  color: Color.fromARGB(255, 100, 100, 100),
+  fontWeight: FontWeight.w500,
+  fontSize: 16,
+);
+
+const primaryColorTextStyle20 = TextStyle(
+  color: primaryColor,
+  fontWeight: FontWeight.w600,
+  fontSize: 20,
+);
+
+const contentTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+  height: 1.6,
+);
+
+const askTextStyle = TextStyle(
   color: Colors.black,
   fontWeight: FontWeight.w500,
   fontSize: 18,
+);
+
+const notifyTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w200,
+  fontSize: 18,
+);
+
+const letterListTitleTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 20,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterReadTitleTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w500,
+  fontSize: 20,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterInfoTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w300,
+  fontSize: 18,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterContentTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+  height: 1.6,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const letterBoxTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 16,
+  height: 1.6,
+  fontFamily: 'MapoGoldenPier',
+);
+
+const loginTextStyle = TextStyle(
+  color: Colors.black,
+  fontWeight: FontWeight.w400,
+  fontSize: 14,
+  height: 1.6,
 );
 
 class AppColors {

@@ -1,7 +1,17 @@
-class PostUploadReqDto {
+class QnAPostUploadReqDto {
   final String? content;
 
-  PostUploadReqDto(this.content);
+  QnAPostUploadReqDto(this.content);
+
+  Map<String, dynamic> toJson() => {
+        "content": content,
+      };
+}
+
+class ExpPostUploadReqDto {
+  final String? content;
+
+  ExpPostUploadReqDto(this.content);
 
   Map<String, dynamic> toJson() => {
         "content": content,
