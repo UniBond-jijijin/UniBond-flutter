@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         });
       } else {
         // authToken이 null인 경우의 처리
-        print("authToken 없음");
+        // print("authToken 없음");
       }
     });
   }
@@ -68,8 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ));
           } else if (snapshot.hasError) {
-            print(snapshot.error);
-            return Center(child: Text('내 프로필 스냅샷 Error: ${snapshot.error}'));
+            return Center(child: Text('내 프로필 조회 오류: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             UserProfile profile = snapshot.data!;
             return Column(
@@ -91,7 +90,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         // 배경 컨테이너
         Container(
-          height: MediaQuery.of(context).size.height * 0.40,
+          height: ((profile.result.bio.length > 20))
+              ? MediaQuery.of(context).size.height * 0.37
+              : MediaQuery.of(context).size.height * 0.34,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -125,10 +126,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       elevation: 0,
       title: const Align(
         alignment: Alignment.centerLeft,
-        child: Text(
-          '내 프로필',
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(4, 8, 0, 0),
+          child: Text(
+            '내 프로필',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+              color: Colors.black,
+            ),
+          ),
         ),
       ),
       automaticallyImplyLeading: false,
@@ -245,7 +252,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildInterestTags(BuildContext context, UserProfile profile) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 20, 0, 0),
+      padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
       child: Row(
         children: [
           const Icon(Icons.favorite, color: primaryColor),
@@ -268,7 +275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildDiseaseInfo(BuildContext context, UserProfile profile) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -374,16 +381,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if (await canLaunchUrl(terms)) {
                 launchUrl(terms);
               } else {
-                print("Can't launch $terms");
+                Text("해당 URL에 접근할 수 없습니다: $terms");
               }
             },
-          ),
-          ListTile(
-            title: const Text(
-              '서비스 이용방법',
-              style: titleTextStyle16,
-            ),
-            onTap: () {},
           ),
           ListTile(
             title: const Text(
@@ -394,7 +394,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               if (await canLaunchUrl(privacy)) {
                 launchUrl(privacy);
               } else {
-                print("Can't launch $privacy");
+                Text("해당 URL에 접근할 수 없습니다: $privacy");
               }
             },
           ),

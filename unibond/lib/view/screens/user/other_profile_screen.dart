@@ -34,7 +34,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     if (bio.length > 20) {
       int periodIndex = bio.indexOf('.');
       if (periodIndex != -1 && periodIndex < 20) {
-        return '${bio.substring(0, periodIndex + 1)}\n${bio.substring(periodIndex + 1)}';
+        return '${bio.substring(0, periodIndex + 1)}\n${bio[periodIndex + 1] == ' ' ? bio.substring(periodIndex + 2) : bio.substring(periodIndex + 1)}';
       } else {
         return '${bio.substring(0, 20)}\n${bio.substring(20)}';
       }
@@ -44,94 +44,95 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: FutureBuilder(
-          future: Future.wait(
-              [getOtherProfile(widget.postOwnerId.toString()), getAuthToken()]),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.50,
-                  ),
-                  const CircularProgressIndicator(),
-                ],
-              ));
-            } else if (snapshot.hasError) {
-              return const Center(child: Text('다른 회원의 프로필을 불러올 수 없습니다.'));
-            } else if (snapshot.hasData) {
-              OtherUserProfile profile = snapshot.data![0] as OtherUserProfile;
-              String myToken = snapshot.data![1] as String;
+    return Scaffold(
+      body: FutureBuilder(
+        future: Future.wait(
+            [getOtherProfile(widget.postOwnerId.toString()), getAuthToken()]),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.2,
+                ),
+                const CircularProgressIndicator(),
+              ],
+            ));
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('다른 회원의 프로필을 불러올 수 없습니다.'));
+          } else if (snapshot.hasData) {
+            OtherUserProfile profile = snapshot.data![0] as OtherUserProfile;
+            String myToken = snapshot.data![1] as String;
 
-              postPreviewList = profile.result.postPreviewList;
+            postPreviewList = profile.result.postPreviewList;
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  buildProfileHeader(context, profile, myToken),
-                  const SizedBox(height: 8),
-                  Center(child: buildLetterSendButton(context)),
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
-                    child: Text("게시물", style: primaryColorTextStyle20),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: postPreviewList!.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 12),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.4),
-                                  spreadRadius: 2,
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: TextButton(
-                              onPressed: () {
-                                Get.to(() => DetailScreen(
-                                    id: postPreviewList![index]
-                                        .postId
-                                        .toString()));
-                              },
-                              child: qnaCustomListItem(postPreviewList!, index),
-                            ),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildProfileHeader(
+                    context, profile, myToken, profile.result.bio),
+                const SizedBox(height: 8),
+                Center(child: buildLetterSendButton(context)),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20, 4, 0, 4),
+                  child: Text("게시물", style: primaryColorTextStyle20),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: postPreviewList!.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 12),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.4),
+                                spreadRadius: 2,
+                                blurRadius: 4,
+                                offset: const Offset(0, 3),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    ),
+                          child: TextButton(
+                            onPressed: () {
+                              Get.to(() => DetailScreen(
+                                  id: postPreviewList![index]
+                                      .postId
+                                      .toString()));
+                            },
+                            child: qnaCustomListItem(postPreviewList!, index),
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                ],
-              );
-            } else {
-              return const Center(child: Text("No data"));
-            }
-          },
-        ),
+                ),
+              ],
+            );
+          } else {
+            return const Center(child: Text("No data"));
+          }
+        },
       ),
     );
   }
 
-  Widget buildProfileHeader(
-      BuildContext context, OtherUserProfile profile, String myToken) {
+  Widget buildProfileHeader(BuildContext context, OtherUserProfile profile,
+      String myToken, String bio) {
     return Stack(
       children: [
         // 배경 컨테이너
         Container(
-          height: MediaQuery.of(context).size.height * 0.37,
+          height: ((bio.length > 20))
+              ? MediaQuery.of(context).size.height * 0.37
+              : MediaQuery.of(context).size.height * 0.34,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -289,7 +290,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
   Widget buildInterestTags(BuildContext context, OtherUserProfile profile) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(25, 20, 0, 0),
+      padding: const EdgeInsets.fromLTRB(30, 20, 0, 0),
       child: Row(
         children: [
           const Icon(Icons.favorite, color: primaryColor),
@@ -312,7 +313,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
   Widget buildDiseaseInfo(BuildContext context, OtherUserProfile profile) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      padding: const EdgeInsets.fromLTRB(0, 24, 0, 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -326,7 +327,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
   Widget buildInfoCard({required String title, required String content}) {
     return Container(
-      margin: const EdgeInsets.all(12),
+      margin: const EdgeInsets.symmetric(horizontal: 12),
       width: 170,
       height: 100,
       padding: const EdgeInsets.all(12),
@@ -368,7 +369,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
   Widget buildLetterSendButton(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+      padding: const EdgeInsets.fromLTRB(0, 8, 0, 4),
       child: ElevatedButton(
         onPressed: () {
           Get.to(() =>
