@@ -128,19 +128,29 @@ class _JoinScreenState extends State<JoinScreen> {
       MemberRequest request = MemberRequest.fromJson(requestData);
       var response = await createMember(request);
 
-      if (response.code == 1000) {
-        // result 값을 Auth key로 저장하기
-        // 임시 주석처리
-        // await AuthStorage.saveAuthToken(response.result.toString()); // 올바른 코드
-        await AuthStorage.saveAuthToken("29"); // 화면 캡쳐용 코드
-        Get.off(() => const RootTab());
+      if (nicknameController.text.trim() == '') {
+        showToastMessage('닉네임을 입력해주세요');
       } else if (_formKey.currentState!.validate() == false) {
         showToastMessage('비밀번호를 확인해주세요');
+      } else if (bioController.text.trim() == '') {
+        showToastMessage('한줄 소개를 입력해주세요');
+      } else if (isFemaleSelected == false &&
+          isMaleSelected == false &&
+          isPrivateSelected == false) {
+        showToastMessage('성별을 선택해주세요');
+      } else if (isPrivacyPolicyChecked == false) {
+        showToastMessage('개인정보 처리방침에 동의해주세요');
+      } else if (isTermsPolicyChecked == false) {
+        showToastMessage('이용약관 및 정책에 동의해주세요');
+      } else if (response.code == 1000) {
+        // result 값을 Auth key로 저장하기
+        await AuthStorage.saveAuthToken(response.result.toString());
+        Get.off(() => const RootTab());
       } else {
         showToastMessage(response.msg!);
       }
     } catch (e) {
-      Text("회원가입 Exception caught: $e");
+      Text("회원가입 오류: $e");
     }
   }
 
