@@ -41,7 +41,7 @@ class LetterWriteScreen extends StatelessWidget {
             Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/letterwritescreen.jpg'),
+                  image: AssetImage('assets/images/letter.png'),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -53,6 +53,20 @@ class LetterWriteScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              '* 전송된 편지는 6시간 후에 도착합니다.',
+                              style: TextStyle(color: primaryColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     TextField(
                       controller: _titleController,
                       decoration: const InputDecoration(
