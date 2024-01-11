@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:unibond/model/user_profile.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/util/auth_storage.dart';
-import 'package:unibond/view/screens/user/join_screen.dart';
 import 'package:unibond/view/screens/user/login_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 
@@ -24,11 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void _checkAuthAndNavigate() async {
     String? memberId = await AuthStorage.getAuthToken();
 
-    // SecureStorage 초기화를 위해 회원가입 화면으로 이동시키기
-    // memberId = null;
-    // 이 방법은 Storage에 저장은 되어있는데 덮어쓰기위한거니까 기기에서 아예 삭제하려면 delAuthToken()을 해야함.
-    // AuthStorage.delAuthToken();
-
     if (memberId != null) {
       // 인증된 사용자면
       try {
@@ -38,16 +32,15 @@ class _SplashScreenState extends State<SplashScreen> {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const RootTab()));
         } else {
-          // 프로필 조회 실패 눈송해피
-          _navigateToRegister();
+          // 프로필 조회 실패
+          _navigateToLogin();
         }
       } catch (e) {
         // 오류 처리
-        _navigateToRegister();
+        _navigateToLogin();
       }
     } else {
       // 인증되지 않은 사용자
-      // _navigateToRegister();
       _navigateToLogin();
     }
   }
@@ -57,15 +50,6 @@ class _SplashScreenState extends State<SplashScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => const LoginScreen(),
-      ),
-    );
-  }
-
-  void _navigateToRegister() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const JoinScreen(),
       ),
     );
   }
@@ -97,6 +81,37 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Image.asset(
                     'assets/images/logo.png',
                     width: 200,
+                  ),
+                ),
+                const SizedBox(
+                  height: 36,
+                ),
+                const SizedBox(
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '이 앱은 현대오토에버와 서울사회복지',
+                        style: letterContentTextStyle,
+                        overflow: TextOverflow.visible,
+                        // maxLines: 2,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '공동모금회의 지원으로 제작되었습니다.',
+                        style: letterContentTextStyle,
+                        overflow: TextOverflow.visible,
+                        // maxLines: 2,
+                      ),
+                    ],
                   ),
                 ),
               ],
