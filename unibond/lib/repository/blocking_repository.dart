@@ -65,10 +65,6 @@ Future<CodeMsgDto> blockLetterList(
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true,
-  ));
-
   final response = await dio.post(
     'http://3.35.110.214/api/v1/blocks/letter-room',
     data: blockingLetterList.toJson(),

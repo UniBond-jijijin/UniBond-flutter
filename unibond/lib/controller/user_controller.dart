@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:unibond/controller/dto/join_req_dto.dart';
 import 'package:unibond/domain/user/user_repository.dart';
-import 'package:unibond/util/jwt.dart';
 
 class UserController extends GetxController {
   final UserRepository _userRepository = UserRepository();
@@ -26,9 +25,9 @@ class UserController extends GetxController {
   Future<String> login(String username, String password) async {
     String token = await _userRepository.login(username, password);
 
-    if (token != "-1") {
-      jwtToken = token;
-    }
+    // if (token != "-1") {
+    //   jwtToken = token;
+    // }
 
     return token;
   }

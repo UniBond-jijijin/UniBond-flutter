@@ -7,10 +7,6 @@ import 'package:unibond/model/letter/send_letter.dart';
 import 'package:unibond/model/letter/sent_letter_detail.dart';
 import 'package:unibond/util/auth_storage.dart';
 
-// 기존 방식: GetX obs 이용해서 편지 리스트 추가되면 재렌더링 하는 방식
-// 지금 방식: 편지함 들어갈때마다 Get요청 보내기
-// 변경 이유: 시간이 부족해서 최대한 간단하게 구현하기 위함
-
 // 나의 편지함 조회
 Future<LetterBoxRequest> getMyLetterBox() async {
   final dio = Dio();
@@ -59,9 +55,6 @@ Future<SentLetterDetail> getSentLetterDetail(String letterId) async {
   final dio = Dio();
 
   String? authToken = await AuthStorage.getAuthToken();
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true,
-  ));
 
   final response = await dio.get(
     'http://3.35.110.214/api/v1/letters/$letterId',

@@ -12,7 +12,7 @@ class MyLetterReadScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _LetterReadScreenState createState() => _LetterReadScreenState();
+  State<MyLetterReadScreen> createState() => _LetterReadScreenState();
 }
 
 class _LetterReadScreenState extends State<MyLetterReadScreen> {
@@ -43,7 +43,7 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/letterread.jpg'),
+                image: AssetImage('assets/images/letter.png'),
                 fit: BoxFit.cover,
               ),
             ),

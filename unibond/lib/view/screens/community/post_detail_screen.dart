@@ -241,9 +241,6 @@ class _DetailScreenState extends State<DetailScreen> {
 // 작성자 프로필 부분
   Widget buildProfileInfo(
       BuildContext context, QnaPostDetail qnaPostDetail, String myToken) {
-    DateTime converToDateTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
-        .parse(qnaPostDetail.result.createdDate);
-
     return GestureDetector(
       onTap: () {
         // 다른 사람 프로필 조회
@@ -290,7 +287,10 @@ class _DetailScreenState extends State<DetailScreen> {
                         padding: const EdgeInsets.only(left: 6),
                         child: Center(
                           child: Text(
-                            timeago.format(converToDateTime, locale: "ko"),
+                            timeago.format(
+                                DateTime.parse(
+                                    qnaPostDetail.result.createdDate),
+                                locale: "ko"),
                             style: const TextStyle(
                                 color: Color.fromARGB(255, 25, 25, 25),
                                 fontSize: 13.0,

@@ -137,9 +137,6 @@ class _ModifyScreenState extends State<ModifyScreen> {
 
       MemberUpdateRequest request = MemberUpdateRequest.fromJson(requestData);
 
-      print(diagnosisTiming.split(" ")[0]);
-      print(request);
-
       var dioClient = dio.Dio();
 
       ///@
@@ -149,39 +146,13 @@ class _ModifyScreenState extends State<ModifyScreen> {
 
       var response = await updateMember(authToken!, request);
 
-      // 미완성 formData 통신
-      // dio.FormData formData = dio.FormData.fromMap(
-      //   {
-      //     "request": dio.MultipartFile.fromString(
-      //       requestData,
-      //       contentType: MediaType.parse('application/json'),
-      //     ),
-      //     "profileImg": await dio.MultipartFile.fromFile(
-      //       changedImagePath,
-      //       filename: fileName,
-      //       contentType: MediaType("image", "png"),
-      //     ),
-      //   },
-      //   dio.ListFormat.multiCompatible,
-      // );
-      // 현재 임시로 29번 유저로 설정
-      // var response = await dioClient.patch(
-      //   'http://3.35.110.214/api/v1/members/29',
-      //   options: dio.Options(headers: {
-      //     'Authorization': '29',
-      //     "Content-Type": "multipart/form-data"
-      //   }),
-      //   data: formData,
-      // );
-
       if (response.code == 1000) {
-        print("Profile updated successfully.");
         Get.off(() => const RootTab(initialIndex: 2));
       } else {
-        print("Error updating profile: ${response.result}");
+        Text("프로필 수정 오류: ${response.result}");
       }
     } catch (e) {
-      print("프로필 수정 Exception caught: $e");
+      Text("프로필 수정 예외 발생: $e");
     }
   }
 

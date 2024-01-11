@@ -4,7 +4,6 @@ import 'package:unibond/controller/exppost_controller.dart';
 import 'package:unibond/controller/qnapost_controller.dart';
 import 'package:unibond/model/post/exppost_prev.dart';
 import 'package:unibond/resources/app_colors.dart';
-import 'package:unibond/resources/calculate_days.dart';
 import 'package:unibond/view/screens/community/exppost_write_screen.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/community/qnapost_write_screen.dart';
@@ -14,7 +13,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -60,10 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text("Q & A", style: homeMenuTextStyle),
             ),
             Align(
-              alignment: const Alignment(2.0, 2.0),
+              alignment: const Alignment(1.4, 1.4),
               child: Image.asset(
-                'assets/images/qna_community_design.png',
-                width: 140,
+                'assets/images/qna_community.png',
+                width: 135,
                 // 이미지의 다른 속성들 설정
               ),
             ),
@@ -103,10 +102,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text("경험 공유", style: homeMenuTextStyle),
             ),
             Align(
-              alignment: const Alignment(1.7, 1.3),
+              alignment: const Alignment(1.0, 1.0),
               child: Image.asset(
-                'assets/images/exp_community_design.png',
-                width: 140,
+                'assets/images/exp_community.png',
+                width: 125,
                 // 이미지의 다른 속성들 설정
               ),
             ),
@@ -133,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "        유니본드 친구들이 대답해줄 거예요.💬",
+                    "        유니본드 친구들이 대답해줄 거예요 💬",
                     style: TextStyle(
                         fontSize: 14,
                         color: Color.fromARGB(255, 85, 85, 85),
@@ -162,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "        생각지도 못한 꿀팁을 얻을수도 있잖아요👀",
+                    "        생각지도 못한 꿀팁을 얻을수도 있잖아요 👀",
                     style: TextStyle(
                         fontSize: 14,
                         color: Color.fromARGB(255, 85, 85, 85),
@@ -188,17 +187,23 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         title: const Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            'UniBond',
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w700, color: Colors.black),
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(4, 8, 0, 0),
+            child: Text(
+              'UniBond',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
+            ),
           ),
         ),
       ),
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 4,
+            flex: 3,
             child: Container(
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
@@ -217,11 +222,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     const SizedBox(height: 100),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           qnaMenu(),
+                          const SizedBox(width: 20),
                           expMenu(),
                         ],
                       ),
@@ -411,7 +417,6 @@ Widget qnaCustomListItem(QnaPostController p, int index) {
 
 Widget expCustomListItem(ExpPostController p, int index) {
   var postDate = p.posts[index].createdDate;
-  int daysDifference = calculatePassedDays(postDate!);
   return Column(
     children: [
       ListTile(
@@ -438,7 +443,7 @@ Widget expCustomListItem(ExpPostController p, int index) {
             ),
             const SizedBox(width: 12),
             Text(
-              timeago.format(postDate, locale: "ko"),
+              timeago.format(postDate!, locale: "ko"),
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
             ),
           ],

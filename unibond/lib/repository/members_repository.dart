@@ -14,10 +14,6 @@ Future<UserProfile> getMyProfile(String memberId) async {
   // 저장된 인증 키 추출
   String? authToken = await AuthStorage.getAuthToken();
 
-  ///아래 LogInterceptor를 활용하면 어디서 통신에러가 나는지 디버깅하기 편함.
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true, // 응답 본문을 찍을지 여부
-  ));
   final response = await dio.get(
     'http://3.35.110.214/api/v1/members/$memberId',
     options: Options(headers: {'Authorization': authToken}),
@@ -29,10 +25,6 @@ Future<UserProfile> getMyProfile(String memberId) async {
 // 남의 프로필 조회
 Future<OtherUserProfile> getOtherProfile(String memberId) async {
   final dio = Dio();
-
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true, // 응답 본문을 찍을지 여부
-  ));
 
   String? authToken = await AuthStorage.getAuthToken();
 
@@ -49,11 +41,6 @@ Future<CodeMsgResDto> updateMember(
     String memberId, MemberUpdateRequest updateRequest) async {
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
-
-  dio.interceptors.add(LogInterceptor(
-    requestBody: true,
-    responseBody: true, // 응답 본문을 찍을지 여부
-  ));
 
   final response = await dio.patch(
     'http://3.35.110.214/api/v1/members/$memberId',
@@ -77,15 +64,6 @@ Future<CodeMsgResDto> checkNicknameDuplicate(String nickname) async {
 /// 회원가입
 Future<CodeMsgResDto> createMember(MemberRequest createRequest) async {
   final dio = Dio();
-
-  dio.interceptors.add(LogInterceptor(
-    request: true, // 요청 세부 정보 출력
-    requestHeader: true, // 요청 헤더 출력
-    requestBody: true, // 요청 본문 출력
-    responseBody: true, // 응답 본문 출력
-    responseHeader: false, // 응답 헤더는 출력하지 않음
-    error: true, // 오류 출력
-  ));
 
   final response = await dio.post(
     'http://3.35.110.214/api/v1/members',

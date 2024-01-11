@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomLetterFormField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
-  final funvalidator;
+  final dynamic funvalidator;
   final String? value;
 
   const CustomLetterFormField({

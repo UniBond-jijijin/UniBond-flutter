@@ -9,7 +9,7 @@ class LetterBoxScreen extends StatefulWidget {
   const LetterBoxScreen({super.key});
 
   @override
-  _LetterBoxScreenState createState() => _LetterBoxScreenState();
+  State<LetterBoxScreen> createState() => _LetterBoxScreenState();
 }
 
 class _LetterBoxScreenState extends State<LetterBoxScreen> {
@@ -41,7 +41,7 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
           // 편지함과 좋아함
           Positioned(
             top: 45,
-            left: 16,
+            left: 22,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -51,14 +51,12 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                       currentIndex = 0;
                     });
                   },
-                  child: Text(
+                  child: const Text(
                     '편지함',
                     style: TextStyle(
-                      fontWeight: currentIndex == 0
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                      fontSize: 20,
-                      color: Colors.black, // Text color
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black,
                     ),
                   ),
                 ),

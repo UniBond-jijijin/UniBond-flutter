@@ -15,7 +15,7 @@ class RootTab extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _RootTabState createState() => _RootTabState();
+  State<RootTab> createState() => _RootTabState();
 }
 
 class _RootTabState extends State<RootTab> with SingleTickerProviderStateMixin {

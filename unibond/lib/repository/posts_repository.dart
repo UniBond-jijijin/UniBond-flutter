@@ -48,10 +48,6 @@ Future<CodeMsgDto> delPost(String postId) async {
   final dio = Dio();
   String? authToken = await AuthStorage.getAuthToken();
 
-  dio.interceptors.add(LogInterceptor(
-    responseBody: true,
-  ));
-
   final response = await dio.delete(
     'http://3.35.110.214/api/v1/community/$postId',
     options: Options(headers: {'Authorization': authToken}),
