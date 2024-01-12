@@ -58,12 +58,15 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.all(12.0),
               child: Text("Q & A", style: homeMenuTextStyle),
             ),
-            Align(
-              alignment: const Alignment(1.4, 1.4),
-              child: Image.asset(
-                'assets/images/qna_community.png',
-                width: 135,
-                // 이미지의 다른 속성들 설정
+            Semantics(
+              label: 'QnA 게시판',
+              child: Align(
+                alignment: const Alignment(1.4, 1.4),
+                child: Image.asset(
+                  'assets/images/qna_community.png',
+                  width: 135,
+                  // 이미지의 다른 속성들 설정
+                ),
               ),
             ),
           ],
@@ -101,12 +104,15 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.all(12.0),
               child: Text("경험 공유", style: homeMenuTextStyle),
             ),
-            Align(
-              alignment: const Alignment(1.0, 1.0),
-              child: Image.asset(
-                'assets/images/exp_community.png',
-                width: 125,
-                // 이미지의 다른 속성들 설정
+            Semantics(
+              label: '경험 공유 게시판',
+              child: Align(
+                alignment: const Alignment(1.0, 1.0),
+                child: Image.asset(
+                  'assets/images/exp_community.png',
+                  width: 125,
+                  // 이미지의 다른 속성들 설정
+                ),
               ),
             ),
           ],
@@ -243,21 +249,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            if (selectedMenuIndex == 0) {
-              Get.to(() => QnaWriteScreen());
-            } else {
-              Get.to(() => ExpWriteScreen());
-            }
-          },
-          elevation: 4,
-          label: const Text('글쓰기'),
-          icon: const Icon(Icons.mode_edit_outlined),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          foregroundColor: Colors.white,
-          backgroundColor: AppColors.contentColorPink),
+      floatingActionButton: Semantics(
+        label: '글쓰기',
+        child: FloatingActionButton.extended(
+            onPressed: () {
+              if (selectedMenuIndex == 0) {
+                Get.to(() => QnaWriteScreen());
+              } else {
+                Get.to(() => ExpWriteScreen());
+              }
+            },
+            elevation: 4,
+            label: const Text('글쓰기'),
+            icon: const Icon(Icons.mode_edit_outlined),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            foregroundColor: Colors.white,
+            backgroundColor: AppColors.contentColorPink),
+      ),
     );
   }
 }
@@ -298,7 +307,10 @@ class QnaPostsListView extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => DetailScreen(id: p.posts[index].postId));
+                    Get.to(() => DetailScreen(
+                          id: p.posts[index].postId,
+                          type: 0,
+                        ));
                   },
                   child: qnaCustomListItem(p, index),
                 ),
@@ -348,7 +360,10 @@ class ExpPostsListView extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => DetailScreen(id: p.posts[index].postId));
+                    Get.to(() => DetailScreen(
+                          id: p.posts[index].postId,
+                          type: 1,
+                        ));
                   },
                   child: expCustomListItem(p, index),
                 ),

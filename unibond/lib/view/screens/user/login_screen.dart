@@ -48,10 +48,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(height: 70),
                           Align(
                             alignment: Alignment.topRight,
-                            child: Image.asset(
-                              'assets/images/send.png',
-                              width: 70,
-                              height: 70,
+                            child: Semantics(
+                              label: '종이비행기',
+                              child: Image.asset(
+                                'assets/images/send.png',
+                                width: 70,
+                                height: 70,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -79,23 +82,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: MyCustomTextFormField(
-                                  onChanged: (value) {},
-                                  hintText: '닉네임을 입력하세요',
-                                  controller: nicknameController,
+                                child: Semantics(
+                                  label: '닉네임 입력 필드',
+                                  child: MyCustomTextFormField(
+                                    onChanged: (value) {},
+                                    hintText: '닉네임을 입력하세요',
+                                    controller: nicknameController,
+                                  ),
                                 ),
                               ),
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: MyCustomTextFormField(
-                                  onChanged: (value) {},
-                                  maxLength: 12,
-                                  maxLines: 1,
-                                  obscureText: true,
-                                  hintText: '비밀번호를 입력하세요',
-                                  controller: passwordController,
+                                child: Semantics(
+                                  label: '비밀번호 입력 필드',
+                                  child: MyCustomTextFormField(
+                                    onChanged: (value) {},
+                                    maxLength: 12,
+                                    maxLines: 1,
+                                    obscureText: true,
+                                    hintText: '비밀번호를 입력하세요',
+                                    controller: passwordController,
+                                  ),
                                 ),
                               ),
                               Container(
@@ -108,25 +117,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                   children: [
                                     SizedBox(
                                       height: 55,
-                                      child: ElevatedButton(
-                                        onPressed: () async {
-                                          await isGoogle(
-                                              nicknameController.text.trim(),
-                                              passwordController.text.trim());
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: primaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                      child: Semantics(
+                                        label: '로그인 요청',
+                                        child: ElevatedButton(
+                                          onPressed: () async {
+                                            await isGoogle(
+                                                nicknameController.text.trim(),
+                                                passwordController.text.trim());
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: primaryColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                           ),
-                                        ),
-                                        child: const Text(
-                                          '로그인',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 18,
-                                            color: Colors.white,
+                                          child: const Text(
+                                            '로그인',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -135,16 +147,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ),
                               Center(
-                                child: TextButton(
-                                  onPressed: () {
-                                    Get.to(() => const JoinScreen());
-                                  },
-                                  child: const Text(
-                                    '아직 회원이 아니신가요?',
-                                    style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Color(0xFF5A5A5A),
-                                      fontSize: 16,
+                                child: Semantics(
+                                  label: '회원가입 이동',
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Get.to(() => const JoinScreen());
+                                    },
+                                    child: const Text(
+                                      '아직 회원이 아니신가요?',
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: Color(0xFF5A5A5A),
+                                        fontSize: 16,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -158,29 +173,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   Divider(color: Colors.grey[400], thickness: 1.0),
                   // const SizedBox(height: 4),
                   const SizedBox(
-                    width: 300,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          '이 앱은 현대오토에버와 서울사회복지공동모금회의',
-                          style: loginTextStyle,
-                          overflow: TextOverflow.visible,
-                          // maxLines: 2,
+                        Flexible(
+                          child: Text(
+                            '이 앱은 현대오토에버와 서울사회복지공동모금회의',
+                            style: loginTextStyle,
+                            overflow: TextOverflow.visible,
+                            // maxLines: 2,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(
-                    width: 300,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          '지원으로 제작되었습니다.',
-                          style: loginTextStyle,
-                          overflow: TextOverflow.visible,
-                          // maxLines: 2,
+                        Flexible(
+                          child: Text(
+                            '지원으로 제작되었습니다.',
+                            style: loginTextStyle,
+                            overflow: TextOverflow.visible,
+                            // maxLines: 2,
+                          ),
                         ),
                       ],
                     ),

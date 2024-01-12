@@ -86,16 +86,19 @@ class _JoinScreenState extends State<JoinScreen> {
           children: [
             SizedBox(
               height: 240,
-              child: CupertinoDatePicker(
-                initialDateTime: selectedDate,
-                mode: CupertinoDatePickerMode.date,
-                onDateTimeChanged: (val) {
-                  setState(() {
-                    selectedDate = val;
-                  });
-                },
+              child: Semantics(
+                label: '진환 진단 시기 선택',
+                child: CupertinoDatePicker(
+                  initialDateTime: selectedDate,
+                  mode: CupertinoDatePickerMode.date,
+                  onDateTimeChanged: (val) {
+                    setState(() {
+                      selectedDate = val;
+                    });
+                  },
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -196,28 +199,31 @@ class _JoinScreenState extends State<JoinScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            '알림',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
+        return Semantics(
+          label: '개인정보 처리방침 동의',
+          child: AlertDialog(
+            title: const Text(
+              '알림',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+              ),
             ),
+            content: const Text(
+              '개인정보 처리방침에 동의해주세요',
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
           ),
-          content: const Text(
-            '개인정보 처리방침에 동의해주세요',
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('확인'),
-            ),
-          ],
         );
       },
     );
@@ -227,29 +233,32 @@ class _JoinScreenState extends State<JoinScreen> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            '알림',
-            style: TextStyle(
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
+        return Semantics(
+          label: '이용약관 동의',
+          child: AlertDialog(
+            title: const Text(
+              '알림',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.w500,
+              ),
             ),
+            content: const Text(
+              '이용약관 및 정책에 동의해주세요',
+              style: TextStyle(
+                fontSize: 16.0,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  // Get.off(() => const HomeScreen());
+                  Navigator.of(context).pop();
+                },
+                child: const Text('확인'),
+              ),
+            ],
           ),
-          content: const Text(
-            '이용약관 및 정책에 동의해주세요',
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                // Get.off(() => const HomeScreen());
-                Navigator.of(context).pop();
-              },
-              child: const Text('확인'),
-            ),
-          ],
         );
       },
     );
@@ -329,37 +338,46 @@ class _JoinScreenState extends State<JoinScreen> {
                               '닉네임',
                               style: askTextStyle,
                             ),
-                            MyCustomTextFormFieldWithNickname(
-                              onChanged: (value) {},
-                              controller: nicknameController,
-                              hintText: '나만의 멋진 닉네임을 지어주세요',
+                            Semantics(
+                              label: '닉네임 입력',
+                              child: MyCustomTextFormFieldWithNickname(
+                                onChanged: (value) {},
+                                controller: nicknameController,
+                                hintText: '나만의 멋진 닉네임을 지어주세요',
+                              ),
                             ),
                             const Text(
                               '비밀번호',
                               style: askTextStyle,
                             ),
-                            Form(
-                              key: _formKey,
-                              child: MyCustomTextFormField(
-                                validator: _validatePassword,
-                                controller: passwordController,
-                                onChanged: (value) {},
-                                maxLength: 12,
-                                maxLines: 1,
-                                obscureText: true,
-                                hintText: '비밀번호를 입력해주세요',
+                            Semantics(
+                              label: '비밀번호 입력',
+                              child: Form(
+                                key: _formKey,
+                                child: MyCustomTextFormField(
+                                  validator: _validatePassword,
+                                  controller: passwordController,
+                                  onChanged: (value) {},
+                                  maxLength: 12,
+                                  maxLines: 1,
+                                  obscureText: true,
+                                  hintText: '비밀번호를 입력해주세요',
+                                ),
                               ),
                             ),
                             const Text(
                               '한줄 소개',
                               style: askTextStyle,
                             ),
-                            MyCustomTextFormField(
-                              controller: bioController,
-                              onChanged: (value) {},
-                              maxLength: 34,
-                              maxLines: 4,
-                              hintText: '자기 자신을 간단하게 소개해주세요',
+                            Semantics(
+                              label: '한줄 소개 입력',
+                              child: MyCustomTextFormField(
+                                controller: bioController,
+                                onChanged: (value) {},
+                                maxLength: 34,
+                                maxLines: 4,
+                                hintText: '자기 자신을 간단하게 소개해주세요',
+                              ),
                             ),
                             const Text(
                               '성별',
@@ -370,44 +388,53 @@ class _JoinScreenState extends State<JoinScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: SignupEitherButton(
-                                    text: '남',
-                                    isSelected: isMaleSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isMaleSelected = true;
-                                        isFemaleSelected = false;
-                                        isPrivateSelected = false;
-                                      });
-                                    },
+                                  child: Semantics(
+                                    label: '성별 선택(남자)',
+                                    child: SignupEitherButton(
+                                      text: '남',
+                                      isSelected: isMaleSelected,
+                                      onPressed: () {
+                                        setState(() {
+                                          isMaleSelected = true;
+                                          isFemaleSelected = false;
+                                          isPrivateSelected = false;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12),
-                                  child: SignupEitherButton(
-                                    text: '여',
-                                    isSelected: isFemaleSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isFemaleSelected = true;
-                                        isMaleSelected = false;
-                                        isPrivateSelected = false;
-                                      });
-                                    },
+                                  child: Semantics(
+                                    label: '성별 선택(여자)',
+                                    child: SignupEitherButton(
+                                      text: '여',
+                                      isSelected: isFemaleSelected,
+                                      onPressed: () {
+                                        setState(() {
+                                          isFemaleSelected = true;
+                                          isMaleSelected = false;
+                                          isPrivateSelected = false;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: SignupEitherButton(
-                                    text: '비공개',
-                                    isSelected: isPrivateSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isPrivateSelected = true;
-                                        isMaleSelected = false;
-                                        isFemaleSelected = false;
-                                      });
-                                    },
+                                  child: Semantics(
+                                    label: '성별 선택(비공개)',
+                                    child: SignupEitherButton(
+                                      text: '비공개',
+                                      isSelected: isPrivateSelected,
+                                      onPressed: () {
+                                        setState(() {
+                                          isPrivateSelected = true;
+                                          isMaleSelected = false;
+                                          isFemaleSelected = false;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],
@@ -459,15 +486,18 @@ class _JoinScreenState extends State<JoinScreen> {
                               children: [
                                 InkWell(
                                   onTap: () => _showDatePicker(context),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${selectedDate.year}',
-                                      style: askTextStyle,
+                                  child: Semantics(
+                                    label: '진단시기 선택(년)',
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '${selectedDate.year}',
+                                        style: askTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -484,15 +514,18 @@ class _JoinScreenState extends State<JoinScreen> {
                                 const SizedBox(width: 5),
                                 InkWell(
                                   onTap: () => _showDatePicker(context),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${selectedDate.month}',
-                                      style: askTextStyle,
+                                  child: Semantics(
+                                    label: '진단시기 선택(월)',
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '${selectedDate.month}',
+                                        style: askTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -509,15 +542,18 @@ class _JoinScreenState extends State<JoinScreen> {
                                 const SizedBox(width: 5),
                                 InkWell(
                                   onTap: () => _showDatePicker(context),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${selectedDate.day}',
-                                      style: askTextStyle,
+                                  child: Semantics(
+                                    label: '진단시기 선택(일)',
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '${selectedDate.day}',
+                                        style: askTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -552,14 +588,17 @@ class _JoinScreenState extends State<JoinScreen> {
                           fontSize: 18,
                         ),
                       ),
-                      InkWell(
-                        onTap: navigateAndHandleInterests,
-                        child: const Text(
-                          '등록',
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
+                      Semantics(
+                        label: '관심사 선택 이동',
+                        child: InkWell(
+                          onTap: navigateAndHandleInterests,
+                          child: const Text(
+                            '등록',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
@@ -584,32 +623,35 @@ class _JoinScreenState extends State<JoinScreen> {
                               '질환',
                               style: askTextStyle,
                             ),
-                            InkWell(
-                              onTap: navigateAndHandleInterests,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Container(
-                                  width: 400,
-                                  height: 50,
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      diseaseInterests.join(' / '),
-                                      style: TextStyle(
-                                        color: Colors.grey[800],
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        overflow: TextOverflow.ellipsis,
+                            Semantics(
+                              label: '질환 관련 관심사 선택',
+                              child: InkWell(
+                                onTap: navigateAndHandleInterests,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Container(
+                                    width: 400,
+                                    height: 50,
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
                                       ),
-                                      textAlign: TextAlign.center,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        diseaseInterests.join(' / '),
+                                        style: TextStyle(
+                                          color: Colors.grey[800],
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -622,32 +664,35 @@ class _JoinScreenState extends State<JoinScreen> {
                                 style: askTextStyle,
                               ),
                             ),
-                            InkWell(
-                              onTap: navigateAndHandleInterests,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Container(
-                                  width: 400,
-                                  height: 50,
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(
-                                      color: Colors.grey,
-                                      width: 1,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      dailyInterests.join(' / '),
-                                      style: TextStyle(
-                                        color: Colors.grey[800],
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 16,
-                                        overflow: TextOverflow.ellipsis,
+                            Semantics(
+                              label: '일상 관련 관심사 선택',
+                              child: InkWell(
+                                onTap: navigateAndHandleInterests,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Container(
+                                    width: 400,
+                                    height: 50,
+                                    padding: const EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 1,
                                       ),
-                                      textAlign: TextAlign.center,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        dailyInterests.join(' / '),
+                                        style: TextStyle(
+                                          color: Colors.grey[800],
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -655,62 +700,74 @@ class _JoinScreenState extends State<JoinScreen> {
                             ),
                             Row(
                               children: [
-                                Checkbox(
-                                  value: isPrivacyPolicyChecked,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isPrivacyPolicyChecked = value ?? false;
-                                    });
-
-                                    if (!isPrivacyPolicyChecked) {
-                                      showSelectPrivacyDialog(context);
+                                Semantics(
+                                  label: '개인정보 처리방침 동의',
+                                  child: Checkbox(
+                                    value: isPrivacyPolicyChecked,
+                                    onChanged: (bool? value) {
                                       setState(() {
-                                        isPrivacyPolicyChecked = false;
+                                        isPrivacyPolicyChecked = value ?? false;
                                       });
-                                    }
-                                  },
+
+                                      if (!isPrivacyPolicyChecked) {
+                                        showSelectPrivacyDialog(context);
+                                        setState(() {
+                                          isPrivacyPolicyChecked = false;
+                                        });
+                                      }
+                                    },
+                                  ),
                                 ),
                                 const Expanded(
                                   child: Text(
                                     '개인정보 처리방침 동의 (필수)',
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: _launchPrivacyPolicy,
-                                  child: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.black,
+                                Semantics(
+                                  label: '개인정보 처리방침 링크',
+                                  child: GestureDetector(
+                                    onTap: _launchPrivacyPolicy,
+                                    child: const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                             Row(
                               children: [
-                                Checkbox(
-                                  value: isTermsPolicyChecked,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      isTermsPolicyChecked = value ?? false;
-                                    });
-
-                                    if (!isTermsPolicyChecked) {
-                                      showSelectTermsDialog(context);
+                                Semantics(
+                                  label: '이용약관 및 정책 동의',
+                                  child: Checkbox(
+                                    value: isTermsPolicyChecked,
+                                    onChanged: (bool? value) {
                                       setState(() {
-                                        isTermsPolicyChecked = false;
+                                        isTermsPolicyChecked = value ?? false;
                                       });
-                                    }
-                                  },
+
+                                      if (!isTermsPolicyChecked) {
+                                        showSelectTermsDialog(context);
+                                        setState(() {
+                                          isTermsPolicyChecked = false;
+                                        });
+                                      }
+                                    },
+                                  ),
                                 ),
                                 const Expanded(
                                   child: Text(
                                     '이용약관 및 정책 동의 (필수)',
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: _launchTermsPolicy,
-                                  child: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.black,
+                                Semantics(
+                                  label: '이용약관 및 정책 동의 링크',
+                                  child: GestureDetector(
+                                    onTap: _launchTermsPolicy,
+                                    child: const Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -726,10 +783,13 @@ class _JoinScreenState extends State<JoinScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: NextButton(
-                    onPressed: createMemberInfo,
-                    buttonName: '완료',
-                    isButtonEnabled: true,
+                  child: Semantics(
+                    label: '회원가입 완료',
+                    child: NextButton(
+                      onPressed: createMemberInfo,
+                      buttonName: '완료',
+                      isButtonEnabled: true,
+                    ),
                   ),
                 ),
               ],
@@ -752,45 +812,52 @@ class _JoinScreenState extends State<JoinScreen> {
       children: [
         Expanded(
           flex: 8,
-          child: TextFormField(
-            readOnly: true,
-            minLines: 1,
-            maxLines: 1,
-            onChanged: (value) => {},
-            controller: searchController,
-            decoration: InputDecoration(
-              hintText: "오른쪽 돋보기 아이콘을 터치해주세요",
-              fillColor: Colors.grey[100],
-              filled: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(6.0),
-              ),
-              focusedBorder: baseBorder.copyWith(
-                borderSide: baseBorder.borderSide.copyWith(
-                  color: primaryColor,
+          child: Semantics(
+            label: '질환 정보',
+            child: TextFormField(
+              readOnly: true,
+              minLines: 1,
+              maxLines: 1,
+              onChanged: (value) => {},
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: "오른쪽 돋보기 아이콘을 터치해주세요",
+                fillColor: Colors.grey[100],
+                filled: true,
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(6.0),
                 ),
-              ),
-              suffixIcon: Padding(
-                // suffixIcon에 패딩 추가
-                padding: const EdgeInsets.only(right: 8),
-                child: IconButton(
-                  icon: const Icon(Icons.search, color: primaryColor),
-                  onPressed: () async {
-                    // SearchScreen 이동 후 선택된 데이터를 기다림.
-                    final selectedData = await Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => const SearchScreen()),
-                    );
-                    if (selectedData != null) {
-                      setState(() {
-                        searchController.text = selectedData['diseaseNameKor'];
-                        selectedDiseaseId = selectedData["diseaseId"];
-                      });
-                    }
-                  },
+                focusedBorder: baseBorder.copyWith(
+                  borderSide: baseBorder.borderSide.copyWith(
+                    color: primaryColor,
+                  ),
+                ),
+                suffixIcon: Padding(
+                  // suffixIcon에 패딩 추가
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Semantics(
+                    label: '질환 검색',
+                    child: IconButton(
+                      icon: const Icon(Icons.search, color: primaryColor),
+                      onPressed: () async {
+                        // SearchScreen 이동 후 선택된 데이터를 기다림.
+                        final selectedData = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => const SearchScreen()),
+                        );
+                        if (selectedData != null) {
+                          setState(() {
+                            searchController.text =
+                                selectedData['diseaseNameKor'];
+                            selectedDiseaseId = selectedData["diseaseId"];
+                          });
+                        }
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),

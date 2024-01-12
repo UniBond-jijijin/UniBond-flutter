@@ -26,10 +26,13 @@ class LetterSuccessScreen extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.20,
                     ),
-                    Image.asset(
-                      'assets/images/send.png',
-                      width: 100,
-                      height: 100,
+                    Semantics(
+                      label: '종이비행기',
+                      child: Image.asset(
+                        'assets/images/send.png',
+                        width: 100,
+                        height: 100,
+                      ),
                     ),
                     const SizedBox(height: 20),
                     const Text(
@@ -54,11 +57,14 @@ class LetterSuccessScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: CustomElevatedButton(
-                text: "편지함으로",
-                screenRoute: () {
-                  Get.to(() => const RootTab(initialIndex: 1));
-                },
+              child: Semantics(
+                label: '편지함으로 이동',
+                child: CustomElevatedButton(
+                  text: "편지함으로",
+                  screenRoute: () {
+                    Get.to(() => const RootTab(initialIndex: 1));
+                  },
+                ),
               ),
             ),
           ],

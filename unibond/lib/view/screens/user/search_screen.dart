@@ -62,11 +62,14 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('질환 검색'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Get.back();
-          },
+        leading: Semantics(
+          label: '뒤로 가기',
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
       ),
       body: GestureDetector(
@@ -84,19 +87,25 @@ class _SearchScreenState extends State<SearchScreen> {
                   suffixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      IconButton(
-                        icon: SvgPicture.asset('assets/images/clear.svg'),
-                        onPressed: () {
-                          editingController.clear();
-                        },
+                      Semantics(
+                        label: '초기화',
+                        child: IconButton(
+                          icon: SvgPicture.asset('assets/images/clear.svg'),
+                          onPressed: () {
+                            editingController.clear();
+                          },
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 2),
-                        child: IconButton(
-                          icon: const Icon(Icons.search, color: primaryColor),
-                          onPressed: () {
-                            searchDisease(editingController.text);
-                          },
+                        child: Semantics(
+                          label: '질환 검색',
+                          child: IconButton(
+                            icon: const Icon(Icons.search, color: primaryColor),
+                            onPressed: () {
+                              searchDisease(editingController.text);
+                            },
+                          ),
                         ),
                       ),
                     ],
@@ -148,15 +157,18 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: NextButton(
-                  onPressed: () {
-                    if (selectedData != null) {
-                      Navigator.of(context)
-                          .pop(selectedData); // 선택한 데이터를 ModifyScreen으로 전송
-                    }
-                  },
-                  buttonName: '완료',
-                  isButtonEnabled: true,
+                child: Semantics(
+                  label: '질환 검색 완료',
+                  child: NextButton(
+                    onPressed: () {
+                      if (selectedData != null) {
+                        Navigator.of(context)
+                            .pop(selectedData); // 선택한 데이터를 ModifyScreen으로 전송
+                      }
+                    },
+                    buttonName: '완료',
+                    isButtonEnabled: true,
+                  ),
                 ),
               ),
             ],

@@ -100,7 +100,7 @@ class _CustomTextFormFieldState extends State<MyCustomTextFormField> {
           hintStyle: TextStyle(
             fontWeight: FontWeight.w300,
             fontSize: 14.0,
-            color: Colors.grey[600],
+            color: Colors.grey[850],
           ),
           border: baseBorder,
           focusedBorder: baseBorder.copyWith(
@@ -213,7 +213,7 @@ class _MyCustomTextFormFieldWithoutMaxLengthState
           hintStyle: TextStyle(
             fontWeight: FontWeight.w300,
             fontSize: 14.0,
-            color: Colors.grey[600],
+            color: Colors.grey[850],
           ),
           border: baseBorder,
           focusedBorder: baseBorder.copyWith(
@@ -401,7 +401,7 @@ class _MyCustomTextFormFieldWithNicknameState
           hintStyle: TextStyle(
             fontWeight: FontWeight.w300,
             fontSize: 14.0,
-            color: Colors.grey[600],
+            color: Colors.grey[850],
           ),
           border: baseBorder,
           focusedBorder: baseBorder.copyWith(
