@@ -76,11 +76,14 @@ class _InterestScreenState extends State<InterestScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('관심사'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Get.back();
-          },
+        leading: Semantics(
+          label: '뒤로 가기',
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
       ),
       body: Padding(
@@ -125,104 +128,143 @@ class _InterestScreenState extends State<InterestScreen> {
               ),
               Row(
                 children: [
-                  createSelectableButton(
-                    text: '임상시험',
-                    isSelected: isSelected('임상시험'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '임상시험'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '인상시험',
+                    child: createSelectableButton(
+                      text: '임상시험',
+                      isSelected: isSelected('임상시험'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '임상시험'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '신약',
-                    isSelected: isSelected('신약'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '신약'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '신약',
+                    child: createSelectableButton(
+                      text: '신약',
+                      isSelected: isSelected('신약'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '신약'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '치료제',
-                    isSelected: isSelected('치료제'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '치료제'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '치료제',
+                    child: createSelectableButton(
+                      text: '치료제',
+                      isSelected: isSelected('치료제'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '치료제'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '영양',
-                    isSelected: isSelected('영양'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '영양'),
-                    selectedInterests: selectedInterests,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  createSelectableButton(
-                    text: '유전자',
-                    isSelected: isSelected('유전자'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '유전자'),
-                    selectedInterests: selectedInterests,
-                  ),
-                  createSelectableButton(
-                    text: '수술',
-                    isSelected: isSelected('수술'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '수술'),
-                    selectedInterests: selectedInterests,
-                  ),
-                  createSelectableButton(
-                    text: '예후',
-                    isSelected: isSelected('예후'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '예후'),
-                    selectedInterests: selectedInterests,
-                  ),
-                  createSelectableButton(
-                    text: '병원',
-                    isSelected: isSelected('병원'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '병원'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '영양',
+                    child: createSelectableButton(
+                      text: '영양',
+                      isSelected: isSelected('영양'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '영양'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
                 ],
               ),
               Row(
                 children: [
-                  createSelectableButton(
-                    text: '보험',
-                    isSelected: isSelected('보험'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '보험'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '유전자',
+                    child: createSelectableButton(
+                      text: '유전자',
+                      isSelected: isSelected('유전자'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '유전자'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '식단',
-                    isSelected: isSelected('식단'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '식단'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '수술',
+                    child: createSelectableButton(
+                      text: '수술',
+                      isSelected: isSelected('수술'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '수술'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '복지',
-                    isSelected: isSelected('복지'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '복지'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '예후',
+                    child: createSelectableButton(
+                      text: '예후',
+                      isSelected: isSelected('예후'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '예후'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '심리',
-                    isSelected: isSelected('심리'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '심리'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '병원',
+                    child: createSelectableButton(
+                      text: '병원',
+                      isSelected: isSelected('병원'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '병원'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '의료비',
-                    isSelected: isSelected('의료비'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '의료비'),
-                    selectedInterests: selectedInterests,
+                ],
+              ),
+              Row(
+                children: [
+                  Semantics(
+                    label: '보험',
+                    child: createSelectableButton(
+                      text: '보험',
+                      isSelected: isSelected('보험'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '보험'),
+                      selectedInterests: selectedInterests,
+                    ),
+                  ),
+                  Semantics(
+                    label: '식단',
+                    child: createSelectableButton(
+                      text: '식단',
+                      isSelected: isSelected('식단'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '식단'),
+                      selectedInterests: selectedInterests,
+                    ),
+                  ),
+                  Semantics(
+                    label: '복지',
+                    child: createSelectableButton(
+                      text: '복지',
+                      isSelected: isSelected('복지'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '복지'),
+                      selectedInterests: selectedInterests,
+                    ),
+                  ),
+                  Semantics(
+                    label: '심리',
+                    child: createSelectableButton(
+                      text: '심리',
+                      isSelected: isSelected('심리'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '심리'),
+                      selectedInterests: selectedInterests,
+                    ),
+                  ),
+                  Semantics(
+                    label: '의료비',
+                    child: createSelectableButton(
+                      text: '의료비',
+                      isSelected: isSelected('의료비'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '의료비'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
                 ],
               ),
@@ -241,83 +283,113 @@ class _InterestScreenState extends State<InterestScreen> {
               ),
               Row(
                 children: [
-                  createSelectableButton(
-                    text: '운동',
-                    isSelected: isSelected('운동'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '운동'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '운동',
+                    child: createSelectableButton(
+                      text: '운동',
+                      isSelected: isSelected('운동'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '운동'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '문화생활',
-                    isSelected: isSelected('문화생활'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '문화생활'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '문화생활',
+                    child: createSelectableButton(
+                      text: '문화생활',
+                      isSelected: isSelected('문화생활'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '문화생활'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '음악',
-                    isSelected: isSelected('음악'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '음악'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '음악',
+                    child: createSelectableButton(
+                      text: '음악',
+                      isSelected: isSelected('음악'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '음악'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '아웃도어',
-                    isSelected: isSelected('아웃도어'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '아웃도어'),
-                    selectedInterests: selectedInterests,
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  createSelectableButton(
-                    text: '반려동물',
-                    isSelected: isSelected('반려동물'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '반려동물'),
-                    selectedInterests: selectedInterests,
-                  ),
-                  createSelectableButton(
-                    text: '영화/드라마',
-                    isSelected: isSelected('영화/드라마'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '영화/드라마'),
-                    selectedInterests: selectedInterests,
-                  ),
-                  createSelectableButton(
-                    text: '요리',
-                    isSelected: isSelected('요리'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '요리'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '아웃도어',
+                    child: createSelectableButton(
+                      text: '아웃도어',
+                      isSelected: isSelected('아웃도어'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '아웃도어'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
                 ],
               ),
               Row(
                 children: [
-                  createSelectableButton(
-                    text: '친목',
-                    isSelected: isSelected('친목'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '친목'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '반려동물',
+                    child: createSelectableButton(
+                      text: '반려동물',
+                      isSelected: isSelected('반려동물'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '반려동물'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '환우회',
-                    isSelected: isSelected('환우회'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '환우회'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '영화 드라마',
+                    child: createSelectableButton(
+                      text: '영화/드라마',
+                      isSelected: isSelected('영화/드라마'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '영화/드라마'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
-                  createSelectableButton(
-                    text: '이벤트',
-                    isSelected: isSelected('이벤트'),
-                    onSelected: (isSelected) =>
-                        handleSelection(isSelected, '이벤트'),
-                    selectedInterests: selectedInterests,
+                  Semantics(
+                    label: '요리',
+                    child: createSelectableButton(
+                      text: '요리',
+                      isSelected: isSelected('요리'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '요리'),
+                      selectedInterests: selectedInterests,
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Semantics(
+                    label: '친목',
+                    child: createSelectableButton(
+                      text: '친목',
+                      isSelected: isSelected('친목'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '친목'),
+                      selectedInterests: selectedInterests,
+                    ),
+                  ),
+                  Semantics(
+                    label: '환우회',
+                    child: createSelectableButton(
+                      text: '환우회',
+                      isSelected: isSelected('환우회'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '환우회'),
+                      selectedInterests: selectedInterests,
+                    ),
+                  ),
+                  Semantics(
+                    label: '이벤트',
+                    child: createSelectableButton(
+                      text: '이벤트',
+                      isSelected: isSelected('이벤트'),
+                      onSelected: (isSelected) =>
+                          handleSelection(isSelected, '이벤트'),
+                      selectedInterests: selectedInterests,
+                    ),
                   ),
                 ],
               ),
@@ -326,10 +398,13 @@ class _InterestScreenState extends State<InterestScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: NextButton(
-                  onPressed: handleSubmit,
-                  buttonName: '완료',
-                  isButtonEnabled: true,
+                child: Semantics(
+                  label: '관심사 선택 완료',
+                  child: NextButton(
+                    onPressed: handleSubmit,
+                    buttonName: '완료',
+                    isButtonEnabled: true,
+                  ),
                 ),
               ),
             ],

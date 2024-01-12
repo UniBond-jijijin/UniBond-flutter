@@ -28,12 +28,15 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
       body: Stack(
         children: [
           // 배경화면
-          Positioned.fill(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/letterbackground.png'),
-                  fit: BoxFit.cover,
+          Semantics(
+            label: '편지함 감성 일러스트',
+            child: Positioned.fill(
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/letterbackground.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -152,147 +155,150 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                           ),
                         );
                       },
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                        padding: EdgeInsets.zero,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(
-                            colors: colorSet,
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
+                      child: Semantics(
+                        label: '감성 편지 봉투',
+                        child: Container(
+                          margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                          padding: EdgeInsets.zero,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            gradient: LinearGradient(
+                              colors: colorSet,
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
                           ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              right: 30,
-                              top: 20,
-                              child: Image.asset(
-                                'assets/images/$planewiggle',
-                                width: 100,
-                                height: 90,
-                              ),
-                            ),
-                            Positioned(
-                              right: 80,
-                              top: 40,
-                              child: Image.asset(
-                                'assets/images/$plane',
-                                width: 30,
-                                height: 30,
-                              ),
-                            ),
-                            Positioned(
-                              top: 80,
-                              bottom: 0,
-                              right: 10,
-                              child: Image.asset(
-                                'assets/images/letterline.png',
-                                width: 200,
-                                height: 200,
-                              ),
-                            ),
-                            Positioned(
-                              top: 20,
-                              left: 160,
-                              child: Image.asset(
-                                'assets/images/letterline2.png',
-                                height: 160,
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: -10,
-                              child: Image.asset(
-                                'assets/images/rectangleTop.png',
-                                width: 400,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: -10,
-                              child: Image.asset(
-                                'assets/images/rectangleTop.png',
-                                width: 400,
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              left: 0,
-                              child: Image.asset(
-                                'assets/images/rectangleSide.png',
-                                height: 200,
-                              ),
-                            ),
-                            Positioned(
-                              top: 0,
-                              right: -4,
-                              child: Image.asset(
-                                'assets/images/rectangleSide.png',
-                                height: 200,
-                              ),
-                            ),
-                            const SizedBox(height: 32),
-                            Positioned(
-                              bottom:
-                                  58, // Adjust this value for vertical positioning
-                              right:
-                                  8, // Adjust this value for horizontal positioning
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 24),
-                                    child: Text(
-                                      recentLetterSentDate,
-                                      style: letterBoxTextStyle,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 24),
-                                    child: Text(
-                                      letterBox.senderNick,
-                                      style: letterBoxTextStyle,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            const Positioned(
-                              bottom: 26,
-                              left: 30,
-                              child: Text(
-                                'UniBond',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.white,
-                                  fontFamily: 'Pinyon_Script',
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                right: 30,
+                                top: 20,
+                                child: Image.asset(
+                                  'assets/images/$planewiggle',
+                                  width: 100,
+                                  height: 90,
                                 ),
                               ),
-                            ),
-                            // 프사 추가
-                            Positioned(
-                              top: 26,
-                              left: 30,
-                              child: ClipOval(
-                                child: letterBox.senderProfileImg.isNotEmpty
-                                    ? Image.network(
-                                        letterBox.senderProfileImg,
-                                        width: 40,
-                                        height: 40,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'assets/images/user_image.jpg',
-                                        width: 40,
-                                        height: 40,
-                                      ),
+                              Positioned(
+                                right: 80,
+                                top: 40,
+                                child: Image.asset(
+                                  'assets/images/$plane',
+                                  width: 30,
+                                  height: 30,
+                                ),
                               ),
-                            )
-                          ],
+                              Positioned(
+                                top: 80,
+                                bottom: 0,
+                                right: 10,
+                                child: Image.asset(
+                                  'assets/images/letterline.png',
+                                  width: 200,
+                                  height: 200,
+                                ),
+                              ),
+                              Positioned(
+                                top: 20,
+                                left: 160,
+                                child: Image.asset(
+                                  'assets/images/letterline2.png',
+                                  height: 160,
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: -10,
+                                child: Image.asset(
+                                  'assets/images/rectangleTop.png',
+                                  width: 400,
+                                ),
+                              ),
+                              Positioned(
+                                bottom: 0,
+                                right: -10,
+                                child: Image.asset(
+                                  'assets/images/rectangleTop.png',
+                                  width: 400,
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                left: 0,
+                                child: Image.asset(
+                                  'assets/images/rectangleSide.png',
+                                  height: 200,
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: -4,
+                                child: Image.asset(
+                                  'assets/images/rectangleSide.png',
+                                  height: 200,
+                                ),
+                              ),
+                              const SizedBox(height: 32),
+                              Positioned(
+                                bottom:
+                                    58, // Adjust this value for vertical positioning
+                                right:
+                                    8, // Adjust this value for horizontal positioning
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 24),
+                                      child: Text(
+                                        recentLetterSentDate,
+                                        style: letterBoxTextStyle,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(right: 24),
+                                      child: Text(
+                                        letterBox.senderNick,
+                                        style: letterBoxTextStyle,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              const Positioned(
+                                bottom: 26,
+                                left: 30,
+                                child: Text(
+                                  'UniBond',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontFamily: 'Pinyon_Script',
+                                  ),
+                                ),
+                              ),
+                              // 프사 추가
+                              Positioned(
+                                top: 26,
+                                left: 30,
+                                child: ClipOval(
+                                  child: letterBox.senderProfileImg.isNotEmpty
+                                      ? Image.network(
+                                          letterBox.senderProfileImg,
+                                          width: 40,
+                                          height: 40,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'assets/images/user_image.jpg',
+                                          width: 40,
+                                          height: 40,
+                                        ),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     );

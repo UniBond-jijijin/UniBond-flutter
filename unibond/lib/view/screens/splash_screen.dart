@@ -67,56 +67,65 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: AppColors.contentColorWhite,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                    width: 200,
-                  ),
-                ),
-                const SizedBox(
-                  height: 36,
-                ),
-                const SizedBox(
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '이 앱은 현대오토에버와 서울사회복지',
-                        style: letterContentTextStyle,
-                        overflow: TextOverflow.visible,
-                        // maxLines: 2,
+      body: Semantics(
+        // 대체 텍스트를 설정합니다.
+        label: '앱 스플래시 화면',
+        child: Container(
+          decoration: const BoxDecoration(
+            color: AppColors.contentColorWhite,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Semantics(
+                label: '유니본드 로고',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        width: 200,
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 300,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '공동모금회의 지원으로 제작되었습니다.',
-                        style: letterContentTextStyle,
-                        overflow: TextOverflow.visible,
-                        // maxLines: 2,
+                    ),
+                    const SizedBox(
+                      height: 36,
+                    ),
+                    const SizedBox(
+                      width: 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '이 앱은 현대오토에버와 서울사회복지',
+                            style: letterContentTextStyle,
+                            // textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            // maxLines: 2,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      width: 300,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '공동모금회의 지원으로 제작되었습니다.',
+                            style: letterContentTextStyle,
+                            // textAlign: TextAlign.center,
+                            overflow: TextOverflow.visible,
+                            // maxLines: 2,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -152,7 +152,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text('수정하기'),
             ),
           ],
-          icon: const Icon(Icons.more_vert, color: Colors.black),
+          icon: Semantics(
+            label: '수정하기',
+            child: Icon(Icons.more_vert, color: Colors.black),
+          ),
         ),
       ],
     );
@@ -167,20 +170,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
         // 프로필 사진
-        ClipOval(
-          child: profile.result.profileImage.isNotEmpty
-              ? Image.network(
-                  profile.result.profileImage,
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  'assets/images/user_image.jpg',
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                ),
+        Semantics(
+          label: '프로필 사진',
+          child: ClipOval(
+            child: profile.result.profileImage.isNotEmpty
+                ? Image.network(
+                    profile.result.profileImage,
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/images/user_image.jpg',
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  ),
+          ),
         ),
         // 닉네임 및 성별 정보
         Padding(
@@ -279,9 +285,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildInfoCard(title: '질환 정보', content: profile.result.diseaseName),
-          buildInfoCard(
-              title: '진단 시기', content: profile.result.diagnosisTiming),
+          Semantics(
+            label: '질환 정보',
+            child: buildInfoCard(
+                title: '질환 정보', content: profile.result.diseaseName),
+          ),
+          Semantics(
+            label: '진단 시기',
+            child: buildInfoCard(
+                title: '진단 시기', content: profile.result.diagnosisTiming),
+          ),
         ],
       ),
     );
@@ -415,16 +428,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Divider(color: Colors.grey[200], thickness: 4.0),
           Center(
             child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
-                child: TextButton(
-                  onPressed: () {
-                    showWithdrawConfirmationDialog();
-                  },
-                  child: const Text(
-                    '회원 탈퇴',
-                    style: TextStyle(color: borderColor),
-                  ),
-                )),
+              padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
+              child: Semantics(
+                  label: '회원 탈퇴',
+                  child: TextButton(
+                    onPressed: () {
+                      showWithdrawConfirmationDialog();
+                    },
+                    child: const Text(
+                      '회원 탈퇴',
+                      style: TextStyle(color: borderColor),
+                    ),
+                  )),
+            ),
           ),
           const SizedBox(
             height: 20,

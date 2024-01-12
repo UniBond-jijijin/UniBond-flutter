@@ -195,7 +195,10 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
               child: Text('차단하기'),
             ),
           ],
-          icon: const Icon(Icons.more_vert, color: Colors.black),
+          icon: Semantics(
+            label: '더보기',
+            child: Icon(Icons.more_vert, color: Colors.black),
+          ),
         ),
       ],
     );
@@ -210,19 +213,22 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
         // 프로필 사진
-        ClipOval(
-          child: profile.result.profileImage.isNotEmpty
-              ? Image.network(
-                  profile.result.profileImage,
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  'assets/images/user_image.jpg',
-                  width: 70,
-                  height: 70,
-                ),
+        Semantics(
+          label: '다른 회원의 프로필 사진',
+          child: ClipOval(
+            child: profile.result.profileImage.isNotEmpty
+                ? Image.network(
+                    profile.result.profileImage,
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/images/user_image.jpg',
+                    width: 70,
+                    height: 70,
+                  ),
+          ),
         ),
         // 닉네임 및 성별 정보
         Padding(
@@ -322,9 +328,16 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildInfoCard(title: '질환 정보', content: profile.result.diseaseName),
-          buildInfoCard(
-              title: '진단 시기', content: profile.result.diagnosisTiming),
+          Semantics(
+            label: '다른 회원의 질환 정보',
+            child: buildInfoCard(
+                title: '질환 정보', content: profile.result.diseaseName),
+          ),
+          Semantics(
+            label: '다른 회원의 진단 시기',
+            child: buildInfoCard(
+                title: '진단 시기', content: profile.result.diagnosisTiming),
+          ),
         ],
       ),
     );
@@ -375,29 +388,32 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
   Widget buildLetterSendButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 8, 0, 4),
-      child: ElevatedButton(
-        onPressed: () {
-          Get.to(() =>
-              LetterWriteScreen(receiverId: widget.postOwnerId.toString()));
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primaryColor,
-          padding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // 패딩
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min, // Row의 크기를 내용에 맞게 조절
-            children: [
-              const Text('편지 보내기', style: coloredButtonTextStyle),
-              const SizedBox(width: 12), // 텍스트와 아이콘 사이의 간격
-              Image.asset(
-                'assets/images/send.png',
-                width: 24,
-                height: 24,
-              ), // 아이콘 추가
-            ],
+      child: Semantics(
+        label: '편지 보내기',
+        child: ElevatedButton(
+          onPressed: () {
+            Get.to(() =>
+                LetterWriteScreen(receiverId: widget.postOwnerId.toString()));
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: primaryColor,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // 패딩
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min, // Row의 크기를 내용에 맞게 조절
+              children: [
+                const Text('편지 보내기', style: coloredButtonTextStyle),
+                const SizedBox(width: 12), // 텍스트와 아이콘 사이의 간격
+                Image.asset(
+                  'assets/images/send.png',
+                  width: 24,
+                  height: 24,
+                ), // 아이콘 추가
+              ],
+            ),
           ),
         ),
       ),
