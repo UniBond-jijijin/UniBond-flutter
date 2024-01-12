@@ -17,7 +17,9 @@ import 'package:unibond/view/screens/user/root_tab.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id;
-  const DetailScreen({Key? key, required this.id}) : super(key: key);
+  final int type;
+  const DetailScreen({Key? key, required this.id, required this.type})
+      : super(key: key);
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -82,8 +84,8 @@ class _DetailScreenState extends State<DetailScreen> {
                     Expanded(
                         flex: 6,
                         child: SingleChildScrollView(
-                            child: buildPost(context, qnaPostDetail,
-                                myToken))), // 게시물+댓글 보는 영역
+                            child: buildPost(context, qnaPostDetail, myToken,
+                                widget.type))), // 게시물+댓글 보는 영역
                     buildCommentPost(context, qnaPostDetail), // 댓글 다는 영역
                   ],
                 ),
@@ -169,13 +171,13 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
 // 게시물 부분
-  Widget buildPost(
-      BuildContext context, QnaPostDetail qnaPostDetail, String myToken) {
+  Widget buildPost(BuildContext context, QnaPostDetail qnaPostDetail,
+      String myToken, int type) {
     return Stack(
       children: [
         Column(
           children: [
-            buildAppBar(context, qnaPostDetail, myToken), // 앱바
+            buildAppBar(context, qnaPostDetail, myToken, type), // 앱바
             buildProfileInfo(context, qnaPostDetail, myToken), // 작성자 프로필
             buildPostContent(context, qnaPostDetail), // 글내용
             buildCommentContent(context, qnaPostDetail, myToken), // 댓글내용
@@ -185,11 +187,11 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  AppBar buildAppBar(
-      BuildContext context, QnaPostDetail qnaPostDetail, String myToken) {
+  AppBar buildAppBar(BuildContext context, QnaPostDetail qnaPostDetail,
+      String myToken, int type) {
     return AppBar(
       centerTitle: true,
-      title: const Text('경험 공유'),
+      title: type == 0 ? const Text('질문') : const Text('경험 공유'),
       leading: IconButton(
         icon: const Icon(Icons.arrow_back_ios),
         onPressed: () {

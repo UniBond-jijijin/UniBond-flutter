@@ -298,7 +298,10 @@ class QnaPostsListView extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => DetailScreen(id: p.posts[index].postId));
+                    Get.to(() => DetailScreen(
+                          id: p.posts[index].postId,
+                          type: 0,
+                        ));
                   },
                   child: qnaCustomListItem(p, index),
                 ),
@@ -348,7 +351,10 @@ class ExpPostsListView extends StatelessWidget {
                 ),
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => DetailScreen(id: p.posts[index].postId));
+                    Get.to(() => DetailScreen(
+                          id: p.posts[index].postId,
+                          type: 1,
+                        ));
                   },
                   child: expCustomListItem(p, index),
                 ),

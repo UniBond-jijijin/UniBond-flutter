@@ -84,6 +84,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                     padding: EdgeInsets.zero,
                     itemCount: postPreviewList!.length,
                     itemBuilder: (context, index) {
+                      String boardType = postPreviewList![index].boardType;
+
                       return Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 12),
@@ -102,10 +104,13 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                           ),
                           child: TextButton(
                             onPressed: () {
-                              Get.to(() => DetailScreen(
-                                  id: postPreviewList![index]
-                                      .postId
-                                      .toString()));
+                              Get.to(
+                                () => DetailScreen(
+                                    id: postPreviewList![index]
+                                        .postId
+                                        .toString(),
+                                    type: getBoardTypeNum(boardType)),
+                              );
                             },
                             child: qnaCustomListItem(postPreviewList!, index),
                           ),
@@ -486,5 +491,15 @@ String getFormattedBoardType(String boardType) {
     return '경험 공유';
   } else {
     return boardType;
+  }
+}
+
+int getBoardTypeNum(String boardType) {
+  if (boardType == 'QNA') {
+    return 0;
+  } else if (boardType == 'EXPERIENCE') {
+    return 1;
+  } else {
+    return 0;
   }
 }
