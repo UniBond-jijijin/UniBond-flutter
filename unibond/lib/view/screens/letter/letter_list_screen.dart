@@ -80,8 +80,8 @@ class _LetterListState extends State<LetterList> {
                       ],
                     ));
                   } else if (snapshot.hasError) {
-                    return Center(
-                        child: Text('편지리스트 스냅샷에러: ${snapshot.error}'));
+                    return const Center(
+                        child: Text('편지리스트에서 데이터를 가져올 수 없습니다.'));
                   } else if (snapshot.hasData) {
                     AllLettersRequest allLettersRequest =
                         snapshot.data![0] as AllLettersRequest;

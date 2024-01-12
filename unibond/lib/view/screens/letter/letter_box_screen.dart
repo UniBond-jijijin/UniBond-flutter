@@ -110,192 +110,196 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
           return const Center(child: Text('편지함에서 데이터를 가져올 수 없습니다.'));
         } else if (snapshot.hasData) {
           LetterBoxRequest myLetterBox = snapshot.data!;
-          return Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: myLetterBox.result.letterRoomList?.length ?? 0,
-              itemBuilder: (context, index) {
-                final letterBox = myLetterBox.result.letterRoomList?[index];
-                final List<List<Color>> colorSets = [
-                  [const Color(0xFFD08EFF), const Color(0xFFFFACC6)],
-                  [const Color(0xFFFF88AC), const Color(0xFFFFE9CC)],
-                  [const Color(0xFF99B9FF), const Color(0xFFCA80FF)],
-                ];
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: myLetterBox.result.letterRoomList?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final letterBox = myLetterBox.result.letterRoomList?[index];
+                    final List<List<Color>> colorSets = [
+                      [const Color(0xFFD08EFF), const Color(0xFFFFACC6)],
+                      [const Color(0xFFFF88AC), const Color(0xFFFFE9CC)],
+                      [const Color(0xFF99B9FF), const Color(0xFFCA80FF)],
+                    ];
 
-                final colorSet = colorSets[index % colorSets.length];
+                    final colorSet = colorSets[index % colorSets.length];
 
-                String plane;
-                if (colorSet == colorSets[0]) {
-                  plane = 'purpleplane.png';
-                } else if (colorSet == colorSets[1]) {
-                  plane = 'pinkplane.png';
-                } else {
-                  plane = 'blueplane.png';
-                }
+                    String plane;
+                    if (colorSet == colorSets[0]) {
+                      plane = 'purpleplane.png';
+                    } else if (colorSet == colorSets[1]) {
+                      plane = 'pinkplane.png';
+                    } else {
+                      plane = 'blueplane.png';
+                    }
 
-                String planewiggle = 'planewiggle.png';
+                    String planewiggle = 'planewiggle.png';
 
-                final recentLetterSentDate = letterBox!.recentLetterSentDate
-                    .split("T")[0]
-                    .split("-")
-                    .join(". ");
+                    final recentLetterSentDate = letterBox!.recentLetterSentDate
+                        .split("T")[0]
+                        .split("-")
+                        .join(". ");
 
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(
-                      () => LetterList(
-                        backgroundColor1: const Color(0xFFFFA3C0),
-                        backgroundColor2: const Color(0xFFA3C1FF),
-                        letterRoomId: letterBox.letterRoomId.toString(),
+                    return GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => LetterList(
+                            backgroundColor1: const Color(0xFFFFA3C0),
+                            backgroundColor2: const Color(0xFFA3C1FF),
+                            letterRoomId: letterBox.letterRoomId.toString(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
+                        padding: EdgeInsets.zero,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          gradient: LinearGradient(
+                            colors: colorSet,
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                          ),
+                        ),
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              right: 30,
+                              top: 20,
+                              child: Image.asset(
+                                'assets/images/$planewiggle',
+                                width: 100,
+                                height: 90,
+                              ),
+                            ),
+                            Positioned(
+                              right: 80,
+                              top: 40,
+                              child: Image.asset(
+                                'assets/images/$plane',
+                                width: 30,
+                                height: 30,
+                              ),
+                            ),
+                            Positioned(
+                              top: 80,
+                              bottom: 0,
+                              right: 10,
+                              child: Image.asset(
+                                'assets/images/letterline.png',
+                                width: 200,
+                                height: 200,
+                              ),
+                            ),
+                            Positioned(
+                              top: 20,
+                              left: 160,
+                              child: Image.asset(
+                                'assets/images/letterline2.png',
+                                height: 160,
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: -10,
+                              child: Image.asset(
+                                'assets/images/rectangleTop.png',
+                                width: 400,
+                              ),
+                            ),
+                            Positioned(
+                              bottom: 0,
+                              right: -10,
+                              child: Image.asset(
+                                'assets/images/rectangleTop.png',
+                                width: 400,
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Image.asset(
+                                'assets/images/rectangleSide.png',
+                                height: 200,
+                              ),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: -4,
+                              child: Image.asset(
+                                'assets/images/rectangleSide.png',
+                                height: 200,
+                              ),
+                            ),
+                            const SizedBox(height: 32),
+                            Positioned(
+                              bottom:
+                                  58, // Adjust this value for vertical positioning
+                              right:
+                                  8, // Adjust this value for horizontal positioning
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 24),
+                                    child: Text(
+                                      recentLetterSentDate,
+                                      style: letterBoxTextStyle,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(right: 24),
+                                    child: Text(
+                                      letterBox.senderNick,
+                                      style: letterBoxTextStyle,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            const Positioned(
+                              bottom: 26,
+                              left: 30,
+                              child: Text(
+                                'UniBond',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                  fontFamily: 'Pinyon_Script',
+                                ),
+                              ),
+                            ),
+                            // 프사 추가
+                            Positioned(
+                              top: 26,
+                              left: 30,
+                              child: ClipOval(
+                                child: letterBox.senderProfileImg.isNotEmpty
+                                    ? Image.network(
+                                        letterBox.senderProfileImg,
+                                        width: 40,
+                                        height: 40,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'assets/images/user_image.jpg',
+                                        width: 40,
+                                        height: 40,
+                                      ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     );
                   },
-                  child: Container(
-                    margin: const EdgeInsets.fromLTRB(24, 0, 24, 20),
-                    padding: EdgeInsets.zero,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: LinearGradient(
-                        colors: colorSet,
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                      ),
-                    ),
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          right: 30,
-                          top: 20,
-                          child: Image.asset(
-                            'assets/images/$planewiggle',
-                            width: 100,
-                            height: 90,
-                          ),
-                        ),
-                        Positioned(
-                          right: 80,
-                          top: 40,
-                          child: Image.asset(
-                            'assets/images/$plane',
-                            width: 30,
-                            height: 30,
-                          ),
-                        ),
-                        Positioned(
-                          top: 80,
-                          bottom: 0,
-                          right: 10,
-                          child: Image.asset(
-                            'assets/images/letterline.png',
-                            width: 200,
-                            height: 200,
-                          ),
-                        ),
-                        Positioned(
-                          top: 20,
-                          left: 160,
-                          child: Image.asset(
-                            'assets/images/letterline2.png',
-                            height: 160,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: -10,
-                          child: Image.asset(
-                            'assets/images/rectangleTop.png',
-                            width: 400,
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 0,
-                          right: -10,
-                          child: Image.asset(
-                            'assets/images/rectangleTop.png',
-                            width: 400,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          child: Image.asset(
-                            'assets/images/rectangleSide.png',
-                            height: 200,
-                          ),
-                        ),
-                        Positioned(
-                          top: 0,
-                          right: -4,
-                          child: Image.asset(
-                            'assets/images/rectangleSide.png',
-                            height: 200,
-                          ),
-                        ),
-                        const SizedBox(height: 32),
-                        Positioned(
-                          bottom:
-                              58, // Adjust this value for vertical positioning
-                          right:
-                              8, // Adjust this value for horizontal positioning
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 24),
-                                child: Text(
-                                  recentLetterSentDate,
-                                  style: letterBoxTextStyle,
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(right: 24),
-                                child: Text(
-                                  letterBox.senderNick,
-                                  style: letterBoxTextStyle,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        const Positioned(
-                          bottom: 26,
-                          left: 30,
-                          child: Text(
-                            'UniBond',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              fontFamily: 'Pinyon_Script',
-                            ),
-                          ),
-                        ),
-                        // 프사 추가
-                        Positioned(
-                          top: 26,
-                          left: 30,
-                          child: ClipOval(
-                            child: letterBox.senderProfileImg.isNotEmpty
-                                ? Image.network(
-                                    letterBox.senderProfileImg,
-                                    width: 40,
-                                    height: 40,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    'assets/images/user_image.jpg',
-                                    width: 40,
-                                    height: 40,
-                                  ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           );
         } else {
           return const Center(child: Text("아직 편지가 없어요"));

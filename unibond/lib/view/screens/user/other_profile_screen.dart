@@ -294,10 +294,10 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
       child: Row(
         children: [
           const Icon(Icons.favorite, color: primaryColor),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: Expanded(
-              // 텍스트가 화면 너비를 초과하지 않도록 합니다.
+          Expanded(
+            // 텍스트가 화면 너비를 초과하지 않도록 합니다.
+            child: Padding(
+              padding: const EdgeInsets.only(left: 4.0),
               child: Text(
                 profile.result.interestList!.join(', '),
                 overflow: TextOverflow.ellipsis, // 긴 텍스트를 축약합니다.
