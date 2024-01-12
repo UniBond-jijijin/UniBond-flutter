@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/controller/qnapost_controller.dart';
+import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
@@ -38,14 +39,31 @@ class QnaWriteScreen extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
+                const SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '* 게시물 수정 기능은 추후 업데이트를 통해 추가적인 게시판과 함께 제공될 예정입니다. 현재에는 게시물 수정이 불가하다는 점을 유의해주세요 ',
+                          style: TextStyle(color: primaryColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey[400], thickness: 1.0),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
-                        CustomTextArea(
-                          controller: _content,
-                          hint: "내용",
-                          funvalidator: validateContent,
+                        Semantics(
+                          label: '게시물 내용 작성',
+                          child: CustomTextArea(
+                            controller: _content,
+                            hint: "내용",
+                            funvalidator: validateContent,
+                          ),
                         ),
                       ],
                     ),
@@ -53,30 +71,33 @@ class QnaWriteScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
-                  child: CustomElevatedButton(
-                    text: "작성 완료",
-                    screenRoute: () async {
-                      if (isValid(_formKey)) {
-                        var isSuccess =
-                            await p.uploadQnaPost(_content.text.trim());
-                        if (isSuccess == true) {
-                          showToastMessage("게시물 업로드 성공");
-                          // Get.snackbar(
-                          //   "알림",
-                          //   "업로드 성공",
-                          //   snackPosition: SnackPosition.BOTTOM,
-                          // );
-                          Get.off(() => const RootTab());
-                        } else {
-                          showToastMessage("게시물 업로드 실패");
-                          // Get.snackbar(
-                          //   "알림",
-                          //   "업로드 실패",
-                          //   snackPosition: SnackPosition.BOTTOM,
-                          // );
+                  child: Semantics(
+                    label: '게시물 작성 완료',
+                    child: CustomElevatedButton(
+                      text: "작성 완료",
+                      screenRoute: () async {
+                        if (isValid(_formKey)) {
+                          var isSuccess =
+                              await p.uploadQnaPost(_content.text.trim());
+                          if (isSuccess == true) {
+                            showToastMessage("게시물 업로드 성공");
+                            // Get.snackbar(
+                            //   "알림",
+                            //   "업로드 성공",
+                            //   snackPosition: SnackPosition.BOTTOM,
+                            // );
+                            Get.off(() => const RootTab());
+                          } else {
+                            showToastMessage("게시물 업로드 실패");
+                            // Get.snackbar(
+                            //   "알림",
+                            //   "업로드 실패",
+                            //   snackPosition: SnackPosition.BOTTOM,
+                            // );
+                          }
                         }
-                      }
-                    },
+                      },
+                    ),
                   ),
                 ),
               ],

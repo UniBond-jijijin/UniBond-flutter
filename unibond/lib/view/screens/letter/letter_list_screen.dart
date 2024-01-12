@@ -80,8 +80,8 @@ class _LetterListState extends State<LetterList> {
                       ],
                     ));
                   } else if (snapshot.hasError) {
-                    return Center(
-                        child: Text('편지리스트 스냅샷에러: ${snapshot.error}'));
+                    return const Center(
+                        child: Text('편지리스트에서 데이터를 가져올 수 없습니다.'));
                   } else if (snapshot.hasData) {
                     AllLettersRequest allLettersRequest =
                         snapshot.data![0] as AllLettersRequest;
@@ -171,7 +171,10 @@ class _LetterListState extends State<LetterList> {
       backgroundColor: Colors.transparent,
       titleSpacing: 0,
       leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
+        icon: Semantics(
+          label: '뒤로 가기',
+          child: Icon(Icons.arrow_back_ios),
+        ),
         onPressed: () {
           Get.back();
         },
@@ -196,7 +199,10 @@ class _LetterListState extends State<LetterList> {
               child: Text('차단하기'),
             ),
           ],
-          icon: const Icon(Icons.more_vert, color: Colors.black),
+          icon: Semantics(
+            label: '편지 신고 또는 차단',
+            child: Icon(Icons.more_vert, color: Colors.black),
+          ),
         ),
       ],
     );

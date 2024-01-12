@@ -42,11 +42,14 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Get.back();
-          },
+        leading: Semantics(
+          label: '뒤로가기',
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
         actions: [
           PopupMenuButton<String>(
@@ -74,11 +77,14 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
       ),
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/letter.png'),
-                fit: BoxFit.cover,
+          Semantics(
+            label: '감성 편지지',
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/letter.png'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -132,10 +138,13 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                                     const SizedBox(height: 60),
                                     Row(
                                       children: [
-                                        Image.asset(
-                                          'assets/images/send.png',
-                                          width: 24,
-                                          height: 24,
+                                        Semantics(
+                                          label: '종이비행기',
+                                          child: Image.asset(
+                                            'assets/images/send.png',
+                                            width: 24,
+                                            height: 24,
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 12,
@@ -191,12 +200,15 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: CustomElevatedButton(
-                            text: "답장 쓰기",
-                            screenRoute: () {
-                              Get.to(() => LetterWriteScreen(
-                                  receiverId: widget.senderId));
-                            },
+                          child: Semantics(
+                            label: '답장 쓰기',
+                            child: CustomElevatedButton(
+                              text: "답장 쓰기",
+                              screenRoute: () {
+                                Get.to(() => LetterWriteScreen(
+                                    receiverId: widget.senderId));
+                              },
+                            ),
                           ),
                         ),
                       ],

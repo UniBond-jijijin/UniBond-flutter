@@ -16,7 +16,10 @@ class UpdateScreen extends StatelessWidget {
         centerTitle: true,
         title: const Text('게시물 수정'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
+          icon: Semantics(
+            label: '뒤로가기',
+            child: Icon(Icons.arrow_back_ios),
+          ),
           onPressed: () {
             Get.back();
           },
@@ -38,13 +41,16 @@ class UpdateScreen extends StatelessWidget {
                 funvalidator: validateContent,
                 value: "나중에 서버에서 받아올 내용. 나는 배가 고파요. " * 10,
               ),
-              CustomElevatedButton(
-                text: "수정 완료",
-                screenRoute: () {
-                  if (isValid(_formKey)) {
-                    Get.back();
-                  }
-                },
+              Semantics(
+                label: '게시물 수정 완료',
+                child: CustomElevatedButton(
+                  text: "수정 완료",
+                  screenRoute: () {
+                    if (isValid(_formKey)) {
+                      Get.back();
+                    }
+                  },
+                ),
               ),
             ],
           ),

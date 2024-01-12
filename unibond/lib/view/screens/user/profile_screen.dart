@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.50,
                 ),
-                const CircularProgressIndicator(),
+                // const CircularProgressIndicator(),
               ],
             ));
           } else if (snapshot.hasError) {
@@ -152,7 +152,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: Text('수정하기'),
             ),
           ],
-          icon: const Icon(Icons.more_vert, color: Colors.black),
+          icon: Semantics(
+            label: '수정하기',
+            child: Icon(Icons.more_vert, color: Colors.black),
+          ),
         ),
       ],
     );
@@ -167,20 +170,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(children: [
         // 프로필 사진
-        ClipOval(
-          child: profile.result.profileImage.isNotEmpty
-              ? Image.network(
-                  profile.result.profileImage,
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                )
-              : Image.asset(
-                  'assets/images/user_image.jpg',
-                  width: 70,
-                  height: 70,
-                  fit: BoxFit.cover,
-                ),
+        Semantics(
+          label: '프로필 사진',
+          child: ClipOval(
+            child: profile.result.profileImage.isNotEmpty
+                ? Image.network(
+                    profile.result.profileImage,
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/images/user_image.jpg',
+                    width: 70,
+                    height: 70,
+                    fit: BoxFit.cover,
+                  ),
+          ),
         ),
         // 닉네임 및 성별 정보
         Padding(
@@ -256,10 +262,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         children: [
           const Icon(Icons.favorite, color: primaryColor),
-          Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: Expanded(
-              // 텍스트가 화면 너비를 초과하지 않도록 합니다.
+          Expanded(
+            // 텍스트가 화면 너비를 초과하지 않도록 합니다.
+            child: Padding(
+              padding: const EdgeInsets.only(left: 4.0),
               child: Text(
                 profile.result.interestList.join(', '),
                 overflow: TextOverflow.ellipsis, // 긴 텍스트를 축약합니다.
@@ -279,9 +285,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildInfoCard(title: '질환 정보', content: profile.result.diseaseName),
-          buildInfoCard(
-              title: '진단 시기', content: profile.result.diagnosisTiming),
+          Semantics(
+            label: '질환 정보',
+            child: buildInfoCard(
+                title: '질환 정보', content: profile.result.diseaseName),
+          ),
+          Semantics(
+            label: '진단 시기',
+            child: buildInfoCard(
+                title: '진단 시기', content: profile.result.diagnosisTiming),
+          ),
         ],
       ),
     );
@@ -331,40 +344,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget buildActivityOptions(BuildContext context) {
     final Uri terms = Uri.parse(
-      'https://doc-hosting.flycricket.io/unibond-terms-of-use/fcd182e2-1c70-4d7b-bf1a-2684759dcae5/terms',
+      'https://doc-hosting.flycricket.io/unibond-terms-of-use/5024afd5-0b02-4bf7-9fc8-5f2c48a1ec0a/terms',
     );
     final Uri privacy = Uri.parse(
-      'https://doc-hosting.flycricket.io/unibond-privacy-policy/f88dd207-dad1-4425-b2f2-d64c8070b93b/privacy',
+      'https://doc-hosting.flycricket.io/unibond-privacy-policy/062c9a7e-61cc-4082-849a-7ef55a42f80e/privacy',
     );
     return Expanded(
       child: ListView(
         children: [
-          // const Padding(
-          //   padding: EdgeInsets.fromLTRB(16, 24, 0, 8),
-          //   child: Text(
-          //     '활동 관리',
-          //     style: TextStyle(color: borderColor),
-          //   ),
-          // ),
-          // ListTile(
-          //   title: const Text('내가 올린 게시글'),
-          //   onTap: () {
-          //     showToastMessage("업데이트 준비중인 기능입니다.");
-          //   },
-          // ),
-          // ListTile(
-          //   title: const Text('댓글 단 게시글'),
-          //   onTap: () {
-          //     showToastMessage("업데이트 준비중인 기능입니다.");
-          //   },
-          // ),
-          // ListTile(
-          //   title: const Text('즐겨찾는 편지'),
-          //   onTap: () {
-          //     showToastMessage("업데이트 준비중인 기능입니다.");
-          //   },
-          // ),
-          // Divider(color: Colors.grey[200], thickness: 4.0),
           const Padding(
             padding: EdgeInsets.fromLTRB(16, 8, 0, 8),
             child: Text(
@@ -441,16 +428,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Divider(color: Colors.grey[200], thickness: 4.0),
           Center(
             child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
-                child: TextButton(
-                  onPressed: () {
-                    showWithdrawConfirmationDialog();
-                  },
-                  child: const Text(
-                    '회원 탈퇴',
-                    style: TextStyle(color: borderColor),
-                  ),
-                )),
+              padding: const EdgeInsets.fromLTRB(0, 4, 0, 8),
+              child: Semantics(
+                  label: '회원 탈퇴',
+                  child: TextButton(
+                    onPressed: () {
+                      showWithdrawConfirmationDialog();
+                    },
+                    child: const Text(
+                      '회원 탈퇴',
+                      style: TextStyle(color: borderColor),
+                    ),
+                  )),
+            ),
           ),
           const SizedBox(
             height: 20,

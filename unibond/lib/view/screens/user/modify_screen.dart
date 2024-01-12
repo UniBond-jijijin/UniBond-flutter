@@ -93,16 +93,19 @@ class _ModifyScreenState extends State<ModifyScreen> {
           children: [
             SizedBox(
               height: 240,
-              child: CupertinoDatePicker(
-                initialDateTime: selectedDate,
-                mode: CupertinoDatePickerMode.date,
-                onDateTimeChanged: (val) {
-                  setState(() {
-                    selectedDate = val;
-                  });
-                },
+              child: Semantics(
+                label: '질환 진단 시기 수정',
+                child: CupertinoDatePicker(
+                  initialDateTime: selectedDate,
+                  mode: CupertinoDatePickerMode.date,
+                  onDateTimeChanged: (val) {
+                    setState(() {
+                      selectedDate = val;
+                    });
+                  },
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -213,11 +216,14 @@ class _ModifyScreenState extends State<ModifyScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text('프로필 수정'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Get.back();
-          },
+        leading: Semantics(
+          label: '뒤로 가기',
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
       ),
       body: GestureDetector(
@@ -237,27 +243,30 @@ class _ModifyScreenState extends State<ModifyScreen> {
                   child: Stack(
                     alignment: Alignment.bottomRight,
                     children: [
-                      ClipOval(
-                        child: _image != null
-                            ? Image.file(
-                                _image!,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              )
-                            : (_imageUrl != null
-                                ? Image.network(
-                                    _imageUrl!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(
-                                    'assets/images/user_image.jpg', // 기본 이미지
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  )),
+                      Semantics(
+                        label: '기본 프로필 사진',
+                        child: ClipOval(
+                          child: _image != null
+                              ? Image.file(
+                                  _image!,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                )
+                              : (_imageUrl != null
+                                  ? Image.network(
+                                      _imageUrl!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      'assets/images/user_image.jpg', // 기본 이미지
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    )),
+                        ),
                       ),
                       // 사진 수정 기능 제외로 인한 주석처리
                       // GestureDetector(
@@ -317,44 +326,53 @@ class _ModifyScreenState extends State<ModifyScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: SignupEitherButton(
-                                    text: '남',
-                                    isSelected: isMaleSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isMaleSelected = true;
-                                        isFemaleSelected = false;
-                                        isPrivateSelected = false;
-                                      });
-                                    },
+                                  child: Semantics(
+                                    label: '성별 선택(남)',
+                                    child: SignupEitherButton(
+                                      text: '남',
+                                      isSelected: isMaleSelected,
+                                      onPressed: () {
+                                        setState(() {
+                                          isMaleSelected = true;
+                                          isFemaleSelected = false;
+                                          isPrivateSelected = false;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12),
-                                  child: SignupEitherButton(
-                                    text: '여',
-                                    isSelected: isFemaleSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isFemaleSelected = true;
-                                        isMaleSelected = false;
-                                        isPrivateSelected = false;
-                                      });
-                                    },
+                                  child: Semantics(
+                                    label: '성별 선택(여)',
+                                    child: SignupEitherButton(
+                                      text: '여',
+                                      isSelected: isFemaleSelected,
+                                      onPressed: () {
+                                        setState(() {
+                                          isFemaleSelected = true;
+                                          isMaleSelected = false;
+                                          isPrivateSelected = false;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: SignupEitherButton(
-                                    text: '비공개',
-                                    isSelected: isPrivateSelected,
-                                    onPressed: () {
-                                      setState(() {
-                                        isPrivateSelected = true;
-                                        isMaleSelected = false;
-                                        isFemaleSelected = false;
-                                      });
-                                    },
+                                  child: Semantics(
+                                    label: '성별 선택(비공개)',
+                                    child: SignupEitherButton(
+                                      text: '비공개',
+                                      isSelected: isPrivateSelected,
+                                      onPressed: () {
+                                        setState(() {
+                                          isPrivateSelected = true;
+                                          isMaleSelected = false;
+                                          isFemaleSelected = false;
+                                        });
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],
@@ -404,17 +422,20 @@ class _ModifyScreenState extends State<ModifyScreen> {
                             ),
                             Row(
                               children: [
-                                InkWell(
-                                  onTap: () => _showDatePicker(context),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${selectedDate.year}',
-                                      style: askTextStyle,
+                                Semantics(
+                                  label: '진단 시기 수정(년)',
+                                  child: InkWell(
+                                    onTap: () => _showDatePicker(context),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '${selectedDate.year}',
+                                        style: askTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -429,17 +450,20 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 5),
-                                InkWell(
-                                  onTap: () => _showDatePicker(context),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${selectedDate.month}',
-                                      style: askTextStyle,
+                                Semantics(
+                                  label: '진단 시기 수정(월)',
+                                  child: InkWell(
+                                    onTap: () => _showDatePicker(context),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '${selectedDate.month}',
+                                        style: askTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -454,17 +478,20 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 5),
-                                InkWell(
-                                  onTap: () => _showDatePicker(context),
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[100],
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Text(
-                                      '${selectedDate.day}',
-                                      style: askTextStyle,
+                                Semantics(
+                                  label: '진단 시기(일)',
+                                  child: InkWell(
+                                    onTap: () => _showDatePicker(context),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[100],
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '${selectedDate.day}',
+                                        style: askTextStyle,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -499,14 +526,17 @@ class _ModifyScreenState extends State<ModifyScreen> {
                           fontSize: 18,
                         ),
                       ),
-                      InkWell(
-                        onTap: navigateAndHandleInterests,
-                        child: const Text(
-                          '변경',
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
+                      Semantics(
+                        label: '관심사 변경',
+                        child: InkWell(
+                          onTap: navigateAndHandleInterests,
+                          child: const Text(
+                            '변경',
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
@@ -611,10 +641,13 @@ class _ModifyScreenState extends State<ModifyScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: NextButton(
-                    onPressed: updateMemberInfo,
-                    buttonName: '완료',
-                    isButtonEnabled: true,
+                  child: Semantics(
+                    label: '프로필 수정 완료',
+                    child: NextButton(
+                      onPressed: updateMemberInfo,
+                      buttonName: '완료',
+                      isButtonEnabled: true,
+                    ),
                   ),
                 ),
               ],
@@ -661,21 +694,25 @@ class _ModifyScreenState extends State<ModifyScreen> {
               suffixIcon: Padding(
                 // suffixIcon에 패딩 추가
                 padding: const EdgeInsets.only(right: 8),
-                child: IconButton(
-                  icon: const Icon(Icons.search, color: primaryColor),
-                  onPressed: () async {
-                    // SearchScreen 이동 후 선택된 데이터를 기다림.
-                    final selectedData = await Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => const SearchScreen()),
-                    );
-                    if (selectedData != null) {
-                      setState(() {
-                        searchController.text = selectedData['diseaseNameKor'];
-                        selectedDiseaseId = selectedData["diseaseId"];
-                      });
-                    }
-                  },
+                child: Semantics(
+                  label: '질환 검색',
+                  child: IconButton(
+                    icon: const Icon(Icons.search, color: primaryColor),
+                    onPressed: () async {
+                      // SearchScreen 이동 후 선택된 데이터를 기다림.
+                      final selectedData = await Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const SearchScreen()),
+                      );
+                      if (selectedData != null) {
+                        setState(() {
+                          searchController.text =
+                              selectedData['diseaseNameKor'];
+                          selectedDiseaseId = selectedData["diseaseId"];
+                        });
+                      }
+                    },
+                  ),
                 ),
               ),
             ),

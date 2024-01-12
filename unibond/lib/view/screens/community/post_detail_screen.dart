@@ -17,7 +17,9 @@ import 'package:unibond/view/screens/user/root_tab.dart';
 
 class DetailScreen extends StatefulWidget {
   final String id;
-  const DetailScreen({Key? key, required this.id}) : super(key: key);
+  final int type;
+  const DetailScreen({Key? key, required this.id, required this.type})
+      : super(key: key);
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -82,8 +84,8 @@ class _DetailScreenState extends State<DetailScreen> {
                     Expanded(
                         flex: 6,
                         child: SingleChildScrollView(
-                            child: buildPost(context, qnaPostDetail,
-                                myToken))), // 게시물+댓글 보는 영역
+                            child: buildPost(context, qnaPostDetail, myToken,
+                                widget.type))), // 게시물+댓글 보는 영역
                     buildCommentPost(context, qnaPostDetail), // 댓글 다는 영역
                   ],
                 ),
@@ -138,19 +140,25 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 Flexible(
-                  child: TextField(
-                    controller: _commentController,
-                    onSubmitted: _handleSubmitted,
-                    decoration:
-                        const InputDecoration.collapsed(hintText: "댓글을 입력하세요"),
+                  child: Semantics(
+                    label: '댓글 입력',
+                    child: TextField(
+                      controller: _commentController,
+                      onSubmitted: _handleSubmitted,
+                      decoration: const InputDecoration.collapsed(
+                          hintText: "댓글을 입력하세요"),
+                    ),
                   ),
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: () =>
-                          _handleSubmitted(_commentController.text)),
+                  child: Semantics(
+                    label: '댓글 전송',
+                    child: IconButton(
+                        icon: const Icon(Icons.send),
+                        onPressed: () =>
+                            _handleSubmitted(_commentController.text)),
+                  ),
                 ),
               ],
             ),
@@ -169,13 +177,13 @@ class _DetailScreenState extends State<DetailScreen> {
   }
 
 // 게시물 부분
-  Widget buildPost(
-      BuildContext context, QnaPostDetail qnaPostDetail, String myToken) {
+  Widget buildPost(BuildContext context, QnaPostDetail qnaPostDetail,
+      String myToken, int type) {
     return Stack(
       children: [
         Column(
           children: [
-            buildAppBar(context, qnaPostDetail, myToken), // 앱바
+            buildAppBar(context, qnaPostDetail, myToken, type), // 앱바
             buildProfileInfo(context, qnaPostDetail, myToken), // 작성자 프로필
             buildPostContent(context, qnaPostDetail), // 글내용
             buildCommentContent(context, qnaPostDetail, myToken), // 댓글내용
@@ -185,16 +193,19 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  AppBar buildAppBar(
-      BuildContext context, QnaPostDetail qnaPostDetail, String myToken) {
+  AppBar buildAppBar(BuildContext context, QnaPostDetail qnaPostDetail,
+      String myToken, int type) {
     return AppBar(
       centerTitle: true,
-      title: const Text('경험 공유'),
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          Get.back();
-        },
+      title: type == 0 ? const Text('질문') : const Text('경험 공유'),
+      leading: Semantics(
+        label: '뒤로 가기',
+        child: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            Get.back();
+          },
+        ),
       ),
       actions: [
         (myToken != qnaPostDetail.result.postOwnerId.toString())
@@ -232,7 +243,10 @@ class _DetailScreenState extends State<DetailScreen> {
                     child: Text('삭제하기'),
                   ),
                 ],
-                icon: const Icon(Icons.more_vert, color: Colors.black),
+                icon: Semantics(
+                  label: '게시물 신고 또는 차단',
+                  child: Icon(Icons.more_vert, color: Colors.black),
+                ),
               ),
       ],
     );
@@ -254,19 +268,22 @@ class _DetailScreenState extends State<DetailScreen> {
         padding: const EdgeInsets.only(left: 20),
         child: Row(children: [
           // 프로필 사진
-          ClipOval(
-            child: qnaPostDetail.result.profileImage.isNotEmpty
-                ? Image.network(
-                    qnaPostDetail.result.profileImage,
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.cover,
-                  )
-                : Image.asset(
-                    'assets/images/user_image.jpg',
-                    width: 50,
-                    height: 50,
-                  ),
+          Semantics(
+            label: '다른 회원 프로필 사진',
+            child: ClipOval(
+              child: qnaPostDetail.result.profileImage.isNotEmpty
+                  ? Image.network(
+                      qnaPostDetail.result.profileImage,
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      'assets/images/user_image.jpg',
+                      width: 50,
+                      height: 50,
+                    ),
+            ),
           ),
           // 닉네임 및 질환 정보
           Padding(
@@ -418,22 +435,27 @@ class _DetailScreenState extends State<DetailScreen> {
                   subtitle: Text(comment.content),
                   // 댓글 신고 및 삭제 기능
                   trailing: (myToken != comment.commentUserId.toString())
-                      ? IconButton(
-                          icon: const Icon(Icons.more_vert),
-                          onPressed: () {
-                            showBlockBottomSheet(context, comment.commentId,
-                                _handleBlockComment);
-                          },
-                        )
-                      : IconButton(
-                          icon: const Icon(Icons.more_vert),
-                          onPressed: () {
-                            showDeleteBottomSheet(
-                                context,
-                                comment.commentUserId.toString(),
-                                comment.commentId.toString(),
-                                _handleDeleteComment);
-                          },
+                      ? Semantics(
+                          label: '댓글 신고 또는 차단',
+                          child: IconButton(
+                            icon: const Icon(Icons.more_vert),
+                            onPressed: () {
+                              showBlockBottomSheet(context, comment.commentId,
+                                  _handleBlockComment);
+                            },
+                          ))
+                      : Semantics(
+                          label: '댓글 신고 또는 차단',
+                          child: IconButton(
+                            icon: const Icon(Icons.more_vert),
+                            onPressed: () {
+                              showDeleteBottomSheet(
+                                  context,
+                                  comment.commentUserId.toString(),
+                                  comment.commentId.toString(),
+                                  _handleDeleteComment);
+                            },
+                          ),
                         ),
                 );
               },
