@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:unibond/controller/qnapost_controller.dart';
+import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/validator_util.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
@@ -38,6 +39,20 @@ class QnaWriteScreen extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
+                const SizedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          '* 게시물 수정 기능은 추후 업데이트를 통해 추가적인 게시판과 함께 제공될 예정입니다. 현재에는 게시물 수정이 불가하다는 점을 유의해주세요 ',
+                          style: TextStyle(color: primaryColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey[400], thickness: 1.0),
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(

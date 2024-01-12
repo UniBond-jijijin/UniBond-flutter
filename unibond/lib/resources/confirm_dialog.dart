@@ -15,7 +15,7 @@ void showBlockConfirmationDialog(
           ),
         ),
         content: Text(
-          '이 $object 차단하시겠습니까?',
+          '이 $object 차단하시겠습니까?\n차단 해제는 불가능합니다.',
           style: const TextStyle(
             fontSize: 16.0,
           ),
