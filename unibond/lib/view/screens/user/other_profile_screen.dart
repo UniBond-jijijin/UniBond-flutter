@@ -11,6 +11,7 @@ import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/view/screens/community/post_detail_screen.dart';
 import 'package:unibond/view/screens/letter/letter_write_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class OtherProfileScreen extends StatefulWidget {
   final int postOwnerId;
@@ -197,7 +198,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
           ],
           icon: Semantics(
             label: '더보기',
-            child: Icon(Icons.more_vert, color: Colors.black),
+            child: const Icon(Icons.more_vert, color: Colors.black),
           ),
         ),
       ],
@@ -462,7 +463,7 @@ Widget qnaCustomListItem(List<PostPreview> postPreviewList, int index) {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  '$daysDifference일 전',
+                  timeago.format(DateTime.parse(postDate), locale: "ko"),
                   style: const TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w400),
                 ),
