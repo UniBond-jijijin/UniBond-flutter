@@ -28,9 +28,9 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
       body: Stack(
         children: [
           // 배경화면
-          Semantics(
-            label: '편지함 감성 일러스트',
-            child: Positioned.fill(
+          Positioned.fill(
+            child: Semantics(
+              label: '편지함 감성 일러스트',
               child: Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
