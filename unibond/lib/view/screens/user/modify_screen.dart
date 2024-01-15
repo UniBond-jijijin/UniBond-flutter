@@ -221,7 +221,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Get.back();
+              Get.off(() => const RootTab(initialIndex: 2));
             },
           ),
         ),

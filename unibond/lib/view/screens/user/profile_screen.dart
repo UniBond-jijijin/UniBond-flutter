@@ -143,7 +143,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         PopupMenuButton<String>(
           onSelected: (value) async {
             if (value == 'modify') {
-              Get.to(() => const ModifyScreen(), arguments: profile.result);
+              Get.off(() => const ModifyScreen(), arguments: profile.result);
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -154,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ],
           icon: Semantics(
             label: '수정하기',
-            child: Icon(Icons.more_vert, color: Colors.black),
+            child: const Icon(Icons.more_vert, color: Colors.black),
           ),
         ),
       ],
