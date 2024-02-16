@@ -389,7 +389,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Semantics(
-                                    label: '성별 선택(남자)',
+                                    label: '성별 선택 남자',
                                     child: SignupEitherButton(
                                       text: '남',
                                       isSelected: isMaleSelected,
@@ -406,7 +406,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12),
                                   child: Semantics(
-                                    label: '성별 선택(여자)',
+                                    label: '성별 선택 여자',
                                     child: SignupEitherButton(
                                       text: '여',
                                       isSelected: isFemaleSelected,
@@ -423,7 +423,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Semantics(
-                                    label: '성별 선택(비공개)',
+                                    label: '성별 선택 비공개',
                                     child: SignupEitherButton(
                                       text: '비공개',
                                       isSelected: isPrivateSelected,

@@ -141,7 +141,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 Flexible(
                   child: Semantics(
-                    label: '댓글 입력',
+                    label: '댓글 입력 칸',
                     child: TextField(
                       controller: _commentController,
                       onSubmitted: _handleSubmitted,
@@ -152,13 +152,10 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Semantics(
-                    label: '댓글 전송',
-                    child: IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: () =>
-                            _handleSubmitted(_commentController.text)),
-                  ),
+                  child: IconButton(
+                      icon: const Icon(Icons.send),
+                      onPressed: () =>
+                          _handleSubmitted(_commentController.text)),
                 ),
               ],
             ),
