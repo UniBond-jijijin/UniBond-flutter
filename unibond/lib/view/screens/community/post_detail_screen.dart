@@ -197,11 +197,13 @@ class _DetailScreenState extends State<DetailScreen> {
       title: type == 0 ? const Text('질문') : const Text('경험 공유'),
       leading: Semantics(
         label: '뒤로 가기',
-        child: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Get.back();
-          },
+        child: ExcludeSemantics(
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
       ),
       actions: [
@@ -242,7 +244,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ],
                 icon: Semantics(
                   label: '게시물 신고 또는 차단',
-                  child: Icon(Icons.more_vert, color: Colors.black),
+                  child: const Icon(Icons.more_vert, color: Colors.black),
                 ),
               ),
       ],

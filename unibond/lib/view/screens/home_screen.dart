@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text("Q & A", style: homeMenuTextStyle),
             ),
             Semantics(
-              label: 'QnA 게시판',
+              label: '질문 게시판',
               child: Align(
                 alignment: const Alignment(1.4, 1.4),
                 child: Image.asset(
