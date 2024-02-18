@@ -444,7 +444,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             },
                           ))
                       : Semantics(
-                          label: '댓글 신고 또는 차단',
+                          label: '댓글 삭제',
                           child: IconButton(
                             icon: const Icon(Icons.more_vert),
                             onPressed: () {
