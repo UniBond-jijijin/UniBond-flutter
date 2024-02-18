@@ -68,7 +68,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
               ),
               const PopupMenuItem<String>(
                 value: 'block',
-                child: Text('차단하기'),
+                child: Text('삭제 하기'),
               ),
             ],
             icon: const Icon(Icons.more_vert, color: Colors.black),

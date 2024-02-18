@@ -124,37 +124,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      title: const Align(
+      title: Align(
         alignment: Alignment.centerLeft,
         child: Padding(
           padding: EdgeInsets.fromLTRB(4, 8, 0, 0),
-          child: Text(
-            '내 프로필',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          child: Semantics(
+            label: '내 프로필',
+            child: Text(
+              '내 프로필',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Colors.black,
+              ),
             ),
           ),
         ),
       ),
       automaticallyImplyLeading: false,
       actions: [
-        PopupMenuButton<String>(
-          onSelected: (value) async {
-            if (value == 'modify') {
-              Get.off(() => const ModifyScreen(), arguments: profile.result);
-            }
+        TextButton(
+          onPressed: () async {
+            Get.off(() => const ModifyScreen(), arguments: profile.result);
           },
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              value: 'modify',
-              child: Text('수정하기'),
-            ),
-          ],
-          icon: Semantics(
-            label: '수정하기',
-            child: const Icon(Icons.more_vert, color: Colors.black),
+          child: Semantics(
+            label: '프로필 수정',
+            child: Text('수정'),
           ),
         ),
       ],

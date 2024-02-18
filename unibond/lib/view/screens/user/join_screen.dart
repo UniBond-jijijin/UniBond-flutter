@@ -366,11 +366,11 @@ class _JoinScreenState extends State<JoinScreen> {
                               ),
                             ),
                             const Text(
-                              '한줄 소개',
+                              '상태 메세지',
                               style: askTextStyle,
                             ),
                             Semantics(
-                              label: '한줄 소개 입력',
+                              label: '상태 메세지 입력',
                               child: MyCustomTextFormField(
                                 controller: bioController,
                                 onChanged: (value) {},
@@ -487,7 +487,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 InkWell(
                                   onTap: () => _showDatePicker(context),
                                   child: Semantics(
-                                    label: '진단시기 선택(년)',
+                                    label: '진단시기 년도 선택',
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
@@ -515,7 +515,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 InkWell(
                                   onTap: () => _showDatePicker(context),
                                   child: Semantics(
-                                    label: '진단시기 선택(월)',
+                                    label: '진단시기 월 선택',
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
@@ -543,7 +543,7 @@ class _JoinScreenState extends State<JoinScreen> {
                                 InkWell(
                                   onTap: () => _showDatePicker(context),
                                   child: Semantics(
-                                    label: '진단시기 선택(일)',
+                                    label: '진단시기 일 선택',
                                     child: Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(

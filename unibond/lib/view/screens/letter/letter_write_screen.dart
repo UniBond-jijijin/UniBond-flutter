@@ -60,7 +60,7 @@ class LetterWriteScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              '* 전송된 편지는 6시간 후에 도착합니다.',
+                              '* 전송된 편지는 3시간 후에 도착합니다.',
                               style: TextStyle(color: primaryColor),
                             ),
                           ],

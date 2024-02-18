@@ -29,14 +29,11 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
         children: [
           // 배경화면
           Positioned.fill(
-            child: Semantics(
-              label: '편지함 감성 일러스트',
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/letterbackground.png'),
-                    fit: BoxFit.cover,
-                  ),
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/letterbackground.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
