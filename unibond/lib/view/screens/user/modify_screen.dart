@@ -218,11 +218,13 @@ class _ModifyScreenState extends State<ModifyScreen> {
         title: const Text('프로필 수정'),
         leading: Semantics(
           label: '뒤로 가기',
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.off(() => const RootTab(initialIndex: 2));
-            },
+          child: ExcludeSemantics(
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ),
         ),
       ),

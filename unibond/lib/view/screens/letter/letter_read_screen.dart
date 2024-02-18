@@ -43,12 +43,14 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
         backgroundColor: Colors.transparent,
         centerTitle: true,
         leading: Semantics(
-          label: '뒤로가기',
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
+          label: '뒤로 가기',
+          child: ExcludeSemantics(
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ),
         ),
         actions: [
@@ -57,7 +59,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
               if (value == 'report') {
                 showReportConfirmationDialog(context, '편지를');
               } else if (value == 'block') {
-                showBlockConfirmationDialog(context, '편지를',
+                showDeleteLetterConfirmationDialog(context, '편지를',
                     int.parse(widget.letterId), _handleBlockLetter);
               }
             },
@@ -68,7 +70,7 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
               ),
               const PopupMenuItem<String>(
                 value: 'block',
-                child: Text('차단하기'),
+                child: Text('삭제하기'),
               ),
             ],
             icon: const Icon(Icons.more_vert, color: Colors.black),

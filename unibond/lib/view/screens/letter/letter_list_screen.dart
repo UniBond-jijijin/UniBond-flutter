@@ -170,14 +170,16 @@ class _LetterListState extends State<LetterList> {
     return AppBar(
       backgroundColor: Colors.transparent,
       titleSpacing: 0,
-      leading: IconButton(
-        icon: Semantics(
-          label: '뒤로 가기',
-          child: Icon(Icons.arrow_back_ios),
+      leading: Semantics(
+        label: '뒤로 가기',
+        child: ExcludeSemantics(
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
-        onPressed: () {
-          Get.back();
-        },
       ),
       actions: [
         PopupMenuButton<String>(
@@ -201,7 +203,7 @@ class _LetterListState extends State<LetterList> {
           ],
           icon: Semantics(
             label: '편지 신고 또는 차단',
-            child: Icon(Icons.more_vert, color: Colors.black),
+            child: const Icon(Icons.more_vert, color: Colors.black),
           ),
         ),
       ],
