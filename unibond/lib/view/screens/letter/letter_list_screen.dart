@@ -88,12 +88,15 @@ class _LetterListState extends State<LetterList> {
                         snapshot.data![0] as AllLettersRequest;
                     String myToken = snapshot.data![1] as String;
 
-                    return Column(
-                      children: [
-                        buildAppBar(allLettersRequest),
-                        buildReceiverProfile(allLettersRequest),
-                        buildLetterList(allLettersRequest, myToken),
-                      ],
+                    return Semantics(
+                      label: '한 사람과 대화한 편지 목록 화면',
+                      child: Column(
+                        children: [
+                          buildAppBar(allLettersRequest),
+                          buildReceiverProfile(allLettersRequest),
+                          buildLetterList(allLettersRequest, myToken),
+                        ],
+                      ),
                     );
                   } else {
                     return const Center(child: Text("아직 편지가 없어요"));
@@ -171,14 +174,16 @@ class _LetterListState extends State<LetterList> {
     return AppBar(
       backgroundColor: Colors.transparent,
       titleSpacing: 0,
-      leading: IconButton(
-        icon: Semantics(
-          label: '뒤로 가기',
-          child: Icon(Icons.arrow_back_ios),
+      leading: Semantics(
+        label: '뒤로 가기',
+        child: ExcludeSemantics(
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
-        onPressed: () {
-          Get.back();
-        },
       ),
       actions: [
         PopupMenuButton<String>(
@@ -202,7 +207,7 @@ class _LetterListState extends State<LetterList> {
           ],
           icon: Semantics(
             label: '편지 신고 또는 차단',
-            child: Icon(Icons.more_vert, color: Colors.black),
+            child: const Icon(Icons.more_vert, color: Colors.black),
           ),
         ),
       ],

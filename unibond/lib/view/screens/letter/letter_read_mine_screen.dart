@@ -33,11 +33,13 @@ class _LetterReadScreenState extends State<MyLetterReadScreen> {
         centerTitle: true,
         leading: Semantics(
           label: '뒤로 가기',
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
+          child: ExcludeSemantics(
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ),
         ),
       ),

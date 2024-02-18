@@ -17,8 +17,15 @@ class UpdateScreen extends StatelessWidget {
         title: const Text('게시물 수정'),
         leading: IconButton(
           icon: Semantics(
-            label: '뒤로가기',
-            child: Icon(Icons.arrow_back_ios),
+            label: '뒤로 가기',
+            child: ExcludeSemantics(
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ),
           ),
           onPressed: () {
             Get.back();

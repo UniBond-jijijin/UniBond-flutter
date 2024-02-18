@@ -29,11 +29,16 @@ class LetterWriteScreen extends StatelessWidget {
         appBar: AppBar(
           centerTitle: true,
           title: const Text('편지 쓰기'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
+          leading: Semantics(
+            label: '뒤로 가기',
+            child: ExcludeSemantics(
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Get.back();
+                },
+              ),
+            ),
           ),
         ),
         body: Stack(

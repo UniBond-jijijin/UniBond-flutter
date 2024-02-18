@@ -150,12 +150,17 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: IconButton(
-                      icon: const Icon(Icons.send),
-                      onPressed: () =>
-                          _handleSubmitted(_commentController.text)),
+                Semantics(
+                  label: '댓글 작성',
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ExcludeSemantics(
+                      child: IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: () =>
+                              _handleSubmitted(_commentController.text)),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -444,7 +449,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             },
                           ))
                       : Semantics(
-                          label: '댓글 신고 또는 차단',
+                          label: '댓글 삭제',
                           child: IconButton(
                             icon: const Icon(Icons.more_vert),
                             onPressed: () {

@@ -78,11 +78,13 @@ class _InterestScreenState extends State<InterestScreen> {
         title: const Text('관심사'),
         leading: Semantics(
           label: '뒤로 가기',
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
+          child: ExcludeSemantics(
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ),
         ),
       ),
