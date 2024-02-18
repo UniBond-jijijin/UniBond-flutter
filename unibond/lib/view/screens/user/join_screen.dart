@@ -7,6 +7,7 @@ import 'package:unibond/repository/members_repository.dart';
 import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/toast.dart';
 import 'package:unibond/util/auth_storage.dart';
+import 'package:unibond/view/screens/onboarding.dart';
 import 'package:unibond/view/screens/user/interest_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 import 'package:unibond/view/screens/user/search_screen.dart';
@@ -149,7 +150,8 @@ class _JoinScreenState extends State<JoinScreen> {
       } else if (response.code == 1000) {
         // result 값을 Auth key로 저장하기
         await AuthStorage.saveAuthToken(response.result.toString());
-        Get.off(() => const RootTab());
+
+        Get.off(() => const OnBoardingScreen());
       } else {
         showToastMessage(response.msg!);
       }

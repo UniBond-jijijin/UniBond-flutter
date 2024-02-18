@@ -291,7 +291,7 @@ class _LetterListState extends State<LetterList> {
             ),
             Positioned(
               bottom: 20.0,
-              right: 20.0,
+              right: 0.0,
               child: Semantics(
                 label: '답장 쓰기',
                 child: FloatingActionButton.extended(
