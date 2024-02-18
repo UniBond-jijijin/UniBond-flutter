@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text("Q & A", style: homeMenuTextStyle),
             ),
             Semantics(
-              label: 'QnA 게시판',
+              label: '질문 게시판',
               child: Align(
                 alignment: const Alignment(1.4, 1.4),
                 child: Image.asset(
@@ -206,48 +206,51 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFFCFDEFF), Color(0xFFE5C1FF)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+      body: Semantics(
+        label: '유니본드의 커뮤니티 화면',
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFFCFDEFF), Color(0xFFE5C1FF)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
                 ),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 100),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          qnaMenu(),
-                          const SizedBox(width: 20),
-                          expMenu(),
-                        ],
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 100),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            qnaMenu(),
+                            const SizedBox(width: 20),
+                            expMenu(),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            flex: 6,
-            child: buildPostContent(),
-          ),
-        ],
+            Expanded(
+              flex: 6,
+              child: buildPostContent(),
+            ),
+          ],
+        ),
       ),
       floatingActionButton: Semantics(
         label: '글쓰기',

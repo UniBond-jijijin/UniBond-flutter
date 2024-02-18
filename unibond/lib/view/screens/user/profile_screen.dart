@@ -124,37 +124,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      title: const Align(
+      title: Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(4, 8, 0, 0),
-          child: Text(
-            '내 프로필',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          padding: const EdgeInsets.fromLTRB(4, 8, 0, 0),
+          child: Semantics(
+            label: '나의 프로필 화면',
+            child: const ExcludeSemantics(
+              child: Text(
+                '내 프로필',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ),
         ),
       ),
       automaticallyImplyLeading: false,
       actions: [
-        PopupMenuButton<String>(
-          onSelected: (value) async {
-            if (value == 'modify') {
-              Get.to(() => const ModifyScreen(), arguments: profile.result);
-            }
+        TextButton(
+          onPressed: () async {
+            Get.off(() => const ModifyScreen(), arguments: profile.result);
           },
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-              value: 'modify',
-              child: Text('수정하기'),
-            ),
-          ],
-          icon: Semantics(
-            label: '수정하기',
-            child: Icon(Icons.more_vert, color: Colors.black),
+          child: Semantics(
+            label: '프로필 수정',
+            child: Text('수정'),
           ),
         ),
       ],
@@ -171,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(children: [
         // 프로필 사진
         Semantics(
-          label: '프로필 사진',
+          label: '나의 프로필 사진',
           child: ClipOval(
             child: profile.result.profileImage.isNotEmpty
                 ? Image.network(

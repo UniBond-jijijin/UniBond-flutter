@@ -64,11 +64,13 @@ class _SearchScreenState extends State<SearchScreen> {
         title: const Text('질환 검색'),
         leading: Semantics(
           label: '뒤로 가기',
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () {
-              Get.back();
-            },
+          child: ExcludeSemantics(
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Get.back();
+              },
+            ),
           ),
         ),
       ),

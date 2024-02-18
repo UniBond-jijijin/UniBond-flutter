@@ -141,7 +141,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
                 Flexible(
                   child: Semantics(
-                    label: '댓글 입력',
+                    label: '댓글 입력 칸',
                     child: TextField(
                       controller: _commentController,
                       onSubmitted: _handleSubmitted,
@@ -150,14 +150,16 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Semantics(
-                    label: '댓글 전송',
-                    child: IconButton(
-                        icon: const Icon(Icons.send),
-                        onPressed: () =>
-                            _handleSubmitted(_commentController.text)),
+                Semantics(
+                  label: '댓글 작성',
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: ExcludeSemantics(
+                      child: IconButton(
+                          icon: const Icon(Icons.send),
+                          onPressed: () =>
+                              _handleSubmitted(_commentController.text)),
+                    ),
                   ),
                 ),
               ],
@@ -200,11 +202,13 @@ class _DetailScreenState extends State<DetailScreen> {
       title: type == 0 ? const Text('질문') : const Text('경험 공유'),
       leading: Semantics(
         label: '뒤로 가기',
-        child: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Get.back();
-          },
+        child: ExcludeSemantics(
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
         ),
       ),
       actions: [
@@ -245,7 +249,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ],
                 icon: Semantics(
                   label: '게시물 신고 또는 차단',
-                  child: Icon(Icons.more_vert, color: Colors.black),
+                  child: const Icon(Icons.more_vert, color: Colors.black),
                 ),
               ),
       ],
@@ -390,19 +394,25 @@ class _DetailScreenState extends State<DetailScreen> {
                             ));
                       }
                     },
-                    child: ClipOval(
-                      child: comment.profileImgUrl.isNotEmpty
-                          ? Image.network(
-                              comment.profileImgUrl,
-                              width: 40,
-                              height: 40,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              'assets/images/user_image.jpg',
-                              width: 40,
-                              height: 40,
-                            ),
+                    child: Semantics(
+                      label: '댓글 작성자의 프로필 사진',
+                      onTapHint: '해당 사용자의 프로필 화면으로 이동하려면 두 번 탭하세요',
+                      child: ExcludeSemantics(
+                        child: ClipOval(
+                          child: comment.profileImgUrl.isNotEmpty
+                              ? Image.network(
+                                  comment.profileImgUrl,
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/images/user_image.jpg',
+                                  width: 40,
+                                  height: 40,
+                                ),
+                        ),
+                      ),
                     ),
                   ),
                   title: Row(
@@ -416,10 +426,16 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ));
                           }
                         },
-                        child: Text(
-                          comment.commentUserName,
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                        child: Semantics(
+                          label: '댓글 작성자의 닉네임',
+                          onTapHint: '해당 사용자의 프로필 화면으로 이동하려면 두 번 탭하세요',
+                          child: Text(
+                            comment.commentUserName,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
@@ -445,7 +461,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             },
                           ))
                       : Semantics(
-                          label: '댓글 신고 또는 차단',
+                          label: '댓글 삭제',
                           child: IconButton(
                             icon: const Icon(Icons.more_vert),
                             onPressed: () {

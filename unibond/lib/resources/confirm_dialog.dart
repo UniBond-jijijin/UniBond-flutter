@@ -41,6 +41,46 @@ void showBlockConfirmationDialog(
   );
 }
 
+void showDeleteLetterConfirmationDialog(
+    BuildContext context, String object, int id, Function(int) onBlockPressed) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(
+          '${object.substring(0, object.length - 1)} 삭제 확인',
+          style: const TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        content: Text(
+          '이 $object 삭제하시겠습니까?\n삭제 취소는 불가능합니다.',
+          style: const TextStyle(
+            fontSize: 16.0,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              onBlockPressed(id);
+              Navigator.of(context).pop();
+              showToastMessage('삭제이 완료되었습니다.');
+            },
+            child: const Text('확인'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('취소'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 void showReportConfirmationDialog(BuildContext context, String object) {
   showDialog(
     context: context,

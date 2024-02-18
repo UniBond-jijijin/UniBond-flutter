@@ -28,15 +28,12 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
       body: Stack(
         children: [
           // 배경화면
-          Semantics(
-            label: '편지함 감성 일러스트',
-            child: Positioned.fill(
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/letterbackground.png'),
-                    fit: BoxFit.cover,
-                  ),
+          Positioned.fill(
+            child: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/letterbackground.png'),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -54,12 +51,17 @@ class _LetterBoxScreenState extends State<LetterBoxScreen> {
                       currentIndex = 0;
                     });
                   },
-                  child: const Text(
-                    '편지함',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.black,
+                  child: Semantics(
+                    label: '여러 사람들과의 편지 목록이 모아져 있는 편지함 화면',
+                    child: const ExcludeSemantics(
+                      child: Text(
+                        '편지함',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ),
                 ),
