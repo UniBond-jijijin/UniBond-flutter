@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:unibond/model/member_request.dart';
 import 'package:unibond/repository/members_repository.dart';
@@ -366,11 +367,11 @@ class _JoinScreenState extends State<JoinScreen> {
                               ),
                             ),
                             const Text(
-                              '상태 메세지',
+                              '한줄 소개',
                               style: askTextStyle,
                             ),
                             Semantics(
-                              label: '상태 메세지 입력',
+                              label: '한줄 소개 입력',
                               child: MyCustomTextFormField(
                                 controller: bioController,
                                 onChanged: (value) {},
@@ -399,6 +400,8 @@ class _JoinScreenState extends State<JoinScreen> {
                                           isFemaleSelected = false;
                                           isPrivateSelected = false;
                                         });
+                                        SemanticsService.announce(
+                                            "남성 선택됨", TextDirection.ltr);
                                       },
                                     ),
                                   ),
@@ -416,6 +419,8 @@ class _JoinScreenState extends State<JoinScreen> {
                                           isMaleSelected = false;
                                           isPrivateSelected = false;
                                         });
+                                        SemanticsService.announce(
+                                            "여성 선택됨", TextDirection.ltr);
                                       },
                                     ),
                                   ),
@@ -433,6 +438,8 @@ class _JoinScreenState extends State<JoinScreen> {
                                           isMaleSelected = false;
                                           isFemaleSelected = false;
                                         });
+                                        SemanticsService.announce(
+                                            "비공개 선택됨", TextDirection.ltr);
                                       },
                                     ),
                                   ),
