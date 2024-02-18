@@ -87,12 +87,15 @@ class _LetterListState extends State<LetterList> {
                         snapshot.data![0] as AllLettersRequest;
                     String myToken = snapshot.data![1] as String;
 
-                    return Column(
-                      children: [
-                        buildAppBar(allLettersRequest),
-                        buildReceiverProfile(allLettersRequest),
-                        buildLetterList(allLettersRequest, myToken),
-                      ],
+                    return Semantics(
+                      label: '한 사람과 대화한 편지 목록 화면',
+                      child: Column(
+                        children: [
+                          buildAppBar(allLettersRequest),
+                          buildReceiverProfile(allLettersRequest),
+                          buildLetterList(allLettersRequest, myToken),
+                        ],
+                      ),
                     );
                   } else {
                     return const Center(child: Text("아직 편지가 없어요"));

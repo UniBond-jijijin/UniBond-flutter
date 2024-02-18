@@ -124,16 +124,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      title: const Align(
+      title: Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(4, 8, 0, 0),
-          child: Text(
-            '내 프로필',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
+          padding: const EdgeInsets.fromLTRB(4, 8, 0, 0),
+          child: Semantics(
+            label: '나의 프로필 화면',
+            child: const ExcludeSemantics(
+              child: Text(
+                '내 프로필',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ),
         ),
@@ -171,7 +176,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(children: [
         // 프로필 사진
         Semantics(
-          label: '프로필 사진',
+          label: '나의 프로필 사진',
           child: ClipOval(
             child: profile.result.profileImage.isNotEmpty
                 ? Image.network(
