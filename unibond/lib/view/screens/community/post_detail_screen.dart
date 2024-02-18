@@ -394,19 +394,25 @@ class _DetailScreenState extends State<DetailScreen> {
                             ));
                       }
                     },
-                    child: ClipOval(
-                      child: comment.profileImgUrl.isNotEmpty
-                          ? Image.network(
-                              comment.profileImgUrl,
-                              width: 40,
-                              height: 40,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              'assets/images/user_image.jpg',
-                              width: 40,
-                              height: 40,
-                            ),
+                    child: Semantics(
+                      label: '댓글 작성자의 프로필 사진',
+                      onTapHint: '해당 사용자의 프로필 화면으로 이동하려면 두 번 탭하세요',
+                      child: ExcludeSemantics(
+                        child: ClipOval(
+                          child: comment.profileImgUrl.isNotEmpty
+                              ? Image.network(
+                                  comment.profileImgUrl,
+                                  width: 40,
+                                  height: 40,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.asset(
+                                  'assets/images/user_image.jpg',
+                                  width: 40,
+                                  height: 40,
+                                ),
+                        ),
+                      ),
                     ),
                   ),
                   title: Row(
@@ -420,10 +426,16 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ));
                           }
                         },
-                        child: Text(
-                          comment.commentUserName,
-                          style: const TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
+                        child: Semantics(
+                          label: '댓글 작성자의 닉네임',
+                          onTapHint: '해당 사용자의 프로필 화면으로 이동하려면 두 번 탭하세요',
+                          child: Text(
+                            comment.commentUserName,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 12),
