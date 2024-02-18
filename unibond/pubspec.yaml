@@ -53,6 +53,7 @@ dependencies:
   intl: ^0.18.1
   flutter_dotenv: ^5.1.0
   change_app_package_name: ^1.1.0
+  introduction_screen: ^3.1.12
 
 dev_dependencies:
   flutter_test:
