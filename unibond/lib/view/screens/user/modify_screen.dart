@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unibond/model/member_update_request.dart';
@@ -329,7 +330,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Semantics(
-                                    label: '성별 선택(남)',
+                                    label: '성별 선택 남자',
                                     child: SignupEitherButton(
                                       text: '남',
                                       isSelected: isMaleSelected,
@@ -339,6 +340,8 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                           isFemaleSelected = false;
                                           isPrivateSelected = false;
                                         });
+                                        SemanticsService.announce(
+                                            "남성 선택됨", TextDirection.ltr);
                                       },
                                     ),
                                   ),
@@ -346,7 +349,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12),
                                   child: Semantics(
-                                    label: '성별 선택(여)',
+                                    label: '성별 선택 여자',
                                     child: SignupEitherButton(
                                       text: '여',
                                       isSelected: isFemaleSelected,
@@ -356,6 +359,8 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                           isMaleSelected = false;
                                           isPrivateSelected = false;
                                         });
+                                        SemanticsService.announce(
+                                            "여성 선택됨", TextDirection.ltr);
                                       },
                                     ),
                                   ),
@@ -363,7 +368,7 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                 Padding(
                                   padding: const EdgeInsets.all(12.0),
                                   child: Semantics(
-                                    label: '성별 선택(비공개)',
+                                    label: '성별 선택 비공개',
                                     child: SignupEitherButton(
                                       text: '비공개',
                                       isSelected: isPrivateSelected,
@@ -373,6 +378,8 @@ class _ModifyScreenState extends State<ModifyScreen> {
                                           isMaleSelected = false;
                                           isFemaleSelected = false;
                                         });
+                                        SemanticsService.announce(
+                                            "비공개 선택됨", TextDirection.ltr);
                                       },
                                     ),
                                   ),
