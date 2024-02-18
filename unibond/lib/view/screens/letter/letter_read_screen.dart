@@ -202,15 +202,12 @@ class _LetterReadScreenState extends State<LetterReadScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16.0),
-                          child: Semantics(
-                            label: '답장 쓰기',
-                            child: CustomElevatedButton(
-                              text: "답장 쓰기",
-                              screenRoute: () {
-                                Get.to(() => LetterWriteScreen(
-                                    receiverId: widget.senderId));
-                              },
-                            ),
+                          child: CustomElevatedButton(
+                            text: "답장 쓰기",
+                            screenRoute: () {
+                              Get.to(() => LetterWriteScreen(
+                                  receiverId: widget.senderId));
+                            },
                           ),
                         ),
                       ],
