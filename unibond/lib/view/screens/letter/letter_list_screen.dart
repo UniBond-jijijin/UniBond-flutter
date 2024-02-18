@@ -8,6 +8,7 @@ import 'package:unibond/resources/app_colors.dart';
 import 'package:unibond/resources/confirm_dialog.dart';
 import 'package:unibond/view/screens/letter/letter_read_mine_screen.dart';
 import 'package:unibond/view/screens/letter/letter_read_screen.dart';
+import 'package:unibond/view/screens/letter/letter_write_screen.dart';
 import 'package:unibond/view/screens/user/other_profile_screen.dart';
 import 'package:unibond/view/screens/user/root_tab.dart';
 
@@ -213,77 +214,104 @@ class _LetterListState extends State<LetterList> {
     );
   }
 
-  Widget buildLetterList(AllLettersRequest allLettersRequest, String myToken) {
+  Widget buildLetterList(AllLettersRequest allLettersRequest, myToken) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(40, 0, 40, 20),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: allLettersRequest.result.letterList.length,
-          itemBuilder: (context, index) {
-            final letter = allLettersRequest.result.letterList[index];
+        child: Stack(
+          // Stack을 사용하여 FloatingActionButton이 ListView 위에 올 수 있도록 합니다.
+          children: [
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: allLettersRequest.result.letterList.length,
+              itemBuilder: (context, index) {
+                final letter = allLettersRequest.result.letterList[index];
 
-            final sentDate =
-                letter.sentDate.split("T")[0].split("-").join(". ");
+                final sentDate =
+                    letter.sentDate.split("T")[0].split("-").join(". ");
 
-            Color backgroundColor = letter.senderId.toString() == myToken
-                ? Color.lerp(widget.backgroundColor1, Colors.white, 0.2)!
-                : Color.lerp(widget.backgroundColor2, Colors.white, 0.2)!;
+                Color backgroundColor = letter.senderId.toString() == myToken
+                    ? Color.lerp(widget.backgroundColor1, Colors.white, 0.2)!
+                    : Color.lerp(widget.backgroundColor2, Colors.white, 0.2)!;
 
-            return GestureDetector(
-              onTap: () async {
-                if (letter.senderId == allLettersRequest.result.loginId) {
-                  // 보낸 편지 상세조회 화면 이동
-                  Get.to(() => MyLetterReadScreen(
-                        letterId: letter.letterId.toString(),
-                      ));
-                } else {
-                  // 받은 편지 상세조회 화면 이동
-                  await Get.to(() => LetterReadScreen(
-                        letterId: letter.letterId.toString(),
-                        senderName: letter.senderName,
-                        senderId: letter.senderId.toString(),
-                      ));
-                  // 받은 편지가 차단되었을수도 있으므로 화면 업데이트
-                  setState(() {});
-                }
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Card(
-                  elevation: 7.0, // 카드 그림자 깊이
-                  child: Container(
-                    padding: const EdgeInsets.all(18.0),
-                    width: 250,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      // image: const DecorationImage(
-                      //   image: AssetImage('assets/images/lettertexture.png'),
-                      //   fit: BoxFit.cover,
-                      // ),
-                      color: backgroundColor,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(sentDate, style: letterInfoTextStyle),
-                        Text(letter.letterTitle,
-                            style: letterListTitleTextStyle),
-                        Align(
-                          alignment: Alignment.bottomRight,
-                          child: Text(
-                            "From. ${letter.senderName}",
-                            style: letterInfoTextStyle,
-                          ),
+                return GestureDetector(
+                  onTap: () async {
+                    if (letter.senderId == allLettersRequest.result.loginId) {
+                      // 보낸 편지 상세조회 화면 이동
+                      Get.to(() => MyLetterReadScreen(
+                            letterId: letter.letterId.toString(),
+                          ));
+                    } else {
+                      // 받은 편지 상세조회 화면 이동
+                      await Get.to(() => LetterReadScreen(
+                            letterId: letter.letterId.toString(),
+                            senderName: letter.senderName,
+                            senderId: letter.senderId.toString(),
+                          ));
+                      // 받은 편지가 차단되었을수도 있으므로 화면 업데이트
+                      setState(() {});
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Card(
+                      elevation: 7.0, // 카드 그림자 깊이
+                      child: Container(
+                        padding: const EdgeInsets.all(18.0),
+                        width: 250,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          // image: const DecorationImage(
+                          //   image: AssetImage('assets/images/lettertexture.png'),
+                          //   fit: BoxFit.cover,
+                          // ),
+                          color: backgroundColor,
                         ),
-                      ],
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(sentDate, style: letterInfoTextStyle),
+                            Text(letter.letterTitle,
+                                style: letterListTitleTextStyle),
+                            Align(
+                              alignment: Alignment.bottomRight,
+                              child: Text(
+                                "From. ${letter.senderName}",
+                                style: letterInfoTextStyle,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
+                );
+              },
+            ),
+            Positioned(
+              bottom: 20.0,
+              right: 20.0,
+              child: Semantics(
+                label: '답장 쓰기',
+                child: FloatingActionButton.extended(
+                  onPressed: () {
+                    // 답장 쓰기 버튼을 눌렀을 때의 동작
+                    Get.to(() => LetterWriteScreen(
+                        receiverId:
+                            allLettersRequest.result.receiverId.toString()));
+                  },
+                  elevation: 4,
+                  icon: const Icon(Icons.mode_edit_outlined),
+                  label: const Text('답장 쓰기'),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors.contentColorPink,
                 ),
               ),
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
