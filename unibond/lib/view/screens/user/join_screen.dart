@@ -367,11 +367,11 @@ class _JoinScreenState extends State<JoinScreen> {
                               ),
                             ),
                             const Text(
-                              '상태 메세지',
+                              '한줄 소개',
                               style: askTextStyle,
                             ),
                             Semantics(
-                              label: '상태 메세지 입력',
+                              label: '한줄 소개 입력',
                               child: MyCustomTextFormField(
                                 controller: bioController,
                                 onChanged: (value) {},
