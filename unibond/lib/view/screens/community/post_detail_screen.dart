@@ -150,16 +150,14 @@ class _DetailScreenState extends State<DetailScreen> {
                     ),
                   ),
                 ),
-                Semantics(
-                  label: '댓글 작성',
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                    child: ExcludeSemantics(
-                      child: IconButton(
-                          icon: const Icon(Icons.send),
-                          onPressed: () =>
-                              _handleSubmitted(_commentController.text)),
-                    ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Semantics(
+                    label: '댓글 작성',
+                    child: IconButton(
+                        icon: const ExcludeSemantics(child: Icon(Icons.send)),
+                        onPressed: () =>
+                            _handleSubmitted(_commentController.text)),
                   ),
                 ),
               ],
@@ -396,7 +394,7 @@ class _DetailScreenState extends State<DetailScreen> {
                     },
                     child: Semantics(
                       label: '댓글 작성자의 프로필 사진',
-                      onTapHint: '해당 사용자의 프로필 화면으로 이동하려면 두 번 탭하세요',
+                      onTapHint: '해당 사용자의 프로필 화면으로 이동',
                       child: ExcludeSemantics(
                         child: ClipOval(
                           child: comment.profileImgUrl.isNotEmpty
@@ -428,7 +426,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         },
                         child: Semantics(
                           label: '댓글 작성자의 닉네임',
-                          onTapHint: '해당 사용자의 프로필 화면으로 이동하려면 두 번 탭하세요',
+                          onTapHint: '해당 사용자의 프로필 화면으로 이동',
                           child: Text(
                             comment.commentUserName,
                             style: const TextStyle(
