@@ -170,11 +170,16 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
-        onPressed: () {
-          Get.back();
-        },
+      leading: Semantics(
+        label: '뒤로 가기',
+        child: ExcludeSemantics(
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Get.back();
+            },
+          ),
+        ),
       ),
       actions: [
         PopupMenuButton<String>(
