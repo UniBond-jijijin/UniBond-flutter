@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:unibond/view/screens/onboarding.dart';
 import 'package:unibond/view/screens/splash_screen.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:unibond/view/screens/user/root_tab.dart';
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home: OnBoardingPage(),
       theme: ThemeData(fontFamily: 'Pretendard'),
       initialRoute: '/',
       getPages: [
