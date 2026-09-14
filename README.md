@@ -44,8 +44,9 @@
   <tr>
     <td align="center" valign="top" width="33%"><a href="https://github.com/5jisoo"><img src="https://avatars.githubusercontent.com/u/96935231?v=4" ></a></td>
     <td align="center" valign="top" width="33%"><a href="https://github.com/Jjinyshin"><img src="https://avatars.githubusercontent.com/u/87403267?v=4" ></a></td>
-    <td align="center" valign="top" width="33%"><a href="https://github.com/codeJiwon"><img src="https://avatars.githubusercontent.com/u/121231822?v=4" ></a></td>
-  </tr>
+    <td align="center" valign="top" width="33%"><a href="https://github.com/codeJiwon"><img src="https://github.com/user-attachments/assets/c7fd20d7-1cf4-4c48-ab44-2a71bad7db0a" ></a></td>
+  </tr> 
+
   <tr>
     <td align="center" valign="top"><a href="https://github.com/5jisoo">오지수</a><br>PM, Backend Developer</td>
     <td align="center" valign="top"><a href="https://github.com/Jjinyshin">신진영</a><br>Frontend Developer</td>
