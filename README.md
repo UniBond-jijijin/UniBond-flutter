@@ -48,8 +48,8 @@
   </tr> 
 
   <tr>
-    <td align="center" valign="top"><a href="https://github.com/5jisoo">오지수</a><br>PM, Backend Developer</td>
+    <td align="center" valign="top"><a href="https://github.com/5jisoo">오지수</a><br>Backend Developer</td>
     <td align="center" valign="top"><a href="https://github.com/Jjinyshin">신진영</a><br>Frontend Developer</td>
-    <td align="center" valign="top"><a href="https://github.com/codeJiwon">정지원</a><br>Frontend Developer</td>
+    <td align="center" valign="top"><a href="https://github.com/codeJiwon">정지원</a><br>PM, Frontend Developer</td>
   </tr>
 </table>
